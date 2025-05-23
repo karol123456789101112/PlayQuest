@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Entity
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "orders")
 public class Order {
 
     @Id
@@ -29,4 +30,11 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "contact_address_id", nullable = false)
     private ContactAddress contactAddress;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OrderItem> items;
 }
