@@ -5,10 +5,14 @@ import {
 import { useAuth } from '../security/authContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
+
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
   const { userId } = useAuth();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -17,7 +21,7 @@ const CartPage = () => {
         const data = await response.json();
         setCart(data);
       } catch (error) {
-        console.error("Błąd przy pobieraniu koszyka:", error);
+        console.error("Error while downloading cart content:", error);
       }
     };
 
@@ -32,7 +36,7 @@ const CartPage = () => {
 
       setCart(prev => prev.filter(item => item.videogame.id !== gameId));
     } catch (error) {
-      console.error("Błąd przy usuwaniu z koszyka:", error);
+      console.error("Error while deleteing cart content:", error);
     }
   };
 
@@ -42,7 +46,9 @@ const CartPage = () => {
     <div>
         <Header userName='userName'></Header>
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Typography variant="h4" gutterBottom>Koszyk:</Typography>
+            <Typography variant="h4" gutterBottom>
+              {cart.length > 0 ? 'Cart:' : 'Cart is empty'}
+            </Typography>
             <Grid container spacing={2} direction="column">
               {cart.map(({ videogame, quantity }) => (
                 <Grid item key={videogame.id}>
@@ -78,7 +84,7 @@ const CartPage = () => {
                         color="error"
                         onClick={() => removeFromCart(videogame.id)}
                       >
-                        Usuń z koszyka
+                        Delete from cart
                       </Button>
                     </CardContent>
                   </Card>
@@ -86,6 +92,18 @@ const CartPage = () => {
               ))}
             </Grid>
             </Box>
+            <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography variant="h6">Total: {total.toFixed(2)} zł</Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/checkout')}
+                disabled={cart.length === 0}
+              >
+                Proceed to Checkout
+              </Button>
+            </Box>
+
             <Footer />
     </div>
   );

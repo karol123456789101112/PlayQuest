@@ -17,7 +17,7 @@ const AddressManagementPage = () => {
       const data = await res.json();
       setAddresses(data);
     } catch (err) {
-      console.error("Błąd przy pobieraniu adresów:", err);
+      console.error("Error while downloading addresses:", err);
     }
   };
 
@@ -26,7 +26,7 @@ const AddressManagementPage = () => {
   }, [userId]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Czy na pewno chcesz usunąć ten adres?")) return;
+    if (!window.confirm("Are you sure you want to delete this address?")) return;
     await fetch(`http://localhost:8080/addresses/${id}`, { method: 'DELETE' });
     fetchAddresses();
   };
@@ -35,7 +35,7 @@ const AddressManagementPage = () => {
     <div>
         <Header userName='userName'></Header>
         <Box p={4} sx={{ minHeight: '100vh'}}>
-          <Typography variant="h4" gutterBottom>Twoje adresy</Typography>
+          <Typography variant="h4" gutterBottom>Your addresses</Typography>
           <Grid container spacing={2}>
             {addresses.map(addr => (
               <Grid item xs={12} md={6} key={addr.id}>
@@ -52,7 +52,7 @@ const AddressManagementPage = () => {
 
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <Button variant="outlined" color="error" onClick={() => handleDelete(addr.id)}>
-                        Usuń
+                        Delete
                       </Button>
                     </Box>
                   </CardContent>

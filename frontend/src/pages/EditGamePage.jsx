@@ -18,7 +18,7 @@ export default function EditGamePage() {
         const data = await res.json();
         setGame(data);
       } catch (err) {
-        console.error('Błąd podczas pobierania gry:', err);
+        console.error('Error while downloading the game:', err);
       } finally {
         setLoading(false);
       }
@@ -50,12 +50,11 @@ export default function EditGamePage() {
         if (imgRes.ok) {
           uploadedImageUrl = await imgRes.text();
         } else {
-          alert('Nie udało się przesłać obrazu');
+          alert('Could not attach the image');
           return;
         }
       } catch (err) {
-        console.error('Błąd uploadu:', err);
-        alert('Błąd przy wysyłaniu obrazu');
+        alert('Image Upload error');
         return;
       }
     }
@@ -70,19 +69,19 @@ export default function EditGamePage() {
       });
 
       if (res.ok) {
-        alert('Gra zaktualizowana!');
+        alert('Game updated!');
         navigate('/admin');
       } else {
-        alert('Błąd przy aktualizacji');
+        alert('Update error');
       }
     } catch (err) {
       console.error(err);
-      alert('Błąd sieci');
+      alert('Network error');
     }
   };
 
   if (loading) return <CircularProgress />;
-  if (!game) return <Typography>Gra nie znaleziona.</Typography>;
+  if (!game) return <Typography>Game was not found.</Typography>;
 
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
@@ -108,7 +107,7 @@ export default function EditGamePage() {
 
           {newImageFile && (
             <Typography variant="body2" sx={{ color: '#888' }}>
-              Wybrano plik: {newImageFile.name}
+              File chosen: {newImageFile.name}
             </Typography>
           )}
 

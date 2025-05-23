@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [firstName, setFirstName] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,10 +24,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
         setUserRole(null);
+        setFirstName(null);
       } else {
         setIsAuthenticated(true);
         setUserRole(decodedToken.role);
         setUserId(decodedToken.userId);
+        setFirstName(decodedToken.firstName);
       }
     }
     setLoading(false);
@@ -38,6 +41,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
     setUserRole(decodedToken.role);
     setUserId(decodedToken.userId);
+    setFirstName(decodedToken.firstName);
   };
 
   const logout = () => {
@@ -45,10 +49,11 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     setUserRole(null);
     setUserId(null);
+    setFirstName(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRole, userId, login, logout, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, userRole, firstName, userId, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

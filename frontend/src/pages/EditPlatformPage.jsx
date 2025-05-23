@@ -35,7 +35,7 @@ export default function EditPlatformPage() {
       if (res.ok) {
         uploadedImageUrl = await res.text();
       } else {
-        alert('Błąd przy przesyłaniu obrazka');
+        alert('Image upload error');
         return;
       }
     }
@@ -52,7 +52,7 @@ export default function EditPlatformPage() {
       alert('Platform has been updated!');
       navigate('/admin');
     } else {
-      alert('Błąd aktualizacji');
+      alert('Update error');
     }
   };
 
@@ -64,7 +64,7 @@ export default function EditPlatformPage() {
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <TextField
-            label="Nazwa"
+            label="Name"
             name="name"
             value={platform.name}
             onChange={handleChange}
@@ -79,7 +79,7 @@ export default function EditPlatformPage() {
 {/*               Wybrano: {imageFile.name} */}
 {/*             </Typography> */}
 {/*           )} */}
-          <Button type="submit" variant="contained">Zapisz</Button>
+          <Button type="submit" variant="contained">Save</Button>
         </Stack>
       </form>
     </Box>

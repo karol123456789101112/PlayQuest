@@ -19,7 +19,7 @@ const OrderDetailsPage = () => {
         const data = await res.json();
         setOrder(data);
       } catch (error) {
-        console.error("Błąd przy pobieraniu szczegółów zamówienia:", error);
+        console.error("Error while downloading the order:", error);
       } finally {
         setLoading(false);
       }
@@ -29,22 +29,22 @@ const OrderDetailsPage = () => {
   }, [id]);
 
   if (loading) return <Box p={4}><CircularProgress /></Box>;
-  if (!order) return <Box p={4}><Typography>Nie znaleziono zamówienia.</Typography></Box>;
+  if (!order) return <Box p={4}><Typography>The order was not found.</Typography></Box>;
 
   return (
     <div>
         <Header userName='userName'></Header>
         <Box p={4} sx={{minHeight: '100vh'}}>
-          <Typography variant="h4" gutterBottom>Szczegóły zamówienia #{order.id}</Typography>
+          <Typography variant="h4" gutterBottom>Order details #{order.id}</Typography>
 
           {/* Order Info */}
-          <Typography><strong>Data zamówienia:</strong> {new Date(order.orderDate).toLocaleString()}</Typography>
+          <Typography><strong>Order Date:</strong> {new Date(order.orderDate).toLocaleString()}</Typography>
           <Typography><strong>Status:</strong> {order.status}</Typography>
 
           <Divider sx={{ my: 3 }} />
 
           {/* Address */}
-          <Typography variant="h6">Adres dostawy</Typography>
+          <Typography variant="h6">Delivery address</Typography>
           <Typography>{order.contactAddress.firstName} {order.contactAddress.lastName}</Typography>
           <Typography>{order.contactAddress.email}, {order.contactAddress.phoneNumber}</Typography>
           <Typography>
@@ -56,14 +56,14 @@ const OrderDetailsPage = () => {
           <Divider sx={{ my: 3 }} />
 
           {/* Items */}
-          <Typography variant="h6" gutterBottom>Produkty</Typography>
+          <Typography variant="h6" gutterBottom>Products</Typography>
           <TableContainer component={Paper} sx={{ mb: 2 }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Tytuł gry</TableCell>
-                  <TableCell>Cena</TableCell>
-                  <TableCell>Ilość</TableCell>
+                  <TableCell>Game title</TableCell>
+                  <TableCell>Price</TableCell>
+                  <TableCell>Quantity</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -80,7 +80,7 @@ const OrderDetailsPage = () => {
 
           {/* Total */}
           <Typography variant="h6">
-            <strong>Łączna kwota:</strong> {order.totalAmount} zł
+            <strong>Total amount:</strong> {order.totalAmount} zł
           </Typography>
         </Box>
         <Footer />

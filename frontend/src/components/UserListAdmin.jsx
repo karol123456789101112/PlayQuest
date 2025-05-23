@@ -28,14 +28,14 @@ const UserListAdmin = () => {
       const data = await response.json();
       setUsers(data);
     } catch (error) {
-      console.error("Błąd przy pobieraniu użytkowników:", error);
+      console.error("Error while downloading users:", error);
     }finally {
        setLoading(false);
        }
   };
 
   const deleteUser = async (id) => {
-    if (!window.confirm("Na pewno chcesz usunąć tego użytkownika?")) return;
+    if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     try {
       await fetch(`http://localhost:8080/users/${id}`, {
@@ -44,7 +44,7 @@ const UserListAdmin = () => {
 
       setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
     } catch (error) {
-      console.error("Błąd przy usuwaniu użytkownika:", error);
+      console.error("Error while deleting the user:", error);
     }
   };
 
@@ -64,7 +64,7 @@ const UserListAdmin = () => {
         prevUsers.map(user => (user.id === updatedUser.id ? updatedUser : user))
       );
     } catch (error) {
-      console.error("Błąd przy zmianie roli użytkownika:", error);
+      console.error("Error while changing the role of the user:", error);
     }
   };
 
@@ -72,7 +72,7 @@ const UserListAdmin = () => {
   return (
       <Box p={3}>
         <Typography variant="h4" gutterBottom>
-          Lista użytkowników
+          List of Users
         </Typography>
 
         {loading ? (

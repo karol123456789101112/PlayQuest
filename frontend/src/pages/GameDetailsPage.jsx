@@ -7,12 +7,15 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useCart} from '../components/CartContext';
 import { useAuth } from '../security/authContext';
+import { useNavigate } from 'react-router-dom';
+
 
 const GameDetails = () => {
   const { id } = useParams();
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
   const { userId } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -21,7 +24,7 @@ const GameDetails = () => {
         const data = await response.json();
         setGame(data);
       } catch (error) {
-        console.error("Błąd przy pobieraniu gry:", error);
+        console.error("Error while downloading game:", error);
       } finally {
         setLoading(false);
       }
@@ -32,7 +35,7 @@ const GameDetails = () => {
 
   const addToCart = async () => {
     if (!userId) {
-      alert("Musisz być zalogowany, aby dodać do koszyka.");
+      alert("You have to be logged in to add items to the cart.");
       return;
     }
     const gameId = game.id;
@@ -41,11 +44,28 @@ const GameDetails = () => {
       await fetch(`http://localhost:8080/cart?userId=${userId}&gameId=${gameId}`, {
         method: 'POST'
       });
-      alert("Dodano do koszyka!");
+      alert("Game has been added to the cart!");
     } catch (error) {
-      console.error("Błąd przy dodawaniu do koszyka:", error);
+      console.error("Error while adding game to the cart:", error);
     }
   };
+
+  const handleBuy = async () => {
+    if (!userId) {
+      alert("You have to be logged in to make a purchase.");
+      return;
+    }
+
+    try {
+      await fetch(`http://localhost:8080/cart?userId=${userId}&gameId=${game.id}`, {
+        method: 'POST'
+      });
+      navigate('/cart');
+    } catch (error) {
+      console.error("Error while adding the game to the cart:", error);
+    }
+  };
+
 
 
 
@@ -54,7 +74,7 @@ const GameDetails = () => {
   }
 
   if (!game) {
-    return <Typography variant="h6" align="center" mt={5}>Gra nie została znaleziona</Typography>;
+    return <Typography variant="h6" align="center" mt={5}>Game was not found</Typography>;
   }
 
   return (
@@ -99,6 +119,13 @@ const GameDetails = () => {
             onClick={addToCart}
           >
             Add to cart
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleBuy}
+          >
+            Buy Now
           </Button>
         </Box>
         </Box>

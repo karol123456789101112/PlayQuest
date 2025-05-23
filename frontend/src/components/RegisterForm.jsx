@@ -32,7 +32,7 @@ export default function RegisterForm() {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      alert('Hasła się nie zgadzają!');
+      alert('Passwords are not the same!');
       return;
     }
 
@@ -47,10 +47,10 @@ export default function RegisterForm() {
 
     try {
       await register(formData);
-      alert('Rejestracja udana!');
+      alert('You have been registered!');
     } catch (err) {
       console.error(err);
-      alert('Błąd podczas rejestracji');
+      alert('Error while signing up');
     }
   };
 
@@ -59,7 +59,7 @@ export default function RegisterForm() {
         <Stack spacing={3}>
           <TextField
               fullWidth
-              label="Imię"
+              label="First name"
               name="firstName"
               value={form.firstName}
               onChange={handleChange}
@@ -67,7 +67,7 @@ export default function RegisterForm() {
           />
           <TextField
               fullWidth
-              label="Nazwisko"
+              label="Last name"
               name="lastName"
               value={form.lastName}
               onChange={handleChange}
@@ -85,7 +85,7 @@ export default function RegisterForm() {
           <TextField
               fullWidth
               type="password"
-              label="Hasło"
+              label="Password"
               name="password"
               value={form.password}
               onChange={handleChange}
@@ -94,31 +94,31 @@ export default function RegisterForm() {
           <TextField
               fullWidth
               type="password"
-              label="Powtórz hasło"
+              label="Type Password again"
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
               required
           />
-          <Box>
-            <InputLabel shrink sx={{ mb: 1, color: '#ccc' }}>
-              Zdjęcie profilowe
-            </InputLabel>
-            <Button
-                variant="outlined"
-                component="label"
-                fullWidth
-                color="secondary"
-            >
-              ➕ Dodaj zdjęcie
-              <input
-                  type="file"
-                  name="profileImage"
-                  hidden
-                  onChange={handleChange}
-              />
-            </Button>
-          </Box>
+{/*           <Box> */}
+{/*             <InputLabel shrink sx={{ mb: 1, color: '#ccc' }}> */}
+{/*               Profile Picture */}
+{/*             </InputLabel> */}
+{/*             <Button */}
+{/*                 variant="outlined" */}
+{/*                 component="label" */}
+{/*                 fullWidth */}
+{/*                 color="secondary" */}
+{/*             > */}
+{/*               ➕ Dodaj zdjęcie */}
+{/*               <input */}
+{/*                   type="file" */}
+{/*                   name="profileImage" */}
+{/*                   hidden */}
+{/*                   onChange={handleChange} */}
+{/*               /> */}
+{/*             </Button> */}
+{/*           </Box> */}
           <Box display="flex" justifyContent="center">
             <Button
                 type="submit"
@@ -126,7 +126,7 @@ export default function RegisterForm() {
                 color="primary"
                 sx={{ padding: '12px 30px', fontSize: '18px', borderRadius: '8px' }}
             >
-              Zarejestruj się
+              Sign up
             </Button>
           </Box>
         </Stack>

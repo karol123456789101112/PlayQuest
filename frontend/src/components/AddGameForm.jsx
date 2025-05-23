@@ -43,7 +43,7 @@ export default function AddGameForm() {
         setCategories(catData);
         setPlatforms(platData);
       } catch (error) {
-        console.error('Błąd przy ładowaniu kategorii/platform:', error);
+        console.error('Error while loading Categories/Platforms:', error);
       }
     };
 
@@ -77,12 +77,12 @@ export default function AddGameForm() {
         if (imgRes.ok) {
           uploadedImageUrl = await imgRes.text(); // np. "/images/abc.jpg"
         } else {
-          alert('Nie udało się przesłać obrazu');
+          alert('Could not attach the image');
           return;
         }
       } catch (err) {
         console.error(err);
-        alert('Błąd podczas uploadu');
+        alert('Error while uploading');
         return;
       }
     }
@@ -97,13 +97,13 @@ export default function AddGameForm() {
       });
 
       if (res.ok) {
-        alert('Gra dodana!');
+        alert('Game added!');
       } else {
         const msg = await res.text();
-        alert('Błąd:\n' + msg);
+        alert('Error:\n' + msg);
       }
     } catch (err) {
-      alert('Błąd sieci');
+      alert('Network error');
     }
   };
 
@@ -156,7 +156,7 @@ export default function AddGameForm() {
           required
         />
         <Button variant="outlined" component="label">
-          Wybierz obrazek
+          Choose image
           <input
             type="file"
             accept="image/*"
@@ -166,13 +166,13 @@ export default function AddGameForm() {
         </Button>
         {imageFile && (
           <Box mt={1} sx={{ color: '#aaa', fontSize: 14 }}>
-            Wybrany plik: {imageFile.name}
+            Choose file: {imageFile.name}
           </Box>
         )}
 
         {/* Kategorie */}
         <FormControl fullWidth>
-          <InputLabel>Kategorie</InputLabel>
+          <InputLabel>Categories</InputLabel>
           <Select
             multiple
             value={form.categoryIds}
@@ -190,7 +190,7 @@ export default function AddGameForm() {
 
         {/* Platformy */}
         <FormControl fullWidth>
-          <InputLabel>Platformy</InputLabel>
+          <InputLabel>Platforms</InputLabel>
           <Select
             multiple
             value={form.platformIds}

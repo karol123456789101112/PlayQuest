@@ -20,14 +20,14 @@ export default function AddPlatformForm() {
       });
 
       if (res.ok) {
-        alert('Platforma dodana!');
+        alert('Platform added!');
         setForm({ name: ''});
       } else {
-        alert('Błąd podczas dodawania');
+        alert('Error while adding platform');
       }
     } catch (err) {
       console.error(err);
-      alert('Błąd sieci');
+      alert('Network error');
     }
   };
 

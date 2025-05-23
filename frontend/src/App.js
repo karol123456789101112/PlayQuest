@@ -52,20 +52,27 @@ function AppContent() {
        <Route path="/platforms/edit/:id" element={ isAuthenticated && userRole === 'ADMIN'
                ? <EditPlatformPage /> : <Navigate to="/" />} />
 
+       <Route path="/profile" element={ isAuthenticated
+               ? <ProfilePage /> : <Navigate to="/" />} />
+
+       <Route path="/checkout" element={ isAuthenticated
+               ? <CheckoutPage /> : <Navigate to="/" />} />
+
+       <Route path="/orders/:id" element={ isAuthenticated
+               ? <OrderDetailsPage /> : <Navigate to="/" />} />
+
+        <Route path="/addresses" element={ isAuthenticated
+               ? <AddressManagementPage /> : <Navigate to="/" />} />
+
+      <Route path="/" element={<HomePage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/games" element={<AllGamesPage />} />
       <Route path="/games/:id" element={<GameDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/orders/:id" element={<OrderDetailsPage />} />
-      <Route path="/addresses" element={<AddressManagementPage />} />
-
-      <Route path="/" element={ isAuthenticated ? <HomePage /> : <Navigate to="/login" />} />
 
 
-      <Route path="*" element={<LoginPage />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 }
