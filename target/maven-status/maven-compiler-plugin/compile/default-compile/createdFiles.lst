@@ -40,6 +40,7 @@ com\pl\PlayQuest\service\CustomUserDetailsService.class
 com\pl\PlayQuest\model\Address.class
 com\pl\PlayQuest\repo\UserRepository.class
 com\pl\PlayQuest\model\Videogame.class
+com\pl\PlayQuest\model\OrderStatus.class
 com\pl\PlayQuest\model\Payment.class
 com\pl\PlayQuest\repo\OrderItemRepository.class
 WebConfig.class

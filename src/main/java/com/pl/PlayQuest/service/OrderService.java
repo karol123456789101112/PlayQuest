@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class OrderService {
         order.setContactAddress(address);
         order.setOrderDate(LocalDateTime.now());
         order.setTotalAmount(totalAmount);
+        order.setStatus(OrderStatus.PENDING);
         orderRepository.save(order); // zapisz najpierw, żeby mieć ID
 
         // Utwórz OrderItemy
@@ -67,6 +69,25 @@ public class OrderService {
         // Wyczyść koszyk
         cartRepository.deleteAll(cartItems);
     }
+    public List<Order> getOrdersWithUpdatedStatuses(Long userId) {
+        List<Order> orders = orderRepository.findByUserIdOrderByOrderDateDesc(userId);
+        LocalDateTime now = LocalDateTime.now();
+
+        for (Order order : orders) {
+            Duration duration = Duration.between(order.getOrderDate(), now);
+
+            if (duration.toMinutes() >= 2 && order.getStatus() != OrderStatus.DELIVERED) {
+                order.setStatus(OrderStatus.DELIVERED);
+                orderRepository.save(order);
+            } else if (duration.toMinutes() >= 1 && order.getStatus() == OrderStatus.PENDING) {
+                order.setStatus(OrderStatus.SENT);
+                orderRepository.save(order);
+            }
+        }
+
+        return orders;
+    }
+
 }
 
 
