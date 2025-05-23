@@ -9,7 +9,7 @@ export async function login(data) {
     });
 
     if (!response.ok) {
-      throw new Error('Błąd logowania');
+      throw new Error('Logging error');
     }
 
     return await response.json();
@@ -24,11 +24,10 @@ export async function register(formData) {
     });
 
     if (!response.ok) {
-      throw new Error('Błąd rejestracji');
+      throw new Error('Register error');
     }
 
     const result = await response.json();
-    console.log('Odpowiedź z backendu:', result);
     return result;
 }
 

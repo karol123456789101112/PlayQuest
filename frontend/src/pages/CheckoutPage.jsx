@@ -38,7 +38,7 @@ const CheckoutPage = () => {
           setSelectedAddressId(data.find(addr => addr.isDefault)?.id || data[0].id);
         }
       } catch (error) {
-        console.error("Błąd przy pobieraniu adresów:", error);
+        console.error("Error while downloading addresses:", error);
       } finally {
         setLoading(false);
       }
@@ -49,7 +49,7 @@ const CheckoutPage = () => {
 
   const handleSubmitOrder = async () => {
     if (!selectedAddressId) {
-      alert("Wybierz adres do wysyłki.");
+      alert("Choose delivery address.");
       return;
     }
 
@@ -67,14 +67,14 @@ const CheckoutPage = () => {
 
       if (!response.ok) {
         const message = await response.text();
-        alert("Błąd: " + message);
+        alert("Error: " + message);
         return;
       }
 
-      alert("Zamówienie złożone!");
+      alert("Order placed!");
     } catch (error) {
-      console.error("Błąd:", error);
-      alert("Błąd sieci lub serwera");
+      console.error("Error:", error);
+      alert("Network error");
     }
   };
 
@@ -116,9 +116,9 @@ const CheckoutPage = () => {
         isDefault: false
       });
 
-      alert("Adres dodany!");
+      alert("Address added!");
     } catch (error) {
-      alert("Błąd przy dodawaniu adresu: " + error.message);
+      alert("Error while adding the address: " + error.message);
     }
   };
 
@@ -131,7 +131,7 @@ const CheckoutPage = () => {
     <div>
         <Header userName='userName'></Header>
         <Box p={4} sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Typography variant="h4" gutterBottom>Wybierz adres dostawy</Typography>
+          <Typography variant="h4" gutterBottom>Choose delivery address</Typography>
 
           <RadioGroup
             value={selectedAddressId}
@@ -153,24 +153,24 @@ const CheckoutPage = () => {
                 onChange={(e) => setShowForm(e.target.checked)}
               />
             }
-            label="Dodaj nowy adres dostawy"
+            label="Add new delivery adddress"
           />
           {showForm && (
           <Box mt={4}>
-            <Typography variant="h6">Dodaj nowy adres</Typography>
+            <Typography variant="h6">Add new address</Typography>
             <FormGroup sx={{ gap: 2, mt: 2 }}>
-              <TextField label="Imię" name="firstName" value={newAddress.firstName} onChange={handleChange} />
-              <TextField label="Nazwisko" name="lastName" value={newAddress.lastName} onChange={handleChange} />
+              <TextField label="Firs name" name="firstName" value={newAddress.firstName} onChange={handleChange} />
+              <TextField label="Last name" name="lastName" value={newAddress.lastName} onChange={handleChange} />
               <TextField label="Email" name="email" value={newAddress.email} onChange={handleChange} />
-              <TextField label="Telefon" name="phoneNumber" value={newAddress.phoneNumber} onChange={handleChange} />
-              <TextField label="Ulica" name="street" value={newAddress.street} onChange={handleChange} />
-              <TextField label="Nr budynku" name="buildingNumber" value={newAddress.buildingNumber} onChange={handleChange} />
-              <TextField label="Nr mieszkania (opcjonalnie)" name="apartmentNumber" value={newAddress.apartmentNumber} onChange={handleChange} type="number"/>
-              <TextField label="Miasto" name="city" value={newAddress.city} onChange={handleChange} />
-              <TextField label="Kod pocztowy" name="postalCode" value={newAddress.postalCode} onChange={handleChange} />
-              <TextField label="Kraj" name="country" value={newAddress.country} onChange={handleChange} />
+              <TextField label="Phone number" name="phoneNumber" value={newAddress.phoneNumber} onChange={handleChange} />
+              <TextField label="Street" name="street" value={newAddress.street} onChange={handleChange} />
+              <TextField label="Building number" name="buildingNumber" value={newAddress.buildingNumber} onChange={handleChange} />
+              <TextField label="Apartment Number (not required)" name="apartmentNumber" value={newAddress.apartmentNumber} onChange={handleChange} type="number"/>
+              <TextField label="City" name="city" value={newAddress.city} onChange={handleChange} />
+              <TextField label="Postal Code" name="postalCode" value={newAddress.postalCode} onChange={handleChange} />
+              <TextField label="Country" name="country" value={newAddress.country} onChange={handleChange} />
               <Button variant="contained" onClick={handleAddAddress}>
-                Dodaj adres
+                Add the address
               </Button>
             </FormGroup>
           </Box>
@@ -182,7 +182,7 @@ const CheckoutPage = () => {
             onClick={handleSubmitOrder}
             sx={{ mt: 3 }}
           >
-            Złóż zamówienie
+            Place the order
           </Button>
         </Box>
         <Footer />

@@ -70,7 +70,7 @@ export default function AllGamesPage() {
       setCategories(categoriesData.map(c => c.name));
       setPlatforms(platformsData.map(p => p.name));
     } catch (error) {
-      console.error('Błąd podczas pobierania danych:', error);
+      console.error('Error while downloading data:', error);
     } finally {
       setLoading(false);
     }
@@ -128,10 +128,10 @@ export default function AllGamesPage() {
       <Box sx={{ display: 'flex', p: 3 }}>
         {/* Lewa kolumna – filtry */}
         <Box sx={{ flex: '0 0 25%', pr: 2, position: 'sticky', top: 100 }}>
-          <Typography variant="h5" gutterBottom>Filtry</Typography>
+          <Typography variant="h5" gutterBottom>Filters</Typography>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">Kategorie</Typography>
+            <Typography variant="h6">Categories</Typography>
             {categories.map(cat => (
               <FormControlLabel
                 key={cat}
@@ -147,7 +147,7 @@ export default function AllGamesPage() {
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">Platformy</Typography>
+            <Typography variant="h6">Platforms</Typography>
             {platforms.map(plat => (
               <FormControlLabel
                 key={plat}

@@ -13,7 +13,7 @@ export default function CategoryListAdmin() {
   }, []);
 
   const deleteCategory = async (id) => {
-    if (!window.confirm('Usunąć kategorię?')) return;
+    if (!window.confirm('Do you want to delete this category?')) return;
 
     const res = await fetch(`http://localhost:8080/categories/${id}`, {
       method: 'DELETE',

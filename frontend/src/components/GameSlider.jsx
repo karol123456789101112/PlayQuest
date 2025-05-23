@@ -13,7 +13,7 @@ export default function GameSlider() {
         const data = await res.json();
         setGames(data);
       } catch (err) {
-        console.error('Błąd podczas pobierania gier:', err);
+        console.error('Error while downloading games:', err);
       } finally {
         setLoading(false);
       }

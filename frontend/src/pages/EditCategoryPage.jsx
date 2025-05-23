@@ -35,7 +35,7 @@ export default function EditCategoryPage() {
       if (res.ok) {
         uploadedImageUrl = await res.text();
       } else {
-        alert('Błąd przy przesyłaniu obrazka');
+        alert('Error while attaching the image');
         return;
       }
     }
@@ -56,15 +56,15 @@ export default function EditCategoryPage() {
     }
   };
 
-  if (!category) return <Typography>Ładowanie...</Typography>;
+  if (!category) return <Typography>Loading...</Typography>;
 
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5">Edytuj kategorię</Typography>
+      <Typography variant="h5">Edit category</Typography>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <TextField
-            label="Nazwa"
+            label="Name"
             name="name"
             value={category.name}
             onChange={handleChange}
@@ -79,7 +79,7 @@ export default function EditCategoryPage() {
 {/*               Wybrano: {imageFile.name} */}
 {/*             </Typography> */}
 {/*           )} */}
-          <Button type="submit" variant="contained">Zapisz</Button>
+          <Button type="submit" variant="contained">Save</Button>
         </Stack>
       </form>
     </Box>

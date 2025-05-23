@@ -19,7 +19,7 @@ const OrderListPage = () => {
         const data = await res.json();
         setOrders(data);
       } catch (error) {
-        console.error("Błąd przy pobieraniu zamówień:", error);
+        console.error("Error while downloading orders:", error);
       } finally {
         setLoading(false);
       }
@@ -32,18 +32,18 @@ const OrderListPage = () => {
 
   return (
     <Box p={4}>
-      <Typography variant="h4" gutterBottom>Twoje zamówienia</Typography>
+      <Typography variant="h4" gutterBottom>Your orders</Typography>
       {orders.length === 0 ? (
-        <Typography>Nie masz jeszcze żadnych zamówień.</Typography>
+        <Typography>You do not have any orders yet.</Typography>
       ) : (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell><strong>ID zamówienia</strong></TableCell>
-                <TableCell><strong>Data</strong></TableCell>
+                <TableCell><strong>Order ID</strong></TableCell>
+                <TableCell><strong>Date</strong></TableCell>
                 <TableCell><strong>Status</strong></TableCell>
-                <TableCell><strong>Status</strong></TableCell>
+                <TableCell><strong>Details</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -54,7 +54,7 @@ const OrderListPage = () => {
                   <TableCell>{order.status}</TableCell>
                   <TableCell>
                     <Button size="small" onClick={() => navigate(`/orders/${order.id}`)}>
-                      Szczegóły
+                      Details
                     </Button>
                   </TableCell>
                 </TableRow>

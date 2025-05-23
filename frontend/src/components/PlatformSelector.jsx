@@ -13,7 +13,7 @@ export default function PlatformSelector() {
         const data = await response.json();
         setPlatforms(data);
       } catch (err) {
-        console.error('Błąd podczas pobierania platform:', err);
+        console.error('Error while downloading platforms:', err);
       } finally {
         setLoading(false);
       }
@@ -35,7 +35,7 @@ export default function PlatformSelector() {
       <Box sx={{ width: '100%', maxWidth: '1400px', paddingX: 2 }}>
         <Paper elevation={6} sx={{ padding: 4, backgroundColor: '#111' }}>
           <Typography variant="h4" gutterBottom sx={{ color: '#fff', textAlign: 'center' }}>
-            Wybierz swoją platformę
+            Choose your platform
           </Typography>
 
           {loading ? (

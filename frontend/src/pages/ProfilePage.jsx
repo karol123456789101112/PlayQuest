@@ -17,7 +17,7 @@ export default function HomePage() {
                        onClick={() => navigate('/addresses')}
                        sx={{ mb: 3 }}
                      >
-                       Zarządzaj adresami
+                       Manage addresses
                  </Button>
                  <OrderListComponent />
              </Box>

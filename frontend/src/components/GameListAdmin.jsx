@@ -6,7 +6,6 @@ export default function GameListAdmin() {
   const [games, setGames] = useState([]);
   const navigate = useNavigate();
 
-  // Pobierz listę gier
   useEffect(() => {
     fetchGames();
   }, []);
@@ -17,12 +16,12 @@ export default function GameListAdmin() {
       const data = await res.json();
       setGames(data);
     } catch (err) {
-      console.error('Błąd podczas pobierania gier:', err);
+      console.error('Error while downloading games:', err);
     }
   };
 
   const deleteGame = async (id) => {
-    if (!window.confirm('Czy na pewno chcesz usunąć tę grę?')) return;
+    if (!window.confirm('Are you sure you want to delete this game?')) return;
 
     try {
       const res = await fetch(`http://localhost:8080/games/${id}`, {
@@ -32,10 +31,10 @@ export default function GameListAdmin() {
       if (res.ok) {
         setGames(games.filter((g) => g.id !== id));
       } else {
-        alert('Nie udało się usunąć gry.');
+        alert('Could not delete the game.');
       }
     } catch (err) {
-      console.error('Błąd przy usuwaniu gry:', err);
+      console.error('Error while deleting the game:', err);
     }
   };
 

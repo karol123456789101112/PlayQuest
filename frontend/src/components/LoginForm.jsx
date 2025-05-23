@@ -7,7 +7,6 @@ import {
     Stack,
     TextField,
 } from '@mui/material';
-//import { login } from '../services/authService';
 
 export default function LoginForm() {
     const [form, setForm] = useState({ email: '', password: '' });
@@ -44,7 +43,7 @@ export default function LoginForm() {
              }
         } catch (err) {
             console.error(err);
-            alert('Błąd logowania');
+            alert('Logging error');
         }
     };
 
@@ -62,7 +61,7 @@ export default function LoginForm() {
                 />
                 <TextField
                     fullWidth
-                    label="Hasło"
+                    label="Password"
                     type="password"
                     name="password"
                     value={form.password}
@@ -76,7 +75,7 @@ export default function LoginForm() {
                         color="primary"
                         sx={{ padding: '12px 30px', fontSize: '18px', borderRadius: '8px' }}
                     >
-                        Zaloguj się
+                        Sign in
                     </Button>
                 </Box>
             </Stack>

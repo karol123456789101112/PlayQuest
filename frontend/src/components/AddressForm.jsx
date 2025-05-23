@@ -55,28 +55,28 @@ const AddressForm = ({ userId, onSuccess }) => {
       });
 
       if (onSuccess) onSuccess(added);
-      alert("Adres dodany!");
+      alert("Address added!");
     } catch (error) {
-      alert("Błąd przy dodawaniu adresu: " + error.message);
+      alert("Error while adding address: " + error.message);
     }
   };
 
   return (
     <Box mt={4}>
-      <Typography variant="h6">Dodaj nowy adres</Typography>
+      <Typography variant="h6">Add new address</Typography>
       <FormGroup sx={{ gap: 2, mt: 2 }}>
-        <TextField label="Imię" name="firstName" value={newAddress.firstName} onChange={handleChange} />
-        <TextField label="Nazwisko" name="lastName" value={newAddress.lastName} onChange={handleChange} />
+        <TextField label="First name" name="firstName" value={newAddress.firstName} onChange={handleChange} />
+        <TextField label="Last name" name="lastName" value={newAddress.lastName} onChange={handleChange} />
         <TextField label="Email" name="email" value={newAddress.email} onChange={handleChange} />
-        <TextField label="Telefon" name="phoneNumber" value={newAddress.phoneNumber} onChange={handleChange} />
-        <TextField label="Ulica" name="street" value={newAddress.street} onChange={handleChange} />
-        <TextField label="Nr budynku" name="buildingNumber" value={newAddress.buildingNumber} onChange={handleChange} />
-        <TextField label="Nr mieszkania (opcjonalnie)" name="apartmentNumber" value={newAddress.apartmentNumber} onChange={handleChange} type="number" />
-        <TextField label="Miasto" name="city" value={newAddress.city} onChange={handleChange} />
-        <TextField label="Kod pocztowy" name="postalCode" value={newAddress.postalCode} onChange={handleChange} />
-        <TextField label="Kraj" name="country" value={newAddress.country} onChange={handleChange} />
+        <TextField label="Phone number" name="phoneNumber" value={newAddress.phoneNumber} onChange={handleChange} />
+        <TextField label="Street" name="street" value={newAddress.street} onChange={handleChange} />
+        <TextField label="Building Number" name="buildingNumber" value={newAddress.buildingNumber} onChange={handleChange} />
+        <TextField label="Apartment number (not required)" name="apartmentNumber" value={newAddress.apartmentNumber} onChange={handleChange} type="number" />
+        <TextField label="City" name="city" value={newAddress.city} onChange={handleChange} />
+        <TextField label="Postal code" name="postalCode" value={newAddress.postalCode} onChange={handleChange} />
+        <TextField label="Country" name="country" value={newAddress.country} onChange={handleChange} />
         <Button variant="contained" onClick={handleSubmit}>
-          Dodaj adres
+          Add address
         </Button>
       </FormGroup>
     </Box>

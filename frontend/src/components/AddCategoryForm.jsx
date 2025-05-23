@@ -20,14 +20,14 @@ export default function AddCategoryForm() {
       });
 
       if (res.ok) {
-        alert('Kategoria dodana!');
+        alert('Category added!');
         setForm({ name: ''});
       } else {
-        alert('Błąd podczas dodawania');
+        alert('Error while adding category');
       }
     } catch (err) {
       console.error(err);
-      alert('Błąd sieci');
+      alert('Network error');
     }
   };
 
