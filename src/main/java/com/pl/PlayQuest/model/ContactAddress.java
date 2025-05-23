@@ -47,6 +47,6 @@ public class ContactAddress {
     @Column(nullable = false)
     private String buildingNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long apartmentNumber;
 }
