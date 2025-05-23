@@ -22,8 +22,11 @@ public class VideogameController {
     }
 
     @GetMapping
-    public List<Videogame> getTopRatedGames() {
-        return videogameRepository.findAllByOrderByRatingDesc();
+    public List<VideogameDto> getAllGames() {
+        return videogameRepository.findAllByOrderByRatingDesc()
+                .stream()
+                .map(VideogameMapper::toDto)
+                .toList();
     }
 
     @PostMapping("add")
