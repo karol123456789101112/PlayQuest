@@ -49,4 +49,7 @@ public class ContactAddress {
 
     @Column(nullable = true)
     private Long apartmentNumber;
+
+    @Column(nullable = false)
+    private boolean active = true;
 }
