@@ -34,7 +34,7 @@ const OrderDetailsPage = () => {
   return (
     <div>
         <Header userName='userName'></Header>
-        <Box p={4}>
+        <Box p={4} sx={{minHeight: '100vh'}}>
           <Typography variant="h4" gutterBottom>Szczegóły zamówienia #{order.id}</Typography>
 
           {/* Order Info */}

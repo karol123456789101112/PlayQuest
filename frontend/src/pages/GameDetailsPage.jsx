@@ -60,6 +60,7 @@ const GameDetails = () => {
   return (
     <div>
         <Header userName='userName'></Header>
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Box p={4}>
           <Card sx={{ display: 'flex'}}>
             <CardMedia
@@ -99,6 +100,7 @@ const GameDetails = () => {
           >
             Add to cart
           </Button>
+        </Box>
         </Box>
         <Footer />
     </div>

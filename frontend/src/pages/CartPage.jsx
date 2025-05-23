@@ -41,50 +41,52 @@ const CartPage = () => {
   return (
     <div>
         <Header userName='userName'></Header>
-        <Typography variant="h4" gutterBottom>Koszyk:</Typography>
-        <Grid container spacing={2} direction="column">
-          {cart.map(({ videogame, quantity }) => (
-            <Grid item key={videogame.id}>
-              <Card sx={{
-                display: 'flex',
-                height: 250,
-                alignItems: 'stretch'
-              }}>
-                <CardMedia
-                  component="img"
-                  image={"/" + videogame.imageUrl}
-                  alt={videogame.title}
-                  sx={{
-                    width: 150,
-                    objectFit: 'cover',
-                    height: '100%'
-                  }}
-                />
-                <CardContent sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  flex: 1,
-                  p: 2
-                }}>
-                  <Box>
-                    <Typography variant="h6">{videogame.title}</Typography>
-                    <Typography variant="body2">Ilość: {quantity}</Typography>
-                    <Typography variant="body1">Cena: {videogame.price} zł</Typography>
-                  </Box>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={() => removeFromCart(videogame.id)}
-                  >
-                    Usuń z koszyka
-                  </Button>
-                </CardContent>
-              </Card>
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Typography variant="h4" gutterBottom>Koszyk:</Typography>
+            <Grid container spacing={2} direction="column">
+              {cart.map(({ videogame, quantity }) => (
+                <Grid item key={videogame.id}>
+                  <Card sx={{
+                    display: 'flex',
+                    height: 250,
+                    alignItems: 'stretch'
+                  }}>
+                    <CardMedia
+                      component="img"
+                      image={"/" + videogame.imageUrl}
+                      alt={videogame.title}
+                      sx={{
+                        width: 150,
+                        objectFit: 'cover',
+                        height: '100%'
+                      }}
+                    />
+                    <CardContent sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      flex: 1,
+                      p: 2,
+                    }}>
+                      <Box>
+                        <Typography variant="h6">{videogame.title}</Typography>
+                        <Typography variant="body2">Ilość: {quantity}</Typography>
+                        <Typography variant="body1">Cena: {videogame.price} zł</Typography>
+                      </Box>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => removeFromCart(videogame.id)}
+                      >
+                        Usuń z koszyka
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-        <Footer />
+            </Box>
+            <Footer />
     </div>
   );
 };

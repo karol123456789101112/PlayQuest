@@ -7,44 +7,50 @@ import GameListAdmin from '../components/GameListAdmin';
 import CategoryListAdmin from '../components/CategoryListAdmin';
 import PlatformListAdmin from '../components/PlatformListAdmin';
 import UserListAdmin from '../components/UserListAdmin';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 export default function AdminPanel() {
   return (
-    <Box sx={{ padding: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Admin Panel
-      </Typography>
+    <div>
+        <Header userName='userName'></Header>
+        <Box sx={{ padding: 4, minHeight: '100vh' }}>
+          <Typography variant="h4" gutterBottom>
+            Admin Panel
+          </Typography>
 
-      <Paper sx={{ p: 3, mb: 4 }}>
-        <Typography variant="h6">Add New Category</Typography>
-        <AddCategoryForm />
-      </Paper>
+          <Paper sx={{ p: 3, mb: 4 }}>
+            <Typography variant="h6">Add New Category</Typography>
+            <AddCategoryForm />
+          </Paper>
 
-      <Paper sx={{ p: 3, mb: 4 }}>
-        <Typography variant="h6">Add New Platform</Typography>
-        <AddPlatformForm />
-      </Paper>
+          <Paper sx={{ p: 3, mb: 4 }}>
+            <Typography variant="h6">Add New Platform</Typography>
+            <AddPlatformForm />
+          </Paper>
 
-      <Paper sx={{ p: 3, mb: 4 }}>
-          <Typography variant="h6">Add New Game</Typography>
-          <AddGameForm />
-      </Paper>
+          <Paper sx={{ p: 3, mb: 4 }}>
+              <Typography variant="h6">Add New Game</Typography>
+              <AddGameForm />
+          </Paper>
 
-       <Paper sx={{ p: 3, mt: 4 }}>
-         <GameListAdmin />
-       </Paper>
+           <Paper sx={{ p: 3, mt: 4 }}>
+             <GameListAdmin />
+           </Paper>
 
-       <Paper sx={{ p: 3, mt: 4 }}>
-          <CategoryListAdmin />
-       </Paper>
+           <Paper sx={{ p: 3, mt: 4 }}>
+              <CategoryListAdmin />
+           </Paper>
 
-        <Paper sx={{ p: 3, mt: 4 }}>
-          <PlatformListAdmin />
-        </Paper>
+            <Paper sx={{ p: 3, mt: 4 }}>
+              <PlatformListAdmin />
+            </Paper>
 
-        <Paper sx={{ p: 3, mt: 4 }}>
-          <UserListAdmin />
-        </Paper>
-    </Box>
+            <Paper sx={{ p: 3, mt: 4 }}>
+              <UserListAdmin />
+            </Paper>
+            <Footer />
+          </Box>
+      </div>
   );
 }

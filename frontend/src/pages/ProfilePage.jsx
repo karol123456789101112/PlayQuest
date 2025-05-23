@@ -11,14 +11,16 @@ export default function HomePage() {
      return (
          <div>
              <Header userName='userName'></Header>
-                 <Button
-                   variant="outlined"
-                   onClick={() => navigate('/addresses')}
-                   sx={{ mb: 3 }}
-                 >
-                   Zarządzaj adresami
-             </Button>
-             <OrderListComponent />
+             <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                     <Button
+                       variant="outlined"
+                       onClick={() => navigate('/addresses')}
+                       sx={{ mb: 3 }}
+                     >
+                       Zarządzaj adresami
+                 </Button>
+                 <OrderListComponent />
+             </Box>
              <Footer />
          </div>
      );

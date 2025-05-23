@@ -14,10 +14,12 @@
      return (
          <div>
              <Header userName='userName'></Header>
+             <Box sx={{minHeight: '100vh' }}>
              <ImageCarousel />
              <CategorySlider />
              <PlatformSelector />
              <GameSlider />
+             </Box>
              <Footer />
          </div>
      );

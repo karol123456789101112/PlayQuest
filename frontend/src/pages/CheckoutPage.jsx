@@ -130,7 +130,7 @@ const CheckoutPage = () => {
   return (
     <div>
         <Header userName='userName'></Header>
-        <Box p={4}>
+        <Box p={4} sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <Typography variant="h4" gutterBottom>Wybierz adres dostawy</Typography>
 
           <RadioGroup
