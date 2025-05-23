@@ -2,11 +2,16 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\Play
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\AuthController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\CartController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\CategoryController.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\ContactAddressController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\ImageUploadController.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\OrderController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\PlatformController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\UserController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\VideogameController.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\dto\OrderRequestDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\dto\VideogameDto.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\exception\EmptyCartException.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\exception\GlobalExceptionHandler.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\exception\UserNotFoundException.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\mapper\VideogameMapper.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\model\Address.java
@@ -24,6 +29,7 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\Play
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\PlayQuestApplication.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\repo\CartRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\repo\CategoryRepository.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\repo\ContactAddressRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\repo\ContactRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\repo\OrderItemRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\repo\OrderRepository.java
@@ -36,5 +42,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\Play
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\security\SecurityConfig.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\service\CartService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\service\CustomUserDetailsService.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\service\OrderService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\service\UserService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\ServletInitializer.java
