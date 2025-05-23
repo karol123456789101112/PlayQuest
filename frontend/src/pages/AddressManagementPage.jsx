@@ -34,7 +34,7 @@ const AddressManagementPage = () => {
   return (
     <div>
         <Header userName='userName'></Header>
-        <Box p={4}>
+        <Box p={4} sx={{ minHeight: '100vh'}}>
           <Typography variant="h4" gutterBottom>Twoje adresy</Typography>
           <Grid container spacing={2}>
             {addresses.map(addr => (
@@ -60,8 +60,8 @@ const AddressManagementPage = () => {
               </Grid>
             ))}
           </Grid>
-        </Box>
         <AddressForm userId={userId} onSuccess={fetchAddresses} />
+        </Box>
         <Footer />
     </div>
   );

@@ -9,7 +9,6 @@ export default function Footer() {
         backgroundColor: '#111',
         color: '#fff',
         padding: '40px 20px',
-        mt: 80,
       }}
     >
       <Grid container spacing={4} justifyContent="center">
@@ -41,7 +40,7 @@ export default function Footer() {
           <Typography variant="h6" gutterBottom>
             Contact
           </Typography>
-          <Typography variant="body2">Email: contact@gamequest.com</Typography>
+          <Typography variant="body2">Email: contact@playquest.com</Typography>
           <Typography variant="body2">Phone: +48 123 456 789</Typography>
         </Grid>
       </Grid>

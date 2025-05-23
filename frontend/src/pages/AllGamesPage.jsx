@@ -8,12 +8,19 @@ import Footer from '../components/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function AllGamesPage() {
+
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const urlCategory = query.get('category');
+  const platformFromURL = query.get('platform');
+  const [searchTerm, setSearchTerm] = useState('');
+
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [platforms, setPlatforms] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState(urlCategory ? [urlCategory] : []);
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const navigate = useNavigate();
 
@@ -21,9 +28,7 @@ export default function AllGamesPage() {
     const { search } = useLocation();
     return new URLSearchParams(search);
   };
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const searchTerm = query.get('search')?.toLowerCase() || '';
+
 
 
   useEffect(() => {
@@ -34,6 +39,17 @@ export default function AllGamesPage() {
     if (!games.length) return;
     applyFilters();
   }, [searchTerm, selectedCategories, selectedPlatforms, games]);
+
+  useEffect(() => {
+    const q = new URLSearchParams(location.search);
+    const newCat = q.get('category');
+    const newPlat = q.get('platform');
+    const newSearch = q.get('search')?.toLowerCase() || '';
+
+    setSelectedCategories(newCat ? [newCat] : []);
+    setSelectedPlatforms(newPlat ? [newPlat] : []);
+    setSearchTerm(newSearch);
+  }, [location.search]);
 
   const fetchAllData = async () => {
     try {

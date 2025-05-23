@@ -60,7 +60,7 @@ export default function PlatformSelector() {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={`/${platform.name.toLowerCase().replace(/\s/g, '-')}`}
+                  to={`/games?platform=${encodeURIComponent(platform.name)}`}
                   sx={{ flexGrow: 1, padding: '16px', minWidth: 120 }}
                 >
                   {platform.name}

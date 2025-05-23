@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Card, CardMedia, CircularProgress } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function GameSlider() {
   const [games, setGames] = useState([]);
@@ -41,24 +42,32 @@ export default function GameSlider() {
       }}
     >
       {games.map((game) => (
-        <Card
+        <Link
           key={game.id}
-          sx={{
-            minWidth: 200,
-            height: 300,
-            flexShrink: 0,
-            borderRadius: 2,
-            overflow: 'hidden',
-          }}
+          to={`/games/${game.id}`}
+          style={{ textDecoration: 'none' }}
         >
-          <CardMedia
-            component="img"
-            height="300"
-            image={game.imageUrl}
-            alt={game.title}
-            sx={{ objectFit: 'cover' }}
-          />
-        </Card>
+          <Card
+            sx={{
+              minWidth: 200,
+              height: 300,
+              flexShrink: 0,
+              borderRadius: 2,
+              overflow: 'hidden',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease-in-out',
+              '&:hover': { transform: 'scale(1.03)' },
+            }}
+          >
+            <CardMedia
+              component="img"
+              height="300"
+              image={game.imageUrl}
+              alt={game.title}
+              sx={{ objectFit: 'cover' }}
+            />
+          </Card>
+        </Link>
       ))}
     </Box>
   );
