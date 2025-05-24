@@ -32,14 +32,14 @@ public class OrderService {
 
     public void createOrder(Long userId, Long addressId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika"));
+                .orElseThrow(() -> new RuntimeException("User has not been found"));
 
         ContactAddress address = addressRepository.findById(addressId)
-                .orElseThrow(() -> new RuntimeException("Nie znaleziono adresu"));
+                .orElseThrow(() -> new RuntimeException("Address has not been found"));
 
         List<Cart> cartItems = cartRepository.findByUserId(userId);
         if (cartItems.isEmpty()) {
-            throw new EmptyCartException("Koszyk jest pusty");
+            throw new EmptyCartException("The Cart is empty");
         }
 
         // Oblicz całkowitą kwotę

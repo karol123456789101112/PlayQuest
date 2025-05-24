@@ -66,7 +66,15 @@ const GameDetails = () => {
 
   const handleBuy = async () => {
     if (!userId) {
-      alert("You have to be logged in to make a purchase.");
+      const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+      const index = guestCart.findIndex(item => item.gameId === game.id);
+      if (index > -1) {
+        guestCart[index].quantity += 1;
+      } else {
+        guestCart.push({ gameId: game.id, quantity: 1 });
+      }
+      localStorage.setItem('guestCart', JSON.stringify(guestCart));
+      navigate('/cart');
       return;
     }
 
@@ -85,6 +93,7 @@ const GameDetails = () => {
       console.error("Error while adding the game to the cart:", error);
     }
   };
+
 
 
 

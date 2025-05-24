@@ -109,8 +109,8 @@ const CartPage = () => {
                     >
                       <Box>
                         <Typography variant="h6">{item.title}</Typography>
-                        <Typography variant="body2">Ilość: {item.quantity}</Typography>
-                        <Typography variant="body1">Cena: {item.price} zł</Typography>
+                        <Typography variant="body2">Quantity: {item.quantity}</Typography>
+                        <Typography variant="body1">Price: {item.price} zł</Typography>
                       </Box>
                       <Button
                         variant="outlined"
@@ -131,7 +131,13 @@ const CartPage = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => navigate('/checkout')}
+                onClick={() => {
+                  if (!userId) {
+                    navigate('/login');
+                  } else {
+                    navigate('/checkout');
+                  }
+                }}
                 disabled={cart.length === 0}
               >
                 Proceed to Checkout

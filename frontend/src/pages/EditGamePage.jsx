@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, TextField, Button, Stack, Typography, CircularProgress,
+  Box, TextField, Button, Stack, Typography, CircularProgress, MenuItem, Select, FormControl,
+   OutlinedInput, InputLabel
 } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -10,22 +11,38 @@ export default function EditGamePage() {
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
   const [newImageFile, setNewImageFile] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [platforms, setPlatforms] = useState([]);
 
   useEffect(() => {
-    const fetchGame = async () => {
+    const fetchAll = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/games/${id}`);
-        const data = await res.json();
-        setGame(data);
+        const [gameRes, catRes, platRes] = await Promise.all([
+          fetch(`http://localhost:8080/games/${id}`),
+          fetch('http://localhost:8080/categories'),
+          fetch('http://localhost:8080/platforms')
+        ]);
+
+        const [gameData, catData, platData] = await Promise.all([
+          gameRes.json(), catRes.json(), platRes.json()
+        ]);
+
+        const categoryIds = catData.filter(c => gameData.categories.includes(c.name)).map(c => c.id);
+        const platformIds = platData.filter(p => gameData.platforms.includes(p.name)).map(p => p.id);
+
+        setGame({ ...gameData, categoryIds, platformIds });
+        setCategories(catData);
+        setPlatforms(platData);
       } catch (err) {
-        console.error('Error while downloading the game:', err);
+        console.error('Error fetching data:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchGame();
+    fetchAll();
   }, [id]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,7 +76,8 @@ export default function EditGamePage() {
       }
     }
 
-    const updatedGame = { ...game, imageUrl: uploadedImageUrl };
+    const updatedGame = { ...game, imageUrl: uploadedImageUrl, categoryIds: game.categoryIds,
+     platformIds: game.platformIds};
 
     try {
       const res = await fetch(`http://localhost:8080/games/${id}`, {
@@ -95,6 +113,35 @@ export default function EditGamePage() {
           <TextField label="Publisher" name="publisher" value={game.publisher || ''} onChange={handleChange} />
           <TextField label="Rating" name="rating" value={game.rating || ''} onChange={handleChange} type="number" inputProps={{ step: 0.1, min: 0, max: 10 }} />
           <TextField label="Stock Quantity" name="stockQuantity" value={game.stockQuantity || ''} onChange={handleChange} type="number" />
+          <FormControl fullWidth>
+            <InputLabel>Categories</InputLabel>
+            <Select
+              multiple
+              name="categoryIds"
+              value={game.categoryIds || []}
+              onChange={(e) => setGame({ ...game, categoryIds: e.target.value })}
+              input={<OutlinedInput label="Categories" />}
+            >
+              {categories.map(cat => (
+                <MenuItem key={cat.id} value={cat.id}>{cat.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth>
+            <InputLabel>Platforms</InputLabel>
+            <Select
+              multiple
+              name="platformIds"
+              value={game.platformIds || []}
+              onChange={(e) => setGame({ ...game, platformIds: e.target.value })}
+              input={<OutlinedInput label="Platforms" />}
+            >
+              {platforms.map(p => (
+                <MenuItem key={p.id} value={p.id}>{p.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <Button variant="outlined" component="label">
             Change image
             <input
