@@ -1,5 +1,6 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.dto.CartRequestDto;
 import com.pl.PlayQuest.model.Cart;
 import com.pl.PlayQuest.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,11 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addToCart(@RequestParam Long userId, @RequestParam Long gameId) {
-        cartService.addToCart(userId, gameId);
+    public ResponseEntity<Void> addToCart(@RequestBody CartRequestDto request) {
+        cartService.addToCart(request.getUserId(), request.getGameId(), request.getQuantity() != null ? request.getQuantity() : 1L);
         return ResponseEntity.ok().build();
     }
+
 
     @DeleteMapping
     public ResponseEntity<Void> removeFromCart(@RequestParam Long userId, @RequestParam Long gameId) {

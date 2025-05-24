@@ -27,25 +27,26 @@ public class CartService {
         return cartRepository.findByUserId(userId);
     }
 
-    public void addToCart(Long userId, Long gameId) {
+    public void addToCart(Long userId, Long gameId, Long quantity) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         Videogame game = videogameRepository.findById(gameId)
                 .orElseThrow(() -> new RuntimeException("Game not found"));
 
-        if (cartRepository.existsByUserIdAndVideogameId(userId, gameId)) {
-            Cart cart = cartRepository.findByUserIdAndVideogameId(userId, gameId);
-            cart.setQuantity(cart.getQuantity() + 1);
-            cartRepository.save(cart);
+        Cart existing = cartRepository.findByUserIdAndVideogameId(userId, gameId);
+
+        if (existing != null) {
+            existing.setQuantity(existing.getQuantity() + quantity);
+            cartRepository.save(existing);
         } else {
-            Cart cart = new Cart();
-            cart.setUser(user);
-            cart.setVideogame(game);
-            cart.setQuantity(1L);
-            cartRepository.save(cart);
+            Cart newCart = new Cart();
+            newCart.setUser(user);
+            newCart.setVideogame(game);
+            newCart.setQuantity(quantity);
+            cartRepository.save(newCart);
         }
     }
+
 
     public void removeFromCart(Long userId, Long gameId) {
         Cart cart = cartRepository.findByUserIdAndVideogameId(userId, gameId);

@@ -35,20 +35,34 @@ const GameDetails = () => {
 
   const addToCart = async () => {
     if (!userId) {
-      alert("You have to be logged in to add items to the cart.");
+      const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+      const index = guestCart.findIndex(item => item.gameId === game.id);
+      if (index > -1) {
+        guestCart[index].quantity += 1;
+      } else {
+        guestCart.push({ gameId: game.id, quantity: 1 });
+      }
+      localStorage.setItem('guestCart', JSON.stringify(guestCart));
+      alert("Game added to a cart as a guest.");
       return;
     }
-    const gameId = game.id;
 
     try {
-      await fetch(`http://localhost:8080/cart?userId=${userId}&gameId=${gameId}`, {
-        method: 'POST'
+      await fetch(`http://localhost:8080/cart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          gameId: game.id,
+          quantity: 1
+        })
       });
       alert("Game has been added to the cart!");
     } catch (error) {
       console.error("Error while adding game to the cart:", error);
     }
   };
+
 
   const handleBuy = async () => {
     if (!userId) {
@@ -57,14 +71,21 @@ const GameDetails = () => {
     }
 
     try {
-      await fetch(`http://localhost:8080/cart?userId=${userId}&gameId=${game.id}`, {
-        method: 'POST'
+      await fetch(`http://localhost:8080/cart`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          gameId: game.id,
+          quantity: 1
+        })
       });
       navigate('/cart');
     } catch (error) {
       console.error("Error while adding the game to the cart:", error);
     }
   };
+
 
 
 

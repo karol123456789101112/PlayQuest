@@ -35,14 +35,38 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const login = (token) => {
+  const login = async (token) => {
     localStorage.setItem('token', token);
     const decodedToken = jwtDecode(token);
     setIsAuthenticated(true);
     setUserRole(decodedToken.role);
     setUserId(decodedToken.userId);
     setFirstName(decodedToken.firstName);
+
+    // Migracja koszyka gościa do konta użytkownika
+    const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+    if (guestCart.length > 0) {
+      for (const item of guestCart) {
+        try {
+          await fetch(`http://localhost:8080/cart`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              userId: decodedToken.userId,
+              gameId: item.gameId,
+              quantity: item.quantity
+            })
+          });
+        } catch (err) {
+          console.error("Error while adding games to cart:", err);
+        }
+      }
+      localStorage.removeItem('guestCart');
+    }
   };
+
 
   const logout = () => {
     localStorage.removeItem('token');
