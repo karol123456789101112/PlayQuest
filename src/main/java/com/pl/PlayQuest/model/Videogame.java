@@ -9,23 +9,31 @@ import com.pl.PlayQuest.model.Platform;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
+@Table(name = "videogame")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "videogame")
 public class Videogame {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "videogames")
-    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "videogame_category",
+            joinColumns = @JoinColumn(name = "video_game_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private List<Category> categories;
 
-    @ManyToMany(mappedBy = "videogames")
-    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "videogame_platform",
+            joinColumns = @JoinColumn(name = "video_game_id"),
+            inverseJoinColumns = @JoinColumn(name = "platform_id")
+    )
     private List<Platform> platforms;
 
     @Column(nullable = false)

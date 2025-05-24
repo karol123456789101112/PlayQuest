@@ -166,7 +166,7 @@ export default function AddGameForm() {
         </Button>
         {imageFile && (
           <Box mt={1} sx={{ color: '#aaa', fontSize: 14 }}>
-            Choose file: {imageFile.name}
+            Chosen file: {imageFile.name}
           </Box>
         )}
 

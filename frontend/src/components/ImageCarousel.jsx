@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 
 const images = [
   './images/portal_2_banner.png',
-  './images/prince_of_persia_the_sands_of_time_banner.png',
+  './images/prince_of_persia_the_sands_of_time_banner2.png',
   './images/vampire_the_masquerade_bloodlines_banner.png',
 ];
 
@@ -21,7 +21,7 @@ export default function ImageCarousel() {
   return (
     <Box
       sx={{
-        height: '500px',
+        height: '700px',
         width: '100%',
         overflow: 'hidden',
         position: 'relative',

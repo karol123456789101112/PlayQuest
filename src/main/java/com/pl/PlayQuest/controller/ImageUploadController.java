@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 public class ImageUploadController {
 
-    private final String UPLOAD_DIR = "PlayQuest - frontend/frontend/public/images/";
+    private final String UPLOAD_DIR = "frontend/public/images/";
 
     @PostMapping("/upload-image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {

@@ -6,6 +6,7 @@ import {
 import { useAuth } from '../security/authContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 
 const CheckoutPage = () => {
@@ -27,6 +28,7 @@ const CheckoutPage = () => {
     isDefault: false
   });
   const [showForm, setShowForm] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -72,6 +74,7 @@ const CheckoutPage = () => {
       }
 
       alert("Order placed!");
+      navigate('/');
     } catch (error) {
       console.error("Error:", error);
       alert("Network error");

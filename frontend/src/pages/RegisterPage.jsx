@@ -9,6 +9,9 @@ export default function RegisterPage() {
             sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}
         >
             <Box width="100%">
+                <Typography variant="h2" align="center" gutterBottom>
+                   PlayQuest
+                </Typography>
                 <Paper elevation={6} sx={{ padding: 4, backgroundColor: '#111' }}>
                     <RegisterForm />
                 </Paper>

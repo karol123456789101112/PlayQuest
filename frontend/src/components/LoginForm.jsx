@@ -78,6 +78,18 @@ export default function LoginForm() {
                         Sign in
                     </Button>
                 </Box>
+
+                <Box display="flex" justifyContent="center" mt={2}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => navigate('/register')}
+                    sx={{ padding: '10px 25px', fontSize: '16px', borderRadius: '8px' }}
+                  >
+                    Sign up
+                  </Button>
+                </Box>
+
             </Stack>
         </Box>
     );

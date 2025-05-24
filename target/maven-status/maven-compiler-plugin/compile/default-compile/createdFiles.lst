@@ -17,6 +17,7 @@ com\pl\PlayQuest\model\Contact.class
 com\pl\PlayQuest\model\Role.class
 com\pl\PlayQuest\model\Platform.class
 com\pl\PlayQuest\PlayQuestApplication.class
+com\pl\PlayQuest\dto\VideogameCreateDto.class
 com\pl\PlayQuest\model\Cart.class
 com\pl\PlayQuest\model\Order.class
 com\pl\PlayQuest\repo\CartRepository.class

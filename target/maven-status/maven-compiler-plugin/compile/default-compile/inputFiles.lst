@@ -10,6 +10,7 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\Play
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\controller\VideogameController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\dto\CartRequestDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\dto\OrderRequestDto.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\dto\VideogameCreateDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\dto\VideogameDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\exception\EmptyCartException.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest-Git\PlayQuest\src\main\java\com\pl\PlayQuest\exception\GlobalExceptionHandler.java
