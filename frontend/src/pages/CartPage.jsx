@@ -16,31 +16,70 @@ const CartPage = () => {
 
   useEffect(() => {
     const fetchCart = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/cart?userId=${userId}`);
-        const data = await response.json();
-        setCart(data);
-      } catch (error) {
-        console.error("Error while downloading cart content:", error);
+      if (userId) {
+        try {
+          const response = await fetch(`http://localhost:8080/cart?userId=${userId}`);
+          const data = await response.json();
+          setCart(data.map(item => ({
+            id: item.videogame.id,
+            title: item.videogame.title,
+            price: item.videogame.price,
+            imageUrl: item.videogame.imageUrl,
+            quantity: item.quantity
+          })));
+        } catch (error) {
+          console.error("Error while downloading cart content:", error);
+        }
+      } else {
+        // Gość
+        const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+        try {
+          const gameDetails = await Promise.all(
+            guestCart.map(item =>
+              fetch(`http://localhost:8080/games/${item.gameId}`).then(res => res.json())
+            )
+          );
+
+          const combined = guestCart.map((item, i) => ({
+            id: gameDetails[i].id,
+            title: gameDetails[i].title,
+            price: gameDetails[i].price,
+            imageUrl: gameDetails[i].imageUrl,
+            quantity: item.quantity
+          }));
+
+          setCart(combined);
+        } catch (err) {
+          console.error("Error while loading guest cart data:", err);
+        }
       }
     };
 
     fetchCart();
-  }, []);
+  }, [userId]);
 
   const removeFromCart = async (gameId) => {
-    try {
-      await fetch(`http://localhost:8080/cart?userId=${userId}&gameId=${gameId}`, {
-        method: 'DELETE'
-      });
-
-      setCart(prev => prev.filter(item => item.videogame.id !== gameId));
-    } catch (error) {
-      console.error("Error while deleteing cart content:", error);
+    if (userId) {
+      // Usuń z bazy
+      try {
+        await fetch(`http://localhost:8080/cart?userId=${userId}&gameId=${gameId}`, {
+          method: 'DELETE'
+        });
+        setCart(prev => prev.filter(item => item.id !== gameId));
+      } catch (error) {
+        console.error("Error while deleting from cart:", error);
+      }
+    } else {
+      // Usuń z localStorage
+      const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+      const updatedCart = guestCart.filter(item => item.gameId !== gameId);
+      localStorage.setItem('guestCart', JSON.stringify(updatedCart));
+      setCart(prev => prev.filter(item => item.id !== gameId));
     }
   };
 
-  const total = cart.reduce((sum, item) => sum + item.videogame.price * item.quantity, 0);
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <div>
@@ -50,39 +89,33 @@ const CartPage = () => {
               {cart.length > 0 ? 'Cart:' : 'Cart is empty'}
             </Typography>
             <Grid container spacing={2} direction="column">
-              {cart.map(({ videogame, quantity }) => (
-                <Grid item key={videogame.id}>
-                  <Card sx={{
-                    display: 'flex',
-                    height: 250,
-                    alignItems: 'stretch'
-                  }}>
+              {cart.map((item) => (
+                <Grid item key={item.id}>
+                  <Card sx={{ display: 'flex', height: 250, alignItems: 'stretch' }}>
                     <CardMedia
                       component="img"
-                      image={"/" + videogame.imageUrl}
-                      alt={videogame.title}
-                      sx={{
-                        width: 150,
-                        objectFit: 'cover',
-                        height: '100%'
-                      }}
+                      image={"/" + item.imageUrl}
+                      alt={item.title}
+                      sx={{ width: 150, objectFit: 'cover', height: '100%' }}
                     />
-                    <CardContent sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      flex: 1,
-                      p: 2,
-                    }}>
+                    <CardContent
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        flex: 1,
+                        p: 2,
+                      }}
+                    >
                       <Box>
-                        <Typography variant="h6">{videogame.title}</Typography>
-                        <Typography variant="body2">Ilość: {quantity}</Typography>
-                        <Typography variant="body1">Cena: {videogame.price} zł</Typography>
+                        <Typography variant="h6">{item.title}</Typography>
+                        <Typography variant="body2">Ilość: {item.quantity}</Typography>
+                        <Typography variant="body1">Cena: {item.price} zł</Typography>
                       </Box>
                       <Button
                         variant="outlined"
                         color="error"
-                        onClick={() => removeFromCart(videogame.id)}
+                        onClick={() => removeFromCart(item.id)}
                       >
                         Delete from cart
                       </Button>
@@ -90,6 +123,7 @@ const CartPage = () => {
                   </Card>
                 </Grid>
               ))}
+
             </Grid>
             </Box>
             <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

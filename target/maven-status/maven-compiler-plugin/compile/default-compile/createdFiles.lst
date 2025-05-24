@@ -30,6 +30,7 @@ com\pl\PlayQuest\controller\VideogameController.class
 com\pl\PlayQuest\controller\CartController.class
 com\pl\PlayQuest\repo\PlatformRepository.class
 com\pl\PlayQuest\security\JwtUtil.class
+com\pl\PlayQuest\dto\CartRequestDto.class
 com\pl\PlayQuest\model\OrderItem.class
 com\pl\PlayQuest\service\UserService.class
 com\pl\PlayQuest\exception\EmptyCartException.class
