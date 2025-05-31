@@ -6,6 +6,7 @@ import {
 import { useAuth } from '../security/authContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import AddressForm from '../components/AddressForm';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -14,26 +15,15 @@ const CheckoutPage = () => {
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [newAddress, setNewAddress] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    city: '',
-    postalCode: '',
-    country: '',
-    street: '',
-    buildingNumber: '',
-    apartmentNumber: '',
-    isDefault: false
-  });
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/addresses?userId=${userId}`);
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:8080/addresses?userId=${userId}`, {
+            headers: {'Authorization': `Bearer ${token}`,},
+        });
         const data = await response.json();
         setAddresses(data);
         if (data.length > 0) {
@@ -46,8 +36,9 @@ const CheckoutPage = () => {
       }
     };
 
-    fetchAddresses();
-  }, [userId]);
+  useEffect(() => {
+      fetchAddresses();
+    }, [userId]);
 
   const handleSubmitOrder = async () => {
     if (!selectedAddressId) {
@@ -56,10 +47,12 @@ const CheckoutPage = () => {
     }
 
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:8080/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           userId,
@@ -78,50 +71,6 @@ const CheckoutPage = () => {
     } catch (error) {
       console.error("Error:", error);
       alert("Network error");
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewAddress(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleAddAddress = async () => {
-    if (!userId) return;
-
-    try {
-      const response = await fetch('http://localhost:8080/addresses', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...newAddress,
-          user: { id: userId }
-        })
-      });
-
-      if (!response.ok) throw new Error(await response.text());
-
-      const added = await response.json();
-      setAddresses(prev => [...prev, added]);
-      setSelectedAddressId(added.id);
-
-      setNewAddress({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        city: '',
-        postalCode: '',
-        country: '',
-        street: '',
-        buildingNumber: '',
-        apartmentNumber: '',
-        isDefault: false
-      });
-
-      alert("Address added!");
-    } catch (error) {
-      alert("Error while adding the address: " + error.message);
     }
   };
 
@@ -159,24 +108,7 @@ const CheckoutPage = () => {
             label="Add new delivery adddress"
           />
           {showForm && (
-          <Box mt={4}>
-            <Typography variant="h6">Add new address</Typography>
-            <FormGroup sx={{ gap: 2, mt: 2 }}>
-              <TextField label="Firs name" name="firstName" value={newAddress.firstName} onChange={handleChange} />
-              <TextField label="Last name" name="lastName" value={newAddress.lastName} onChange={handleChange} />
-              <TextField label="Email" name="email" value={newAddress.email} onChange={handleChange} />
-              <TextField label="Phone number" name="phoneNumber" value={newAddress.phoneNumber} onChange={handleChange} />
-              <TextField label="Street" name="street" value={newAddress.street} onChange={handleChange} />
-              <TextField label="Building number" name="buildingNumber" value={newAddress.buildingNumber} onChange={handleChange} />
-              <TextField label="Apartment Number (not required)" name="apartmentNumber" value={newAddress.apartmentNumber} onChange={handleChange} type="number"/>
-              <TextField label="City" name="city" value={newAddress.city} onChange={handleChange} />
-              <TextField label="Postal Code" name="postalCode" value={newAddress.postalCode} onChange={handleChange} />
-              <TextField label="Country" name="country" value={newAddress.country} onChange={handleChange} />
-              <Button variant="contained" onClick={handleAddAddress}>
-                Add the address
-              </Button>
-            </FormGroup>
-          </Box>
+           <AddressForm userId={userId} onSuccess={fetchAddresses} />
          )}
 
           <Button

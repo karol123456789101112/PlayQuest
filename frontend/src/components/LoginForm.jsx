@@ -33,6 +33,12 @@ export default function LoginForm() {
                   }),
                 });
 
+            if (!response.ok) {
+                const errorText = await response.text();
+                alert(errorText);
+                return;
+            }
+
             const data = await response.json();
 
             if (data.token) {

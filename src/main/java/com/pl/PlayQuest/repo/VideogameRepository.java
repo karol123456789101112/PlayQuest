@@ -6,5 +6,6 @@ import java.util.Optional;
 import java.util.List;
 
 public interface VideogameRepository extends JpaRepository<Videogame, Long> {
-    List<Videogame> findAllByOrderByRatingDesc();
+    List<Videogame> findByStockQuantityGreaterThanOrderByRatingDesc(int quantity);
+    Optional<Videogame> findByIdAndStockQuantityGreaterThan(Long id, int quantity);
 }

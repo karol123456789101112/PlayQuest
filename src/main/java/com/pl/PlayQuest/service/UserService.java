@@ -48,13 +48,15 @@ public class UserService {
     }
 
     public void deleteUserById(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new UserNotFoundException("User with id " + id + " not found");
-        }
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
+
+        user.setActive(false);
+        userRepository.save(user);
     }
+
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findByActiveTrue();
     }
 
     public User toggleAdminRole(Long id) {

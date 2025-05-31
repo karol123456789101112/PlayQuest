@@ -35,8 +35,16 @@ public class CartService {
 
         Cart existing = cartRepository.findByUserIdAndVideogameId(userId, gameId);
 
+        long alreadyInCart = existing != null ? existing.getQuantity() : 0;
+        long totalRequested = alreadyInCart + quantity;
+
+        if (totalRequested > game.getStockQuantity()) {
+            throw new RuntimeException("Not enough stock for game: " + game.getTitle()
+                    + ". Available: " + game.getStockQuantity() + ", requested: " + totalRequested);
+        }
+
         if (existing != null) {
-            existing.setQuantity(existing.getQuantity() + quantity);
+            existing.setQuantity(totalRequested);
             cartRepository.save(existing);
         } else {
             Cart newCart = new Cart();
@@ -46,6 +54,7 @@ public class CartService {
             cartRepository.save(newCart);
         }
     }
+
 
 
     public void removeFromCart(Long userId, Long gameId) {
