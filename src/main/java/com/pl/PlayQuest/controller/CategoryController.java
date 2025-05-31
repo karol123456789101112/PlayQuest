@@ -39,7 +39,7 @@ public class CategoryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
         return categoryRepository.findById(id)
                 .map(existing -> {
@@ -48,7 +48,7 @@ public class CategoryController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         categoryRepository.deleteById(id);
         return ResponseEntity.ok().build();

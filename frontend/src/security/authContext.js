@@ -48,10 +48,12 @@ export const AuthProvider = ({ children }) => {
     if (guestCart.length > 0) {
       for (const item of guestCart) {
         try {
+          const token = localStorage.getItem('token');
           await fetch(`http://localhost:8080/cart`, {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
               userId: decodedToken.userId,

@@ -39,7 +39,7 @@ public class PlatformController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Platform> updatePlatform(@PathVariable Long id, @RequestBody Platform updatedPlatform) {
         return platformRepository.findById(id)
                 .map(existing -> {
@@ -48,7 +48,7 @@ public class PlatformController {
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletePlatform(@PathVariable Long id) {
         platformRepository.deleteById(id);
         return ResponseEntity.ok().build();

@@ -18,7 +18,10 @@ const CartPage = () => {
     const fetchCart = async () => {
       if (userId) {
         try {
-          const response = await fetch(`http://localhost:8080/cart?userId=${userId}`);
+          const token = localStorage.getItem('token');
+          const response = await fetch(`http://localhost:8080/cart?userId=${userId}`, {
+            headers: {'Authorization': `Bearer ${token}`,},
+          });
           const data = await response.json();
           setCart(data.map(item => ({
             id: item.videogame.id,
@@ -62,7 +65,9 @@ const CartPage = () => {
     if (userId) {
       // Usuń z bazy
       try {
+        const token = localStorage.getItem('token');
         await fetch(`http://localhost:8080/cart?userId=${userId}&gameId=${gameId}`, {
+          headers: {'Authorization': `Bearer ${token}`,},
           method: 'DELETE'
         });
         setCart(prev => prev.filter(item => item.id !== gameId));

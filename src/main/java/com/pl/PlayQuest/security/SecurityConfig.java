@@ -31,15 +31,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login", "/categories", "/games", "/categories/add",
-                                "/platforms","/platforms/add", "/games/add", "/upload-image", "/games/{id}",
-                                "/platforms/{id}","/categories/{id}").permitAll() // Pozwól na te ścieżki bez uwierzytelniania
-                        .anyRequest().permitAll() // Wszystkie inne żądania wymagają uwierzytelnienia
+                        .requestMatchers("/categories/add","/categories/update/{id}","categories/delete/{id}",
+                                "/upload-image","/platforms/add","platforms/update/{id}","platforms/delete/{id}",
+                                "/users","/users/{id}","/users/{id}/role","/games/add","/games/update/{id}","/games/delete/{id}").hasRole("ADMIN")
+                        .requestMatchers("/addresses","/addresses/{id}","addresses/{id}/default","/cart","/orders",
+                                "/orders/{orderId}").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .csrf(csrf -> csrf.disable()) // Wyłącz CSRF
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS)) // Stateless, ponieważ JWT jest używane
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class) //filtr JWT;
-                .cors();
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
+
 
 
         return http.build();

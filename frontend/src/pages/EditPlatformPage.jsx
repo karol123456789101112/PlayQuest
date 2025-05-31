@@ -41,10 +41,11 @@ export default function EditPlatformPage() {
     }
 
     const updated = { ...platform, imageUrl: uploadedImageUrl };
-
-    const res = await fetch(`http://localhost:8080/platforms/${id}`, {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`http://localhost:8080/platforms/update/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,},
       body: JSON.stringify(updated),
     });
 
@@ -70,15 +71,6 @@ export default function EditPlatformPage() {
             onChange={handleChange}
             required
           />
-{/*           <Button variant="outlined" component="label"> */}
-{/*             Wybierz nowy obrazek */}
-{/*             <input type="file" hidden accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} /> */}
-{/*           </Button> */}
-{/*           {imageFile && ( */}
-{/*             <Typography variant="body2" sx={{ color: '#888' }}> */}
-{/*               Wybrano: {imageFile.name} */}
-{/*             </Typography> */}
-{/*           )} */}
           <Button type="submit" variant="contained">Save</Button>
         </Stack>
       </form>

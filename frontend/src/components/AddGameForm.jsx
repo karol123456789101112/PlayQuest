@@ -69,13 +69,15 @@ export default function AddGameForm() {
       imageData.append('file', imageFile);
 
       try {
+        const token = localStorage.getItem('token');
         const imgRes = await fetch('http://localhost:8080/upload-image', {
           method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`,},
           body: imageData,
         });
 
         if (imgRes.ok) {
-          uploadedImageUrl = await imgRes.text(); // np. "/images/abc.jpg"
+          uploadedImageUrl = await imgRes.text();
         } else {
           alert('Could not attach the image');
           return;
@@ -90,9 +92,11 @@ export default function AddGameForm() {
     const gameData = { ...form, imageUrl: uploadedImageUrl };
 
     try {
+      const token = localStorage.getItem('token');
       const res = await fetch('http://localhost:8080/games/add', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,},
         body: JSON.stringify(gameData),
       });
 
