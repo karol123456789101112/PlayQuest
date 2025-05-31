@@ -1,5 +1,6 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.exception.InactiveUserException;
 import com.pl.PlayQuest.security.JwtUtil;
 import com.pl.PlayQuest.service.UserService;
 import com.pl.PlayQuest.model.User;
@@ -57,6 +58,10 @@ public class AuthController {
                 user = optionalUser.get();
             } else {
                 return ResponseEntity.status(401).body("Nieprawidłowy email lub hasło.");
+            }
+
+            if (!user.isActive()) {
+                throw new InactiveUserException("User is not active");
             }
 
             String token = jwtUtil.generateToken(user);

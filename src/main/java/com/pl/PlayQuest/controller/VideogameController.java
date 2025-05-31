@@ -35,11 +35,12 @@ public class VideogameController {
 
     @GetMapping
     public List<VideogameDto> getAllGames() {
-        return videogameRepository.findAllByOrderByRatingDesc()
+        return videogameRepository.findByStockQuantityGreaterThanOrderByRatingDesc(0)
                 .stream()
                 .map(VideogameMapper::toDto)
                 .toList();
     }
+
 
     @PostMapping("add")
     public ResponseEntity<Videogame> addVideogame(@RequestBody VideogameCreateDto dto) {
@@ -66,10 +67,11 @@ public class VideogameController {
 
     @GetMapping("{id}")
     public ResponseEntity<VideogameDto> getGameById(@PathVariable Long id) {
-        return videogameRepository.findById(id)
+        return videogameRepository.findByIdAndStockQuantityGreaterThan(id, 0)
                 .map(game -> ResponseEntity.ok(VideogameMapper.toDto(game)))
                 .orElse(ResponseEntity.notFound().build());
     }
+
 
 
     @PutMapping("/update/{id}")
@@ -98,8 +100,14 @@ public class VideogameController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteGame(@PathVariable Long id) {
-        videogameRepository.deleteById(id);
+        Videogame game = videogameRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Game not found"));
+
+        game.setStockQuantity(0L);
+        videogameRepository.save(game);
+
         return ResponseEntity.ok().build();
     }
+
 }
 

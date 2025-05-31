@@ -29,6 +29,8 @@ public class OrderService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private VideogameRepository videogameRepository;
 
     public void createOrder(Long userId, Long addressId) {
         User user = userRepository.findById(userId)
@@ -54,17 +56,31 @@ public class OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setTotalAmount(totalAmount);
         order.setStatus(OrderStatus.PENDING);
-        orderRepository.save(order); // zapisz najpierw, żeby mieć ID
+        orderRepository.save(order);
 
         // Utwórz OrderItemy
         for (Cart cartItem : cartItems) {
+            Videogame game = cartItem.getVideogame();
+            Long orderedQuantity = cartItem.getQuantity();
+
+            // Sprawdź, czy wystarczająca ilość gier jest na stanie
+            if (game.getStockQuantity() < orderedQuantity) {
+                throw new RuntimeException("Not enough stock for game: " + game.getTitle());
+            }
+
+            // Zmniejsz ilość na stanie
+            game.setStockQuantity(game.getStockQuantity() - orderedQuantity);
+            videogameRepository.save(game); // <-- zapis do bazy
+
+            // Utwórz OrderItem
             OrderItem item = new OrderItem();
             item.setOrder(order);
-            item.setVideogame(cartItem.getVideogame());
-            item.setGamePrice(cartItem.getVideogame().getPrice());
-            item.setQuantity(cartItem.getQuantity());
+            item.setVideogame(game);
+            item.setGamePrice(game.getPrice());
+            item.setQuantity(orderedQuantity);
             orderItemRepository.save(item);
         }
+
 
         // Wyczyść koszyk
         cartRepository.deleteAll(cartItems);

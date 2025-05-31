@@ -39,6 +39,7 @@ com\pl\PlayQuest\model\Category.class
 com\pl\PlayQuest\exception\GlobalExceptionHandler.class
 com\pl\PlayQuest\repo\PaymentRepository.class
 com\pl\PlayQuest\service\CustomUserDetailsService.class
+com\pl\PlayQuest\exception\InactiveUserException.class
 com\pl\PlayQuest\model\Address.class
 com\pl\PlayQuest\repo\UserRepository.class
 com\pl\PlayQuest\model\Videogame.class

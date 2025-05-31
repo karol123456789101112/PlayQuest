@@ -49,7 +49,7 @@ const GameDetails = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await fetch(`http://localhost:8080/cart`, {
+      const res = await fetch(`http://localhost:8080/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
          'Authorization': `Bearer ${token}`,},
@@ -59,6 +59,13 @@ const GameDetails = () => {
           quantity: 1
         })
       });
+
+      if (!res.ok) {
+         const errorText = await res.text();
+         alert(`Error: ${errorText}`);
+         return;
+      }
+
       alert("Game has been added to the cart!");
     } catch (error) {
       console.error("Error while adding game to the cart:", error);
@@ -82,7 +89,7 @@ const GameDetails = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await fetch(`http://localhost:8080/cart`, {
+      const res = await fetch(`http://localhost:8080/cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
          'Authorization': `Bearer ${token}`,},
@@ -92,6 +99,12 @@ const GameDetails = () => {
           quantity: 1
         })
       });
+
+      if (!res.ok) {
+           const errorText = await res.text();
+           alert(`Error: ${errorText}`);
+           return;
+        }
       navigate('/cart');
     } catch (error) {
       console.error("Error while adding the game to the cart:", error);
