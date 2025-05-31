@@ -24,7 +24,11 @@ const UserListAdmin = () => {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:8080/users');
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8080/users', {
+           headers: { 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,},
+      });
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -38,9 +42,18 @@ const UserListAdmin = () => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
 
     try {
-      await fetch(`http://localhost:8080/users/${id}`, {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`http://localhost:8080/users/${id}`, {
+        headers: { 'Authorization': `Bearer ${token}`,},
         method: 'DELETE',
       });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Backend returned:", res.status, errorText);
+        alert(`Delete failed: ${res.status} ${errorText}`);
+        return;
+      }
 
       setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
     } catch (error) {
@@ -50,7 +63,9 @@ const UserListAdmin = () => {
 
   const toggleAdmin = async (id) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:8080/users/${id}/role`, {
+        headers: {'Authorization': `Bearer ${token}`,},
         method: 'PUT',
       });
 

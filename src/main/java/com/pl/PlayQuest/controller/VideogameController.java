@@ -72,7 +72,7 @@ public class VideogameController {
     }
 
 
-    @PutMapping("{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Videogame> updateGame(@PathVariable Long id, @RequestBody VideogameCreateDto dto) {
         return videogameRepository.findById(id)
                 .map(existing -> {
@@ -96,7 +96,7 @@ public class VideogameController {
     }
 
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteGame(@PathVariable Long id) {
         videogameRepository.deleteById(id);
         return ResponseEntity.ok().build();

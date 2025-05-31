@@ -15,7 +15,9 @@ export default function PlatformListAdmin() {
   const deletePlatform = async (id) => {
     if (!window.confirm('Do you want to delete this category?')) return;
 
-    const res = await fetch(`http://localhost:8080/platforms/${id}`, {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`http://localhost:8080/platforms/delete/${id}`, {
+      headers: {'Authorization': `Bearer ${token}`,},
       method: 'DELETE',
     });
 

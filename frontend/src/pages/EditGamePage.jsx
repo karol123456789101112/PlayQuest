@@ -59,8 +59,10 @@ export default function EditGamePage() {
       formData.append('file', newImageFile);
 
       try {
+        const token = localStorage.getItem('token');
         const imgRes = await fetch('http://localhost:8080/upload-image', {
           method: 'POST',
+          headers: {'Authorization': `Bearer ${token}`,},
           body: formData,
         });
 
@@ -80,9 +82,11 @@ export default function EditGamePage() {
      platformIds: game.platformIds};
 
     try {
-      const res = await fetch(`http://localhost:8080/games/${id}`, {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`http://localhost:8080/games/update/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+         'Authorization': `Bearer ${token}`,},
         body: JSON.stringify(updatedGame),
       });
 

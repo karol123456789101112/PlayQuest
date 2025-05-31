@@ -27,9 +27,11 @@ const AddressForm = ({ userId, onSuccess }) => {
     if (!userId) return;
 
     try {
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:8080/addresses', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,},
         body: JSON.stringify({
           ...newAddress,
           user: { id: userId }

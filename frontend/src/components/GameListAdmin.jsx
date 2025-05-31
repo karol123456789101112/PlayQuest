@@ -24,7 +24,9 @@ export default function GameListAdmin() {
     if (!window.confirm('Are you sure you want to delete this game?')) return;
 
     try {
-      const res = await fetch(`http://localhost:8080/games/${id}`, {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`http://localhost:8080/games/delete/${id}`, {
+        headers: {'Authorization': `Bearer ${token}`,},
         method: 'DELETE',
       });
 

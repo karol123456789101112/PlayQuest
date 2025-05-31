@@ -15,7 +15,11 @@ const OrderListPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/orders?userId=${userId}`);
+        const token = localStorage.getItem('token');
+        const res = await fetch(`http://localhost:8080/orders?userId=${userId}`, {
+        headers: { 'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,},
+        });
         const data = await res.json();
         setOrders(data);
       } catch (error) {

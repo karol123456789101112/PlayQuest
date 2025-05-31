@@ -13,7 +13,11 @@ const AddressManagementPage = () => {
 
   const fetchAddresses = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/addresses?userId=${userId}`);
+      const token = localStorage.getItem('token');
+      const res = await fetch(`http://localhost:8080/addresses?userId=${userId}`,{
+        headers: { 'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${token}`,},
+      });
       const data = await res.json();
       setAddresses(data);
     } catch (err) {
@@ -27,7 +31,12 @@ const AddressManagementPage = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this address?")) return;
-    await fetch(`http://localhost:8080/addresses/${id}`, { method: 'DELETE' });
+    const token = localStorage.getItem('token');
+    await fetch(`http://localhost:8080/addresses/${id}`, {
+     method: 'DELETE',
+     headers: { 'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,},
+      });
     fetchAddresses();
   };
 
