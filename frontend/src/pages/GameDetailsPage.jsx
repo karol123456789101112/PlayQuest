@@ -35,17 +35,26 @@ const GameDetails = () => {
 
   const addToCart = async () => {
     if (!userId) {
-      const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-      const index = guestCart.findIndex(item => item.gameId === game.id);
-      if (index > -1) {
-        guestCart[index].quantity += 1;
-      } else {
-        guestCart.push({ gameId: game.id, quantity: 1 });
+        const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+        const index = guestCart.findIndex(item => item.gameId === game.id);
+        const currentQuantity = index > -1 ? guestCart[index].quantity : 0;
+        const desiredQuantity = currentQuantity + 1;
+
+        if (desiredQuantity > game.stockQuantity) {
+          alert(`Only ${game.stockQuantity} copies of "${game.title}" available`);
+          return;
+        }
+
+        if (index > -1) {
+          guestCart[index].quantity = desiredQuantity;
+        } else {
+          guestCart.push({ gameId: game.id, quantity: 1 });
+          alert("Game has been added to the cart!");
+        }
+
+        localStorage.setItem('guestCart', JSON.stringify(guestCart));
+        return;
       }
-      localStorage.setItem('guestCart', JSON.stringify(guestCart));
-      alert("Game added to a cart as a guest.");
-      return;
-    }
 
     try {
       const token = localStorage.getItem('token');
@@ -75,17 +84,26 @@ const GameDetails = () => {
 
   const handleBuy = async () => {
     if (!userId) {
-      const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
-      const index = guestCart.findIndex(item => item.gameId === game.id);
-      if (index > -1) {
-        guestCart[index].quantity += 1;
-      } else {
-        guestCart.push({ gameId: game.id, quantity: 1 });
+        const guestCart = JSON.parse(localStorage.getItem('guestCart')) || [];
+        const index = guestCart.findIndex(item => item.gameId === game.id);
+        const currentQuantity = index > -1 ? guestCart[index].quantity : 0;
+        const desiredQuantity = currentQuantity + 1;
+
+        if (desiredQuantity > game.stockQuantity) {
+          alert(`Only ${game.stockQuantity} copies of "${game.title}" available`);
+          return;
+        }
+
+        if (index > -1) {
+          guestCart[index].quantity = desiredQuantity;
+        } else {
+          guestCart.push({ gameId: game.id, quantity: 1 });
+        }
+
+        localStorage.setItem('guestCart', JSON.stringify(guestCart));
+        navigate('/cart');
+        return;
       }
-      localStorage.setItem('guestCart', JSON.stringify(guestCart));
-      navigate('/cart');
-      return;
-    }
 
     try {
       const token = localStorage.getItem('token');

@@ -23,7 +23,7 @@ public class CategoryController {
 
     @GetMapping
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+        return categoryRepository.findByActiveTrue();
     }
 
     @PostMapping("add")
@@ -50,7 +50,12 @@ public class CategoryController {
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        categoryRepository.deleteById(id);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        category.setActive(false);
+        categoryRepository.save(category);
+
         return ResponseEntity.ok().build();
     }
 }
