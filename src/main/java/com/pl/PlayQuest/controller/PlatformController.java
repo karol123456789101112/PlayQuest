@@ -1,5 +1,6 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.model.Category;
 import com.pl.PlayQuest.model.Platform;
 import com.pl.PlayQuest.repo.PlatformRepository;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class PlatformController {
 
     @GetMapping
     public List<Platform> getAllPlatforms() {
-        return platformRepository.findAll();
+        return platformRepository.findByActiveTrue();
     }
 
     @PostMapping("add")
@@ -49,8 +50,14 @@ public class PlatformController {
                 .orElse(ResponseEntity.notFound().build());
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletePlatform(@PathVariable Long id) {
-        platformRepository.deleteById(id);
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        Platform platform = platformRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        platform.setActive(false);
+        platformRepository.save(platform);
+
         return ResponseEntity.ok().build();
     }
+
 }
