@@ -1,8 +1,15 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.dto.CategoryDto;
+import com.pl.PlayQuest.dto.CategoryViewDto;
+import com.pl.PlayQuest.dto.PlatformDto;
+import com.pl.PlayQuest.dto.PlatformViewDto;
+import com.pl.PlayQuest.mapper.CategoryMapper;
+import com.pl.PlayQuest.mapper.PlatformMapper;
 import com.pl.PlayQuest.model.Category;
 import com.pl.PlayQuest.model.Platform;
 import com.pl.PlayQuest.repo.PlatformRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,29 +30,33 @@ public class PlatformController {
     }
 
     @GetMapping
-    public List<Platform> getAllPlatforms() {
-        return platformRepository.findByActiveTrue();
+    public List<PlatformViewDto> getAllPlatforms() {
+        return platformRepository.findByActiveTrue()
+                .stream()
+                .map(PlatformMapper::toViewDto)
+                .toList();
     }
 
-    @PostMapping("add")
-    public ResponseEntity<Platform> addPlatform(@RequestBody Platform platform) {
-        Platform saved = platformRepository.save(platform);
+    @PostMapping("/add")
+    public ResponseEntity<?> addPlatform(@Valid @RequestBody PlatformDto platformDto) {
+        Platform saved = platformRepository.save(PlatformMapper.toEntity(platformDto));
         return ResponseEntity.ok(saved);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Platform> getPlatformById(@PathVariable Long id) {
+    public ResponseEntity<PlatformViewDto> getPlatformById(@PathVariable Long id) {
         return platformRepository.findById(id)
+                .map(PlatformMapper::toViewDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Platform> updatePlatform(@PathVariable Long id, @RequestBody Platform updatedPlatform) {
+    public ResponseEntity<?> updatePlatform(@PathVariable Long id, @Valid @RequestBody PlatformDto updatedDto) {
         return platformRepository.findById(id)
                 .map(existing -> {
-                    updatedPlatform.setId(id);
-                    return ResponseEntity.ok(platformRepository.save(updatedPlatform));
+                    existing.setName(updatedDto.getName());
+                    return ResponseEntity.ok(platformRepository.save(existing));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

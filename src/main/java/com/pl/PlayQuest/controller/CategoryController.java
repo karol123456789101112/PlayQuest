@@ -1,7 +1,11 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.dto.CategoryDto;
+import com.pl.PlayQuest.dto.CategoryViewDto;
+import com.pl.PlayQuest.mapper.CategoryMapper;
 import com.pl.PlayQuest.model.Category;
 import com.pl.PlayQuest.repo.CategoryRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,29 +26,33 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getAllCategories() {
-        return categoryRepository.findByActiveTrue();
+    public List<CategoryViewDto> getAllCategories() {
+        return categoryRepository.findByActiveTrue()
+                .stream()
+                .map(CategoryMapper::toViewDto)
+                .toList();
     }
 
-    @PostMapping("add")
-    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        Category saved = categoryRepository.save(category);
+    @PostMapping("/add")
+    public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDto categoryDto) {
+        Category saved = categoryRepository.save(CategoryMapper.toEntity(categoryDto));
         return ResponseEntity.ok(saved);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<CategoryViewDto> getCategoryById(@PathVariable Long id) {
         return categoryRepository.findById(id)
+                .map(CategoryMapper::toViewDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
+    public ResponseEntity<?> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDto updatedDto) {
         return categoryRepository.findById(id)
                 .map(existing -> {
-                    updatedCategory.setId(id);
-                    return ResponseEntity.ok(categoryRepository.save(updatedCategory));
+                    existing.setName(updatedDto.getName());
+                    return ResponseEntity.ok(categoryRepository.save(existing));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

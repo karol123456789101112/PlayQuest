@@ -7,6 +7,14 @@ export default function EditCategoryPage() {
   const navigate = useNavigate();
   const [category, setCategory] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+  const [errors, setErrors] = useState({});
+
+  const validateName = (name) => {
+    if (!name) return 'Category name is required';
+    if (name.length > 80) return 'Max 80 characters allowed';
+    if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(name)) return 'Only letters, spaces, and hyphens allowed';
+    return '';
+  };
 
   useEffect(() => {
     fetch(`http://localhost:8080/categories/${id}`)
@@ -15,11 +23,19 @@ export default function EditCategoryPage() {
   }, [id]);
 
   const handleChange = (e) => {
-    setCategory({ ...category, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setCategory(prev => ({ ...prev, [name]: value }));
+    if (name === 'name') {
+      setErrors(prev => ({ ...prev, name: validateName(value) }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const nameError = validateName(category.name);
+    setErrors({ name: nameError });
+    if (nameError) return;
 
     let uploadedImageUrl = category.imageUrl;
 
@@ -44,16 +60,22 @@ export default function EditCategoryPage() {
     const token = localStorage.getItem('token');
     const res = await fetch(`http://localhost:8080/categories/update/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`,},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
       body: JSON.stringify(updated),
     });
 
     if (res.ok) {
       alert('Category has been updated!');
       navigate('/admin');
+    } else if (res.status === 400) {
+      const msg = await res.json();
+      setErrors(msg);
     } else {
-      alert('Update error');
+      const msg = await res.text();
+      alert('Error:\n' + msg);
     }
   };
 
@@ -69,6 +91,8 @@ export default function EditCategoryPage() {
             name="name"
             value={category.name}
             onChange={handleChange}
+            error={!!errors.name}
+            helperText={errors.name}
             required
           />
           <Button type="submit" variant="contained">Save</Button>
