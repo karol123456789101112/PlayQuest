@@ -9,6 +9,7 @@ import com.pl.PlayQuest.model.Videogame;
 import com.pl.PlayQuest.repo.CategoryRepository;
 import com.pl.PlayQuest.repo.PlatformRepository;
 import com.pl.PlayQuest.repo.VideogameRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class VideogameController {
 
 
     @PostMapping("add")
-    public ResponseEntity<Videogame> addVideogame(@RequestBody VideogameCreateDto dto) {
+    public ResponseEntity<Videogame> addVideogame(@Valid @RequestBody VideogameCreateDto dto) {
         Videogame videogame = new Videogame();
         videogame.setTitle(dto.getTitle());
         videogame.setDescription(dto.getDescription());
@@ -75,7 +76,7 @@ public class VideogameController {
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Videogame> updateGame(@PathVariable Long id, @RequestBody VideogameCreateDto dto) {
+    public ResponseEntity<Videogame> updateGame(@PathVariable Long id, @Valid @RequestBody VideogameCreateDto dto) {
         return videogameRepository.findById(id)
                 .map(existing -> {
                     existing.setTitle(dto.getTitle());

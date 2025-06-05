@@ -1,9 +1,11 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.dto.RegisterUserDto;
 import com.pl.PlayQuest.exception.InactiveUserException;
 import com.pl.PlayQuest.security.JwtUtil;
 import com.pl.PlayQuest.service.UserService;
 import com.pl.PlayQuest.model.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,20 +26,10 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/register")
-    public ResponseEntity<?> register(
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String firstName,
-            @RequestParam String lastName,
-            @RequestParam(required = false) MultipartFile profileImage
-    ) {
-        logger.info("Odebrano rejestrację: {}", email);
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterUserDto dto) {
+        logger.info("Odebrano rejestrację: {}", dto.getEmail());
 
-        if (profileImage != null) {
-            logger.info("Załączono plik: {}", profileImage.getOriginalFilename());
-        }
-
-        User user = userService.registerUser(email, password, firstName, lastName);
+        User user = userService.registerUser(dto.getEmail(), dto.getPassword(), dto.getFirstName(), dto.getLastName());
 
         return ResponseEntity.ok(Map.of("message", "Zarejestrowano użytkownika: " + user.getUsername()));
     }

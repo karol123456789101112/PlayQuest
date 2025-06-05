@@ -16,19 +16,23 @@ export async function login(data) {
   }
 
 
-export async function register(formData) {
-    console.log('Form data to send:', formData);
-    const response = await fetch('http://localhost:8080/auth/register', {
-      method: 'POST',
-      body: formData,
-    });
+export async function register(userData) {
+  const response = await fetch('http://localhost:8080/auth/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  });
 
-    if (!response.ok) {
-      throw new Error('Register error');
-    }
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Backend error:", errorText);
+    throw new Error('Register error');
+  }
 
-    const result = await response.json();
-    return result;
+  return await response.json();
 }
+
 
 
