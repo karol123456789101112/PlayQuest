@@ -9,7 +9,7 @@ export default function PlatformSelector() {
   useEffect(() => {
     const fetchPlatforms = async () => {
       try {
-        const response = await fetch('http://localhost:8080/platforms');
+        const response = await fetch('http://localhost:8080/platforms/all');
         const data = await response.json();
         setPlatforms(data);
       } catch (err) {

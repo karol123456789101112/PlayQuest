@@ -1,5 +1,6 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.dto.PageResponse;
 import com.pl.PlayQuest.dto.VideogameCreateDto;
 import com.pl.PlayQuest.dto.VideogameDto;
 import com.pl.PlayQuest.mapper.VideogameMapper;
@@ -11,6 +12,9 @@ import com.pl.PlayQuest.repo.PlatformRepository;
 import com.pl.PlayQuest.repo.VideogameRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -35,13 +39,37 @@ public class VideogameController {
     }
 
     @GetMapping
-    public List<VideogameDto> getAllGames() {
-        return videogameRepository.findByStockQuantityGreaterThanOrderByRatingDesc(0)
+    public ResponseEntity<PageResponse<VideogameDto>> getAllGames(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Videogame> gamePage = videogameRepository.findByStockQuantityGreaterThanOrderByRatingDesc(0L, pageable);
+
+        List<VideogameDto> content = gamePage.getContent().stream()
+                .map(VideogameMapper::toDto)
+                .toList();
+
+        PageResponse<VideogameDto> response = new PageResponse<>(
+                content,
+                gamePage.getTotalPages(),
+                gamePage.getTotalElements(),
+                gamePage.getNumber(),
+                gamePage.getSize()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<VideogameDto>> getAllWithoutPagination() {
+        List<VideogameDto> all = videogameRepository.findByStockQuantityGreaterThanOrderByRatingDesc(0)
                 .stream()
                 .map(VideogameMapper::toDto)
                 .toList();
-    }
 
+        return ResponseEntity.ok(all);
+    }
 
     @PostMapping("add")
     public ResponseEntity<Videogame> addVideogame(@Valid @RequestBody VideogameCreateDto dto) {

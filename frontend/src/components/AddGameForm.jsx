@@ -73,8 +73,8 @@ export default function AddGameForm() {
     const fetchOptions = async () => {
       try {
         const [catRes, platRes] = await Promise.all([
-          fetch('http://localhost:8080/categories'),
-          fetch('http://localhost:8080/platforms'),
+          fetch('http://localhost:8080/categories/all'),
+          fetch('http://localhost:8080/platforms/all'),
         ]);
         const [catData, platData] = await Promise.all([
           catRes.json(),

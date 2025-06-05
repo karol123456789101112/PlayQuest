@@ -10,7 +10,7 @@ export default function CategorySlider() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch('http://localhost:8080/categories');
+        const res = await fetch('http://localhost:8080/categories/all');
         setCategories(await res.json());
       } catch (e) { console.error(e); }
       finally     { setLoading(false); }

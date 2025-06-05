@@ -1,15 +1,13 @@
 package com.pl.PlayQuest.controller;
 
-import com.pl.PlayQuest.dto.CategoryDto;
-import com.pl.PlayQuest.dto.CategoryViewDto;
-import com.pl.PlayQuest.dto.PlatformDto;
-import com.pl.PlayQuest.dto.PlatformViewDto;
-import com.pl.PlayQuest.mapper.CategoryMapper;
+import com.pl.PlayQuest.dto.*;
 import com.pl.PlayQuest.mapper.PlatformMapper;
-import com.pl.PlayQuest.model.Category;
 import com.pl.PlayQuest.model.Platform;
 import com.pl.PlayQuest.repo.PlatformRepository;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,30 @@ public class PlatformController {
     }
 
     @GetMapping
-    public List<PlatformViewDto> getAllPlatforms() {
+    public ResponseEntity<?> getAllPlatforms(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Platform> platformPage = platformRepository.findByActiveTrue(pageable);
+
+        List<PlatformViewDto> dtoList = platformPage.getContent()
+                .stream()
+                .map(PlatformMapper::toViewDto)
+                .toList();
+
+        PageResponse<PlatformViewDto> response = new PageResponse<>(
+                dtoList,
+                platformPage.getTotalPages(),
+                platformPage.getTotalElements(),
+                platformPage.getNumber(),
+                platformPage.getSize()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/all")
+    public List<PlatformViewDto> getAllWithoutPagination() {
         return platformRepository.findByActiveTrue()
                 .stream()
                 .map(PlatformMapper::toViewDto)

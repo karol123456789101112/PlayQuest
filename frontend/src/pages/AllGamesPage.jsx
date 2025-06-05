@@ -22,6 +22,10 @@ export default function AllGamesPage() {
   const [platforms, setPlatforms] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(urlCategory ? [urlCategory] : []);
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const pageSize = 10;
+
   const navigate = useNavigate();
 
   const useQuery = () => {
@@ -33,7 +37,7 @@ export default function AllGamesPage() {
 
   useEffect(() => {
     fetchAllData();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     if (!games.length) return;
@@ -54,19 +58,20 @@ export default function AllGamesPage() {
   const fetchAllData = async () => {
     try {
       const [gamesRes, categoriesRes, platformsRes] = await Promise.all([
-        fetch('http://localhost:8080/games'),
-        fetch('http://localhost:8080/categories'),
-        fetch('http://localhost:8080/platforms')
+        fetch(`http://localhost:8080/games?page=${currentPage}&size=${pageSize}`),
+        fetch('http://localhost:8080/categories/all'),
+        fetch('http://localhost:8080/platforms/all')
       ]);
 
-      const [gamesData, categoriesData, platformsData] = await Promise.all([
+      const [gamePage, categoriesData, platformsData] = await Promise.all([
         gamesRes.json(),
         categoriesRes.json(),
         platformsRes.json()
       ]);
 
-      setGames(gamesData);
-      setFilteredGames(gamesData); // initial
+      setGames(gamePage.content);
+      setFilteredGames(gamePage.content);
+      setTotalPages(gamePage.totalPages);
       setCategories(categoriesData.map(c => c.name));
       setPlatforms(platformsData.map(p => p.name));
     } catch (error) {
@@ -194,6 +199,23 @@ export default function AllGamesPage() {
               </Grid>
             ))}
           </Grid>
+          <Box display="flex" justifyContent="center" mt={4}>
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              disabled={currentPage === 0}
+            >
+              Previous
+            </Button>
+            <Typography sx={{ mx: 2, color: 'white' }}>
+              Page {currentPage + 1} of {totalPages}
+            </Typography>
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
+              disabled={currentPage >= totalPages - 1}
+            >
+              Next
+            </Button>
+          </Box>
         </Box>
       </Box>
 
