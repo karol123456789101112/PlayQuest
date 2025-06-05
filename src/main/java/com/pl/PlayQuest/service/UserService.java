@@ -1,9 +1,13 @@
 package com.pl.PlayQuest.service;
 
+import com.pl.PlayQuest.dto.UserViewDto;
 import com.pl.PlayQuest.exception.UserNotFoundException;
+import com.pl.PlayQuest.mapper.UserMapper;
 import com.pl.PlayQuest.model.User;
 import com.pl.PlayQuest.model.Role;
 import com.pl.PlayQuest.repo.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +59,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findByActiveTrue();
+    public Page<UserViewDto> getAllUsers(Pageable pageable) {
+        return userRepository.findByActiveTrue(pageable)
+                .map(UserMapper::toViewDto);
     }
 
     public User toggleAdminRole(Long id) {

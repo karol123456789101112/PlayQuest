@@ -9,7 +9,7 @@ export default function GameSlider() {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const res = await fetch('http://localhost:8080/games');
+        const res = await fetch('http://localhost:8080/games/all');
         const data = await res.json();
         setGames(data);
       } catch (err) {

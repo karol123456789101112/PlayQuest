@@ -2,10 +2,15 @@ package com.pl.PlayQuest.controller;
 
 import com.pl.PlayQuest.dto.CategoryDto;
 import com.pl.PlayQuest.dto.CategoryViewDto;
+import com.pl.PlayQuest.dto.PageResponse;
+import com.pl.PlayQuest.dto.VideogameDto;
 import com.pl.PlayQuest.mapper.CategoryMapper;
 import com.pl.PlayQuest.model.Category;
 import com.pl.PlayQuest.repo.CategoryRepository;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +31,30 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryViewDto> getAllCategories() {
+    public ResponseEntity<?> getAllCategories(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Category> categoryPage = categoryRepository.findByActiveTrue(pageable);
+
+        List<CategoryViewDto> dtoList = categoryPage.getContent()
+                .stream()
+                .map(CategoryMapper::toViewDto)
+                .toList();
+
+        PageResponse<CategoryViewDto> response = new PageResponse<>(
+                dtoList,
+                categoryPage.getTotalPages(),
+                categoryPage.getTotalElements(),
+                categoryPage.getNumber(),
+                categoryPage.getSize()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/all")
+    public List<CategoryViewDto> getAllWithoutPagination() {
         return categoryRepository.findByActiveTrue()
                 .stream()
                 .map(CategoryMapper::toViewDto)
