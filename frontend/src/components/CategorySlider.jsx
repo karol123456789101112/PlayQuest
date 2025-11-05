@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Chip, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function CategorySlider() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     (async () => {
@@ -24,7 +27,7 @@ export default function CategorySlider() {
       {categories.map(cat => (
         <Chip
           key={cat.id}
-          label={cat.name}
+          label={t(`categories.${cat.name}`, cat.name)}
           clickable
           onClick={() => navigate(`/games?category=${encodeURIComponent(cat.name)}`)} // ⬅️
           color="primary"

@@ -9,12 +9,15 @@ import {
   Divider
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function PlatformListAdmin() {
   const [platforms, setPlatforms] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const pageSize = 10;
+  const { t, i18n } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -30,12 +33,12 @@ export default function PlatformListAdmin() {
       setPlatforms(data.content);
       setTotalPages(data.totalPages);
     } catch (err) {
-      console.error('Error fetching platforms:', err);
+      console.error(t('errorFetchingPlatforms') + ': ', err);
     }
   };
 
   const deletePlatform = async (id) => {
-    if (!window.confirm('Do you want to delete this platform?')) return;
+    if (!window.confirm(t('doYouWantToDeleteThisPlatform'))) return;
 
     const token = localStorage.getItem('token');
     try {
@@ -45,19 +48,19 @@ export default function PlatformListAdmin() {
       });
 
       if (res.ok) {
-        fetchPlatforms(); // reload current page
+        fetchPlatforms();
       } else {
-        alert('Error deleting platform.');
+        alert(t('errorWhileDeleting'));
       }
     } catch (err) {
-      console.error('Error while deleting:', err);
+      console.error(t('errorWhileDeleting') + ': ', err);
     }
   };
 
   return (
     <Box sx={{ mt: 4, px: 3 }}>
       <Typography variant="h5" gutterBottom>
-        Platform list
+        {t('platformList')}
       </Typography>
 
       <List>
@@ -71,13 +74,13 @@ export default function PlatformListAdmin() {
                     color="error"
                     onClick={() => deletePlatform(plat.id)}
                   >
-                    Delete
+                    {t('delete')}
                   </Button>
                   <Button
                     variant="outlined"
                     onClick={() => navigate(`/platforms/edit/${plat.id}`)}
                   >
-                    Edit
+                    {t('edit')}
                   </Button>
                 </Box>
               }
@@ -95,17 +98,17 @@ export default function PlatformListAdmin() {
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
           disabled={currentPage === 0}
         >
-          Previous
+          {t('previousPage')}
         </Button>
         <Typography variant="body1" sx={{ alignSelf: 'center' }}>
-          Page {currentPage + 1} of {totalPages}
+          {t('page', { currentPage: currentPage + 1, totalPages: totalPages })}
         </Typography>
         <Button
           variant="contained"
           onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
           disabled={currentPage >= totalPages - 1}
         >
-          Next
+          {t('nextPage')}
         </Button>
       </Box>
     </Box>

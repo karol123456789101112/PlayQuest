@@ -11,11 +11,14 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../security/authContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function Header({ userName }) {
   const { isAuthenticated, userRole, firstName, logout } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const { t, i18n } = useTranslation();
 
   const handleSearchSubmit = (e) => {
     if (e.key === 'Enter') {
@@ -30,12 +33,12 @@ export default function Header({ userName }) {
         {/* Lewa strona - logo i rola */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography variant="h6" sx={{ color: '#fff', cursor: 'pointer' }} onClick={() => navigate('/')}>
-            PlayQuest
+            {t('appName')}
           </Typography>
           {isAuthenticated && (
             <>
               <Typography variant="body1" sx={{ color: '#fff', ml: 2 }}>
-                Welcome{firstName ? `, ${firstName}` : ''}
+                {t('welcome', { name: firstName || '' })}
               </Typography>
             </>
           )}
@@ -44,7 +47,7 @@ export default function Header({ userName }) {
         {/* Środek - pasek wyszukiwania */}
         <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'center' }}>
           <TextField
-            placeholder="Search for games"
+            placeholder={t('searchPlaceholder')}
             variant="outlined"
             size="small"
             sx={{ width: '50%' }}
@@ -87,7 +90,7 @@ export default function Header({ userName }) {
                 navigate('/login');
               }}
             >
-              Log Out
+              {t('logout')}
             </Button>
           ) : (
             <Button
@@ -97,9 +100,23 @@ export default function Header({ userName }) {
               startIcon={<ExitToAppIcon />}
               onClick={() => navigate('/login')}
             >
-              Log In
+              {t('login')}
             </Button>
           )}
+
+          <Button
+            color="inherit"
+            sx={{ ml: 2 }}
+            onClick={() => i18n.changeLanguage('en')}
+          >
+            EN
+          </Button>
+          <Button
+            color="inherit"
+            onClick={() => i18n.changeLanguage('pl')}
+          >
+            PL
+          </Button>
 
         </Box>
       </Toolbar>

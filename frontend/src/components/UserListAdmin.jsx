@@ -12,6 +12,8 @@ import {
   Button,
   CircularProgress
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 const UserListAdmin = () => {
   const [users, setUsers] = useState([]);
@@ -19,6 +21,7 @@ const UserListAdmin = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const pageSize = 10;
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     fetchUsers();
@@ -38,14 +41,14 @@ const UserListAdmin = () => {
       setUsers(data.content || []);
       setTotalPages(data.totalPages || 0);
     } catch (error) {
-      console.error("Error while downloading users:", error);
+      console.error(t('errorWhileDownloadingUsers') + ': ', error);
     } finally {
       setLoading(false);
     }
   };
 
   const deleteUser = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    if (!window.confirm(t('areYouSureYouWantToDeleteThisUser'))) return;
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`http://localhost:8080/users/${id}`, {
@@ -56,10 +59,10 @@ const UserListAdmin = () => {
       if (res.ok) {
         setUsers(prev => prev.filter(user => user.id !== id));
       } else {
-        alert("Could not delete the user");
+        alert(t('couldNotDeleteTheUser'));
       }
     } catch (err) {
-      console.error("Error while deleting user:", err);
+      console.error(t('errorWhileDeletingUser') + ': ', err);
     }
   };
 
@@ -76,14 +79,14 @@ const UserListAdmin = () => {
         setUsers(prev => prev.map(user => user.id === id ? updatedUser : user));
       }
     } catch (err) {
-      console.error("Error while changing user role:", err);
+      console.error(t('errorWhileChangingUserRole') + ':', err);
     }
   };
 
   return (
     <Box p={3}>
       <Typography variant="h4" gutterBottom>
-        List of Users
+        {t('listOfUsers')}
       </Typography>
 
       {loading ? (
@@ -97,9 +100,9 @@ const UserListAdmin = () => {
               <TableHead>
                 <TableRow>
                   <TableCell><strong>ID</strong></TableCell>
-                  <TableCell><strong>Name</strong></TableCell>
-                  <TableCell><strong>Last Name</strong></TableCell>
-                  <TableCell><strong>Actions</strong></TableCell>
+                  <TableCell><strong>{t('firstName')}</strong></TableCell>
+                  <TableCell><strong>{t('lastName')}</strong></TableCell>
+                  <TableCell><strong>{t('actions')}</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -115,21 +118,21 @@ const UserListAdmin = () => {
                         onClick={() => deleteUser(user.id)}
                         sx={{ mr: 1 }}
                       >
-                        Delete
+                        {t('delete')}
                       </Button>
                       <Button
                         variant="outlined"
                         color={user.role === 'ADMIN' ? 'warning' : 'primary'}
                         onClick={() => toggleAdmin(user.id)}
                       >
-                        {user.role === 'ADMIN' ? 'Revoke Admin' : 'Make Admin'}
+                        {user.role === 'ADMIN' ? t('revokeAdmin') : t('makeAdmin')}
                       </Button>
                     </TableCell>
                   </TableRow>
                 ))}
                 {users.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={4} align="center">No users found.</TableCell>
+                    <TableCell colSpan={4} align="center">{t('noUsersFound')}</TableCell>
                   </TableRow>
                 )}
               </TableBody>
@@ -142,17 +145,17 @@ const UserListAdmin = () => {
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 0))}
               disabled={currentPage === 0}
             >
-              Previous
+              {t('previousPage')}
             </Button>
             <Typography variant="body1" sx={{ alignSelf: 'center' }}>
-              Page {currentPage + 1} of {totalPages}
+              {t('page', { currentPage: currentPage + 1, totalPages: totalPages })}
             </Typography>
             <Button
               variant="contained"
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages - 1))}
               disabled={currentPage >= totalPages - 1}
             >
-              Next
+              {t('nextPage')}
             </Button>
           </Box>
         </>

@@ -8,6 +8,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AddressForm from '../components/AddressForm';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 
 const CheckoutPage = () => {
@@ -17,6 +19,7 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
     const fetchAddresses = async () => {
       try {
@@ -25,6 +28,7 @@ const CheckoutPage = () => {
             headers: {'Authorization': `Bearer ${token}`,},
         });
         const data = await response.json();
+        console.log("📦 Addresses from backend:", data);
         setAddresses(data);
         if (data.length > 0) {
           setSelectedAddressId(data.find(addr => addr.isDefault)?.id || data[0].id);
@@ -66,7 +70,7 @@ const CheckoutPage = () => {
         return;
       }
 
-      alert("Order placed!");
+      alert(t('orderPlaced'));
       navigate('/');
     } catch (error) {
       console.error("Error:", error);
@@ -83,7 +87,7 @@ const CheckoutPage = () => {
     <div>
         <Header userName='userName'></Header>
         <Box p={4} sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Typography variant="h4" gutterBottom>Choose delivery address</Typography>
+          <Typography variant="h4" gutterBottom>{t('chooseDeliveryAddress')}</Typography>
 
           <RadioGroup
             value={selectedAddressId}
@@ -105,7 +109,7 @@ const CheckoutPage = () => {
                 onChange={(e) => setShowForm(e.target.checked)}
               />
             }
-            label="Add new delivery adddress"
+            label={t('addNewDeliveryAddress')}
           />
           {showForm && (
            <AddressForm userId={userId} onSuccess={fetchAddresses} />
@@ -117,7 +121,7 @@ const CheckoutPage = () => {
             onClick={handleSubmitOrder}
             sx={{ mt: 3 }}
           >
-            Place the order
+            {t('placeTheOrder')}
           </Button>
         </Box>
         <Footer />

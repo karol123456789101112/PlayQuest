@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { TextField, Button, Stack } from '@mui/material';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 export default function AddCategoryForm() {
   const [form, setForm] = useState({ name: '' });
   const [error, setError] = useState('');
+  const { t, i18n } = useTranslation();
 
   const validate = (value) => {
-    if (!value) return 'Category name is required';
-    if (value.length > 80) return 'Maximum 80 characters allowed';
+    if (!value) return t('categoryNameIsRequired')
+    if (value.length > 80) return t('categoryNameReq1')
     if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(value)) {
-      return 'Only letters, spaces, and hyphens are allowed';
+      return t('categoryNameReq2');
     }
     return '';
   };
@@ -45,15 +48,15 @@ export default function AddCategoryForm() {
       });
 
       if (res.ok) {
-        alert('Category added!');
+        alert(t('categoryAdded'));
         setForm({ name: '' });
         setError('');
       } else {
-        alert('Error while adding category');
+        alert(t('errorWhileAddingCategory'));
       }
     } catch (err) {
       console.error(err);
-      alert('Network error');
+      alert(t('networkError'));
     }
   };
 
@@ -61,7 +64,7 @@ export default function AddCategoryForm() {
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
         <TextField
-          label="Category Name"
+          label={t('categoryName')}
           name="name"
           value={form.name}
           onChange={handleChange}
@@ -71,7 +74,7 @@ export default function AddCategoryForm() {
           helperText={error}
         />
         <Button type="submit" variant="contained" color="primary">
-          Add Category
+          {t('addCategory')}
         </Button>
       </Stack>
     </form>

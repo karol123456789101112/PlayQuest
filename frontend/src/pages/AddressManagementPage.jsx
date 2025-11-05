@@ -6,10 +6,13 @@ import { useAuth } from '../security/authContext';
 import AddressForm from '../components/AddressForm';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 const AddressManagementPage = () => {
   const { userId } = useAuth();
   const [addresses, setAddresses] = useState([]);
+  const { t, i18n } = useTranslation();
 
   const fetchAddresses = async () => {
     try {
@@ -30,7 +33,7 @@ const AddressManagementPage = () => {
   }, [userId]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this address?")) return;
+    if (!window.confirm(t('areYouSureYouWantToDeleteThatAddress'))) return;
     const token = localStorage.getItem('token');
     await fetch(`http://localhost:8080/addresses/${id}`, {
      method: 'DELETE',
@@ -44,7 +47,7 @@ const AddressManagementPage = () => {
     <div>
         <Header userName='userName'></Header>
         <Box p={4} sx={{ minHeight: '100vh'}}>
-          <Typography variant="h4" gutterBottom>Your addresses</Typography>
+          <Typography variant="h4" gutterBottom>{t('yourAddresses')}</Typography>
           <Grid container spacing={2}>
             {addresses.map(addr => (
               <Grid item xs={12} md={6} key={addr.id}>
@@ -61,7 +64,7 @@ const AddressManagementPage = () => {
 
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       <Button variant="outlined" color="error" onClick={() => handleDelete(addr.id)}>
-                        Delete
+                        {t('delete')}
                       </Button>
                     </Box>
                   </CardContent>
