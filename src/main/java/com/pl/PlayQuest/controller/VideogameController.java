@@ -138,5 +138,46 @@ public class VideogameController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<VideogameDto>> searchGames(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Videogame> gamePage = videogameRepository.findByTitleContainingIgnoreCaseAndStockQuantityGreaterThan(
+                query, 0L, pageable
+        );
+
+        List<VideogameDto> content = gamePage.getContent().stream()
+                .map(VideogameMapper::toDto)
+                .toList();
+
+        PageResponse<VideogameDto> response = new PageResponse<>(
+                content,
+                gamePage.getTotalPages(),
+                gamePage.getTotalElements(),
+                gamePage.getNumber(),
+                gamePage.getSize()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/compare")
+    public ResponseEntity<List<VideogameDto>> compareGames(
+            @RequestParam Long firstId,
+            @RequestParam Long secondId
+    ) {
+        List<VideogameDto> result = videogameRepository
+                .findAllById(List.of(firstId, secondId))
+                .stream()
+                .filter(g -> g.getStockQuantity() > 0)
+                .map(VideogameMapper::toDto)
+                .toList();
+
+        return ResponseEntity.ok(result);
+    }
+
 }
 

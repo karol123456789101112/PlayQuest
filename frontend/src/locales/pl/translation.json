@@ -19,7 +19,8 @@
     "Survival": "Survival",
     "Horror": "Horror",
     "Shooter": "Strzelanki",
-    "Puzzle": "Łamigłówki"
+    "Puzzle": "Łamigłówki",
+    "Sandbox": "Sandbox"
   },
 
   "platforms": "Platformy",
@@ -226,6 +227,17 @@
   "errorWhileDeletingUser": "Wystąpił błąd pdoczas próby usuwania użytkownika",
   "errorWhileChangingUserRole": "Wystąpił błąd podczas próby zmiany roli użytkownika",
   "noUsersFound": "Nie znaleziono żadnych użytkowników",
+
+  "compareGames": "Porównaj gry",
+  "firstGame": "Pierwsza gra",
+  "secondGame": "Druga gra",
+  "compare": "PORÓWNAJ",
+  "comparisonResults": "Wynik porównania",
+  "title": "Tytuł",
+  "errorWhileSearchingForGames": "Błąd przy wyszukiwaniu gier",
+  "errorWhileTryingToLoadGamesFromURL": "Błąd przy wczytywaniu porównania z URL",
+  "Choose two games": "Wybierz dwie gry",
+  "comparingError": "Błąd porównania",
 
   "POPDescription": "Opis: Prince of Persia: The Sands of Time to gra akcji z elementami platformówki i rozwiązywania zagadek. Aktualizuje wiele koncepcji rozgrywki z poprzednich części, przenosząc je do w pełni trójwymiarowego świata. Książę będzie walczył na miecze, wspinał się po ścianach, unikał kolców, rozwiązywał zagadki i wiele innych zadań. Książę posiada również Sztylet Czasu, który pozwala mu uwolnić kilka magicznych mocy. Najważniejszą z nich jest zdolność cofania czasu. Pozwala ona graczowi odwrócić swoje działania, gdy doprowadzi Księcia do śmierci."
 }

@@ -12,4 +12,6 @@ public interface VideogameRepository extends JpaRepository<Videogame, Long> {
     Optional<Videogame> findByIdAndStockQuantityGreaterThan(Long id, int quantity);
 
     Page<Videogame> findByStockQuantityGreaterThanOrderByRatingDesc(Long minStock, Pageable pageable);
+
+    Page<Videogame> findByTitleContainingIgnoreCaseAndStockQuantityGreaterThan(String title, long stockQuantity, Pageable pageable);
 }
