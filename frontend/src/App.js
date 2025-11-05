@@ -21,6 +21,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderDetailsPage from './pages/OrderDetailsPage';
 import AddressManagementPage from './pages/AddressManagementPage';
+import CompareGamesPage from './pages/CompareGamesPage';
 
 function AppContent() {
   const { isAuthenticated, loading, userRole } = useAuth();
@@ -70,6 +71,7 @@ function AppContent() {
       <Route path="/games" element={<AllGamesPage />} />
       <Route path="/games/:id" element={<GameDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/comparer" element={<CompareGamesPage />} />
 
 
       <Route path="*" element={<Navigate to="/" />} />
