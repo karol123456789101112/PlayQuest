@@ -8,6 +8,8 @@ import Footer from '../components/Footer';
 import { useCart} from '../components/CartContext';
 import { useAuth } from '../security/authContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 
 const GameDetails = () => {
@@ -16,6 +18,7 @@ const GameDetails = () => {
   const [loading, setLoading] = useState(true);
   const { userId } = useAuth();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -156,22 +159,22 @@ const GameDetails = () => {
             />
             <Box sx={{ flex: 1, p: 2, overflow: 'auto' }}>
               <Typography variant="h4">{game.title}</Typography>
-              <Typography variant="subtitle1" gutterBottom>Publisher: {game.publisher}</Typography>
-              <Typography variant="body1" gutterBottom>Description: {game.description}</Typography>
-              <Typography variant="h6">Price: {game.price} zł</Typography>
-              <Typography variant="body2">Release Date: {game.releaseDate}</Typography>
-              <Typography variant="body2">Rating: {game.rating}/10</Typography>
-              <Typography variant="body2">In stock: {game.stockQuantity}</Typography>
+              <Typography variant="subtitle1" gutterBottom>{t('publisher')}: {game.publisher}</Typography>
+              <Typography variant="body1" gutterBottom>{t('description')}: {game.description}</Typography>
+              <Typography variant="h6">{t('price')}: {game.price} zł</Typography>
+              <Typography variant="body2">{t('releaseDate')}: {game.releaseDate}</Typography>
+              <Typography variant="body2">{t('rating')}: {game.rating}/10</Typography>
+              <Typography variant="body2">{t('inStock')}: {game.stockQuantity}</Typography>
 
               <Box mt={2}>
-                <Typography variant="subtitle2">Categories:</Typography>
+                <Typography variant="subtitle2">{t('categories.categories')}:</Typography>
                 {Array.isArray(game.categories) && game.categories.map(name => (
-                  <Chip key={name} label={name} sx={{ mr: 1, mt: 1 }} />
+                  <Chip key={name} label={t(`categories.${name}`, name)} sx={{ mr: 1, mt: 1 }} />
                 ))}
               </Box>
 
               <Box mt={2}>
-                <Typography variant="subtitle2">Platforms:</Typography>
+                <Typography variant="subtitle2">{t('platforms')}:</Typography>
                 {Array.isArray(game.platforms) && game.platforms.map(name => (
                   <Chip key={name} label={name} color="primary" sx={{ mr: 1, mt: 1 }} />
                 ))}
@@ -183,14 +186,14 @@ const GameDetails = () => {
             color="primary"
             onClick={addToCart}
           >
-            Add to cart
+            {t('addToCart')}
           </Button>
           <Button
             variant="contained"
             color="success"
             onClick={handleBuy}
           >
-            Buy Now
+            {t('buyNow')}
           </Button>
         </Box>
         </Box>

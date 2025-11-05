@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { TextField, Button, Stack } from '@mui/material';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 export default function AddPlatformForm() {
   const [form, setForm] = useState({ name: ''});
   const [error, setError] = useState('');
+  const { t, i18n } = useTranslation();
 
   const validate = (value) => {
-    if (!value) return 'Category name is required';
-    if (value.length > 80) return 'Maximum 80 characters allowed';
+    if (!value) return t('platformNameIsRequired')
+    if (value.length > 80) return t('platformNameReq1')
     if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(value)) {
-      return 'Only letters, spaces, and hyphens are allowed';
+      return t('platformNameReq2');
     }
     return '';
   };
@@ -43,15 +46,15 @@ export default function AddPlatformForm() {
       });
 
       if (res.ok) {
-        alert('Platform added!');
+        alert(t('platformAdded'));
         setForm({ name: ''});
         setError('');
       } else {
-        alert('Error while adding platform');
+        alert(t('errorWhileAddingPlatform'));
       }
     } catch (err) {
       console.error(err);
-      alert('Network error');
+      alert(t('networkError'));
     }
   };
 
@@ -59,7 +62,7 @@ export default function AddPlatformForm() {
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
         <TextField
-          label="Platform Name"
+          label={t('platformName')}
           name="name"
           value={form.name}
           onChange={handleChange}
@@ -69,7 +72,7 @@ export default function AddPlatformForm() {
           helperText={error}
         />
         <Button type="submit" variant="contained" color="primary">
-          Add Platform
+          {t('addPlatform')}
         </Button>
       </Stack>
     </form>

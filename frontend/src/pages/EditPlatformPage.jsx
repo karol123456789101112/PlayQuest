@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Stack, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function EditPlatformPage() {
   const { id } = useParams();
@@ -8,11 +10,12 @@ export default function EditPlatformPage() {
   const [platform, setPlatform] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState({});
+  const { t, i18n } = useTranslation();
 
   const validateName = (name) => {
-    if (!name) return 'Platform name is required';
-    if (name.length > 80) return 'Max 80 characters allowed';
-    if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(name)) return 'Only letters, spaces, and hyphens allowed';
+    if (!name) return t('platformNameIsRequired');
+    if (name.length > 80) return t('platformNameReq1');
+    if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(name)) return t('platformNameReq2');
     return '';
   };
 
@@ -51,7 +54,7 @@ export default function EditPlatformPage() {
       if (res.ok) {
         uploadedImageUrl = await res.text();
       } else {
-        alert('Image upload error');
+        alert(t('couldNotAttachTheImage'));
         return;
       }
     }
@@ -68,7 +71,7 @@ export default function EditPlatformPage() {
     });
 
     if (res.ok) {
-      alert('Platform has been updated!');
+      alert(t('platformHasBeenUpdated'));
       navigate('/admin');
     } else if (res.status === 400) {
       const msg = await res.json();
@@ -79,15 +82,15 @@ export default function EditPlatformPage() {
     }
   };
 
-  if (!platform) return <Typography>Loading...</Typography>;
+  if (!platform) return <Typography>{t('loading')}</Typography>;
 
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5">Edit Platform</Typography>
+      <Typography variant="h5">{t('editPlatform')}</Typography>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <TextField
-            label="Name"
+            label={t('name')}
             name="name"
             value={platform.name}
             onChange={handleChange}
@@ -95,7 +98,7 @@ export default function EditPlatformPage() {
             helperText={errors.name}
             required
           />
-          <Button type="submit" variant="contained">Save</Button>
+          <Button type="submit" variant="contained">{t('save')}</Button>
         </Stack>
       </form>
     </Box>

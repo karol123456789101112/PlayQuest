@@ -6,13 +6,15 @@ import { useAuth } from '../security/authContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
   const { userId } = useAuth();
   const navigate = useNavigate();
-
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -91,7 +93,7 @@ const CartPage = () => {
         <Header userName='userName'></Header>
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Typography variant="h4" gutterBottom>
-              {cart.length > 0 ? 'Cart:' : 'Cart is empty'}
+              {cart.length > 0 ? 'Cart:' : t('emptyCart')}
             </Typography>
             <Grid container spacing={2} direction="column">
               {cart.map((item) => (
@@ -114,15 +116,15 @@ const CartPage = () => {
                     >
                       <Box>
                         <Typography variant="h6">{item.title}</Typography>
-                        <Typography variant="body2">Quantity: {item.quantity}</Typography>
-                        <Typography variant="body1">Price: {item.price} zł</Typography>
+                        <Typography variant="body2">{t('quantity')}: {item.quantity}</Typography>
+                        <Typography variant="body1">{t('price')}: {item.price} zł</Typography>
                       </Box>
                       <Button
                         variant="outlined"
                         color="error"
                         onClick={() => removeFromCart(item.id)}
                       >
-                        Delete from cart
+                        {t('deleteFromCart')}
                       </Button>
                     </CardContent>
                   </Card>
@@ -132,7 +134,7 @@ const CartPage = () => {
             </Grid>
             </Box>
             <Box sx={{ mt: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="h6">Total: {total.toFixed(2)} zł</Typography>
+              <Typography variant="h6">{t('total')} {total.toFixed(2)} zł</Typography>
               <Button
                 variant="contained"
                 color="primary"
@@ -145,7 +147,7 @@ const CartPage = () => {
                 }}
                 disabled={cart.length === 0}
               >
-                Proceed to Checkout
+                {t('proceedToCheckout')}
               </Button>
             </Box>
 

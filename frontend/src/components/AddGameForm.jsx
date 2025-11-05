@@ -4,6 +4,8 @@ import {
   InputLabel, FormControl, OutlinedInput, Box,
   FormHelperText
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function AddGameForm() {
   const [form, setForm] = useState({
@@ -24,49 +26,50 @@ export default function AddGameForm() {
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [imageError, setImageError] = useState('');
+  const { t, i18n } = useTranslation();
 
   const validators = {
     title: (val) => {
-      if (!val) return 'Title is required';
-      if (val.length > 100) return 'Max 100 characters';
+      if (!val) return t('gameTitleReq1');
+      if (val.length > 100) return t('gameTitleReq2');
       return '';
     },
     description: (val) => {
-      if (!val) return 'Description is required';
-      if (val.length > 1000) return 'Max 1000 characters';
+      if (!val) return t('gameDescReq1');
+      if (val.length > 1000) return t('gameDescReq2');
       return '';
     },
     price: (val) => {
       const price = parseFloat(val);
-      if (isNaN(price)) return 'Price must be a number';
-      if (price <= 0) return 'Price must be positive';
-      if (price > 10000) return 'Price must be at most 10000';
+      if (isNaN(price)) return t('gamePriceReq1');
+      if (price <= 0) return t('gamePriceReq2');
+      if (price > 10000) return t('gamePriceReq3');
       return '';
     },
     releaseDate: (val) => {
-      if (!val) return 'Release date is required';
+      if (!val) return t('gameReleaseDateReq1');
       return '';
     },
     publisher: (val) => {
-      if (!val) return 'Publisher is required';
-      if (val.length > 80) return 'Max 80 characters';
+      if (!val) return t('gamePublisherReq1');
+      if (val.length > 80) return t('gamePublisherReq2');
       return '';
     },
     rating: (val) => {
       const rating = parseFloat(val);
-      if (isNaN(rating)) return 'Rating must be a number';
-      if (rating < 0 || rating > 10) return 'Rating must be between 0 and 10';
+      if (isNaN(rating)) return t('gameRatingReq1');
+      if (rating < 0 || rating > 10) return t('gameRatingReq2');
       return '';
     },
     stockQuantity: (val) => {
       const qty = parseInt(val);
-      if (isNaN(qty)) return 'Stock must be a number';
-      if (qty < 0) return 'Must be non-negative';
-      if (qty > 10000) return 'Max stock is 10000';
+      if (isNaN(qty)) return t('gameStockReq1');
+      if (qty < 0) return t('gameStockReq2');
+      if (qty > 10000) return t('gameStockReq3');
       return '';
     },
-    categoryIds: (val) => (!val.length ? 'Select at least one category' : ''),
-    platformIds: (val) => (!val.length ? 'Select at least one platform' : '')
+    categoryIds: (val) => (!val.length ? t('selectAtLeastOneCategory') : ''),
+    platformIds: (val) => (!val.length ? t('selectAtLeastOnePlatform') : '')
   };
 
   useEffect(() => {
@@ -83,7 +86,7 @@ export default function AddGameForm() {
         setCategories(catData);
         setPlatforms(platData);
       } catch (error) {
-        console.error('Error while loading Categories/Platforms:', error);
+        console.error(t('errorWhileUploadingCategoriesPlatforms'), error);
       }
     };
 
@@ -114,7 +117,7 @@ export default function AddGameForm() {
     const newErrors = Object.fromEntries(
       Object.entries(form).map(([key, val]) => [key, validators[key] ? validators[key](val) : ''])
     );
-    const hasImageError = !imageFile ? 'Image is required' : '';
+    const hasImageError = !imageFile ? t('imageIsRequired') : '';
     setErrors(newErrors);
     setImageError(hasImageError);
 
@@ -137,12 +140,12 @@ export default function AddGameForm() {
         if (imgRes.ok) {
           uploadedImageUrl = await imgRes.text();
         } else {
-          alert('Could not attach the image');
+          alert(t('couldNotAttachTheImage'));
           return;
         }
       } catch (err) {
         console.error(err);
-        alert('Error while uploading');
+        alert(t('errorWhileUploading'));
         return;
       }
     }
@@ -161,43 +164,43 @@ export default function AddGameForm() {
       });
 
       if (res.ok) {
-        alert('Game added!');
+        alert(t('gameAdded'));
       } else {
         const msg = await res.text();
-        alert('Error:\n' + msg);
+        alert(t('error') + msg);
       }
     } catch (err) {
-      alert('Network error');
+      alert(t('networkError'));
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
-        <TextField label="Game Title" name="title" value={form.title} onChange={handleChange}
+        <TextField label={t('gameTitle')} name="title" value={form.title} onChange={handleChange}
           error={!!errors.title} helperText={errors.title} required />
-        <TextField label="Game Description" name="description" multiline rows={4}
+        <TextField label={t('gameDescription')} name="description" multiline rows={4}
           value={form.description} onChange={handleChange}
           error={!!errors.description} helperText={errors.description} required />
-        <TextField label="Price (PLN)" name="price" type="number"
+        <TextField label={t('price')} name="price" type="number"
           value={form.price} onChange={handleChange}
           error={!!errors.price} helperText={errors.price} required />
-        <TextField label="Release Date" name="releaseDate" type="date"
+        <TextField label={t('releaseDate')} name="releaseDate" type="date"
           value={form.releaseDate} onChange={handleChange}
           InputLabelProps={{ shrink: true }}
           error={!!errors.releaseDate} helperText={errors.releaseDate} required />
-        <TextField label="Publisher" name="publisher" value={form.publisher} onChange={handleChange}
+        <TextField label={t('publisher')} name="publisher" value={form.publisher} onChange={handleChange}
           error={!!errors.publisher} helperText={errors.publisher} required />
-        <TextField label="Rating (0-10)" name="rating" type="number"
+        <TextField label={t('rating')} name="rating" type="number"
           inputProps={{ min: 0, max: 10, step: 0.1 }}
           value={form.rating} onChange={handleChange}
           error={!!errors.rating} helperText={errors.rating} required />
-        <TextField label="Stock Quantity" name="stockQuantity" type="number"
+        <TextField label={t('stockQuantity')} name="stockQuantity" type="number"
           value={form.stockQuantity} onChange={handleChange}
           error={!!errors.stockQuantity} helperText={errors.stockQuantity} required />
 
         <Button variant="outlined" component="label">
-          Choose image
+          {t('chooseImage')}
           <input
             type="file"
             accept="image/*"
@@ -210,12 +213,12 @@ export default function AddGameForm() {
         )}
         {imageFile && (
           <Box mt={1} sx={{ color: '#aaa', fontSize: 14 }}>
-            Chosen file: {imageFile.name}
+            {t('chosenFile')} {imageFile.name}
           </Box>
         )}
 
         <FormControl fullWidth error={!!errors.categoryIds}>
-          <InputLabel>Categories</InputLabel>
+          <InputLabel>{t('categories.categories')}</InputLabel>
           <Select
             multiple
             value={form.categoryIds}
@@ -225,7 +228,7 @@ export default function AddGameForm() {
           >
             {categories.map((cat) => (
               <MenuItem key={cat.id} value={cat.id}>
-                {cat.name}
+                {t(`categories.${cat.name}`, cat.name)}
               </MenuItem>
             ))}
           </Select>
@@ -233,7 +236,7 @@ export default function AddGameForm() {
         </FormControl>
 
         <FormControl fullWidth error={!!errors.platformIds}>
-          <InputLabel>Platforms</InputLabel>
+          <InputLabel>{t('platforms')}</InputLabel>
           <Select
             multiple
             value={form.platformIds}
@@ -252,7 +255,7 @@ export default function AddGameForm() {
 
         <Box display="flex" justifyContent="center">
           <Button variant="contained" color="primary" type="submit">
-            Add Game
+            {t('addGame')}
           </Button>
         </Box>
       </Stack>

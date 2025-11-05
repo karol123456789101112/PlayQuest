@@ -5,12 +5,15 @@ import {
 } from '@mui/material';
 import { useAuth } from '../security/authContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 const OrderListPage = () => {
   const { userId } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -36,18 +39,18 @@ const OrderListPage = () => {
 
   return (
     <Box p={4}>
-      <Typography variant="h4" gutterBottom>Your orders</Typography>
+      <Typography variant="h4" gutterBottom>{t('yourOrders')}</Typography>
       {orders.length === 0 ? (
-        <Typography>You do not have any orders yet.</Typography>
+        <Typography>{t('youDoNotHaveAnyOrdersYet')}.</Typography>
       ) : (
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell><strong>Order ID</strong></TableCell>
-                <TableCell><strong>Date</strong></TableCell>
-                <TableCell><strong>Status</strong></TableCell>
-                <TableCell><strong>Details</strong></TableCell>
+                <TableCell><strong>{t('orderId')}</strong></TableCell>
+                <TableCell><strong>{t('date')}</strong></TableCell>
+                <TableCell><strong>{t('status')}</strong></TableCell>
+                <TableCell><strong>{t('details')}</strong></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -55,10 +58,10 @@ const OrderListPage = () => {
                 <TableRow key={order.id}>
                   <TableCell>{order.id}</TableCell>
                   <TableCell>{new Date(order.orderDate).toLocaleString()}</TableCell>
-                  <TableCell>{order.status}</TableCell>
+                  <TableCell>{t(`statusOptions.${order.status}`)}</TableCell>
                   <TableCell>
                     <Button size="small" onClick={() => navigate(`/orders/${order.id}`)}>
-                      Details
+                      {t('details')}
                     </Button>
                   </TableCell>
                 </TableRow>

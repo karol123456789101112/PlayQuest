@@ -4,10 +4,13 @@
  import OrderListComponent from '../components/OrderListComponent';
  import Footer from '../components/Footer';
  import { useNavigate } from 'react-router-dom';
+ import { useTranslation} from 'react-i18next';
+ import '../i18n';
 
 export default function HomePage() {
      const navigate = useNavigate();
      const userName = 'Jan';
+     const { t, i18n } = useTranslation();
      return (
          <div>
              <Header userName='userName'></Header>
@@ -17,7 +20,7 @@ export default function HomePage() {
                        onClick={() => navigate('/addresses')}
                        sx={{ mb: 3 }}
                      >
-                       Manage addresses
+                       {t('manageAddresses')}
                  </Button>
                  <OrderListComponent />
              </Box>

@@ -6,11 +6,14 @@ import {
 } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 const OrderDetailsPage = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -39,16 +42,16 @@ const OrderDetailsPage = () => {
     <div>
         <Header userName='userName'></Header>
         <Box p={4} sx={{minHeight: '100vh'}}>
-          <Typography variant="h4" gutterBottom>Order details #{order.id}</Typography>
+          <Typography variant="h4" gutterBottom>{t('orderDetails')} #{order.id}</Typography>
 
           {/* Order Info */}
-          <Typography><strong>Order Date:</strong> {new Date(order.orderDate).toLocaleString()}</Typography>
-          <Typography><strong>Status:</strong> {order.status}</Typography>
+          <Typography><strong>{t('orderDate')}:</strong> {new Date(order.orderDate).toLocaleString()}</Typography>
+          <Typography><strong>{t('status')}:</strong> {t(`statusOptions.${order.status}`)}</Typography>
 
           <Divider sx={{ my: 3 }} />
 
           {/* Address */}
-          <Typography variant="h6">Delivery address</Typography>
+          <Typography variant="h6">{t('deliveryAddress')}</Typography>
           <Typography>{order.contactAddress.firstName} {order.contactAddress.lastName}</Typography>
           <Typography>{order.contactAddress.email}, {order.contactAddress.phoneNumber}</Typography>
           <Typography>
@@ -60,14 +63,14 @@ const OrderDetailsPage = () => {
           <Divider sx={{ my: 3 }} />
 
           {/* Items */}
-          <Typography variant="h6" gutterBottom>Products</Typography>
+          <Typography variant="h6" gutterBottom>{t('products')}</Typography>
           <TableContainer component={Paper} sx={{ mb: 2 }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Game title</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Quantity</TableCell>
+                  <TableCell>{t('gameTitle')}</TableCell>
+                  <TableCell>{t('price')}</TableCell>
+                  <TableCell>{t('quantity')}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -84,7 +87,7 @@ const OrderDetailsPage = () => {
 
           {/* Total */}
           <Typography variant="h6">
-            <strong>Total amount:</strong> {order.totalAmount} zł
+            <strong>{t('totalAmount')}:</strong> {order.totalAmount} zł
           </Typography>
         </Box>
         <Footer />

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, Paper, Stack, CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useTranslation} from 'react-i18next';
+import '../i18n';
 
 export default function PlatformSelector() {
   const [platforms, setPlatforms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchPlatforms = async () => {
@@ -35,7 +38,7 @@ export default function PlatformSelector() {
       <Box sx={{ width: '100%', maxWidth: '1400px', paddingX: 2 }}>
         <Paper elevation={6} sx={{ padding: 4, backgroundColor: '#111' }}>
           <Typography variant="h4" gutterBottom sx={{ color: '#fff', textAlign: 'center' }}>
-            Choose your platform
+            {t('choosePlatform')}
           </Typography>
 
           {loading ? (

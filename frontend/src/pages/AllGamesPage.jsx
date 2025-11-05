@@ -6,6 +6,8 @@ import {
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function AllGamesPage() {
 
@@ -33,6 +35,7 @@ export default function AllGamesPage() {
     return new URLSearchParams(search);
   };
 
+  const { t, i18n } = useTranslation();
 
 
   useEffect(() => {
@@ -133,10 +136,10 @@ export default function AllGamesPage() {
       <Box sx={{ display: 'flex', p: 3 }}>
         {/* Lewa kolumna – filtry */}
         <Box sx={{ flex: '0 0 25%', pr: 2, position: 'sticky', top: 100 }}>
-          <Typography variant="h5" gutterBottom>Filters</Typography>
+          <Typography variant="h5" gutterBottom>{t('filters')}</Typography>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">Categories</Typography>
+            <Typography variant="h6">{t('categories.categories')}</Typography>
             {categories.map(cat => (
               <FormControlLabel
                 key={cat}
@@ -146,7 +149,7 @@ export default function AllGamesPage() {
                     onChange={() => handleCategoryChange(cat)}
                   />
                 }
-                label={cat}
+                label={t(`categories.${cat}`, cat)}
               />
             ))}
           </Box>
@@ -204,16 +207,16 @@ export default function AllGamesPage() {
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
               disabled={currentPage === 0}
             >
-              Previous
+              {t('previousPage')}
             </Button>
             <Typography sx={{ mx: 2, color: 'white' }}>
-              Page {currentPage + 1} of {totalPages}
+              {t('page', { currentPage: currentPage + 1, totalPages: totalPages })}
             </Typography>
             <Button
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
               disabled={currentPage >= totalPages - 1}
             >
-              Next
+              {t('nextPage')}
             </Button>
           </Box>
         </Box>

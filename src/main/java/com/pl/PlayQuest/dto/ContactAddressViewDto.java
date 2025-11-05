@@ -22,6 +22,8 @@ public class ContactAddressViewDto {
 
     private String city;
 
+    private String postalCode;
+
     private String country;
 
     private boolean isDefault;

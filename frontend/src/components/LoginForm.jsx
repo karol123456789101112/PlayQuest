@@ -7,11 +7,15 @@ import {
     Stack,
     TextField,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
+
 
 export default function LoginForm() {
     const [form, setForm] = useState({ email: '', password: '' });
     const navigate = useNavigate();
     const { login } = useAuth();
+    const { t, i18n } = useTranslation();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -58,7 +62,7 @@ export default function LoginForm() {
             <Stack spacing={3}>
                 <TextField
                     fullWidth
-                    label="Email"
+                    label={t('email')}
                     type="email"
                     name="email"
                     value={form.email}
@@ -67,7 +71,7 @@ export default function LoginForm() {
                 />
                 <TextField
                     fullWidth
-                    label="Password"
+                    label={t('password')}
                     type="password"
                     name="password"
                     value={form.password}
@@ -81,7 +85,7 @@ export default function LoginForm() {
                         color="primary"
                         sx={{ padding: '12px 30px', fontSize: '18px', borderRadius: '8px' }}
                     >
-                        Sign in
+                        {t('signInUpp')}
                     </Button>
                 </Box>
 
@@ -92,7 +96,7 @@ export default function LoginForm() {
                     onClick={() => navigate('/register')}
                     sx={{ padding: '10px 25px', fontSize: '16px', borderRadius: '8px' }}
                   >
-                    Sign up
+                    {t('signUpUpp')}
                   </Button>
                 </Box>
 

@@ -4,12 +4,15 @@ import {
   Button, Divider
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function CategoryListAdmin() {
   const [categories, setCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     fetchCategories(currentPage);
@@ -22,12 +25,12 @@ export default function CategoryListAdmin() {
       setCategories(data.content);
       setTotalPages(data.totalPages);
     } catch (err) {
-      console.error('Failed to fetch categories:', err);
+      console.error(t('failedToFetchCategories') + ':', err);
     }
   };
 
   const deleteCategory = async (id) => {
-    if (!window.confirm('Do you want to delete this category?')) return;
+    if (!window.confirm(t('doYouWantToDeleteThisCategory'))) return;
 
     const token = localStorage.getItem('token');
     const res = await fetch(`http://localhost:8080/categories/delete/${id}`, {
@@ -36,7 +39,6 @@ export default function CategoryListAdmin() {
     });
 
     if (res.ok) {
-      // refetch current page after deletion
       fetchCategories(currentPage);
     }
   };
@@ -44,7 +46,7 @@ export default function CategoryListAdmin() {
   return (
       <Box sx={{ mt: 4, px: 3 }}>
         <Typography variant="h5" gutterBottom>
-          Category list
+          {t('categoryList')}
         </Typography>
 
         <List>
@@ -58,13 +60,13 @@ export default function CategoryListAdmin() {
                       color="error"
                       onClick={() => deleteCategory(cat.id)}
                     >
-                      Delete
+                      {t('delete')}
                     </Button>
                     <Button
                       variant="outlined"
                       onClick={() => navigate(`/categories/edit/${cat.id}`)}
                     >
-                      Edit
+                      {t('edit')}
                     </Button>
                   </Box>
                 }
@@ -82,17 +84,17 @@ export default function CategoryListAdmin() {
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
             disabled={currentPage === 0}
           >
-            Previous
+            {t('previousPage')}
           </Button>
           <Typography variant="body1" sx={{ alignSelf: 'center' }}>
-            Page {currentPage + 1} of {totalPages}
+            {t('page', { currentPage: currentPage + 1, totalPages: totalPages })}
           </Typography>
           <Button
             variant="contained"
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
             disabled={currentPage >= totalPages - 1}
           >
-            Next
+            {t('nextPage')}
           </Button>
         </Box>
       </Box>

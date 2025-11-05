@@ -36,6 +36,7 @@ public class AddressMapper {
         dto.setApartmentNumber(entity.getApartmentNumber());
         dto.setStreet(entity.getStreet());
         dto.setCity(entity.getCity());
+        dto.setPostalCode(entity.getPostalCode());
         dto.setCountry(entity.getCountry());
         dto.setDefault(entity.isDefault());
         return dto;

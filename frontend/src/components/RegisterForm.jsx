@@ -7,6 +7,8 @@ import {
   Stack,
 } from '@mui/material';
 import { register } from '../services/authService';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function RegisterForm() {
   const [form, setForm] = useState({
@@ -18,34 +20,35 @@ export default function RegisterForm() {
   });
 
   const [errors, setErrors] = useState({});
+  const { t, i18n } = useTranslation();
 
   const validators = {
     firstName: (val) => {
-      if (!val) return 'First name is required';
-      if (!/^[A-Za-z]{1,40}$/.test(val)) return 'Only letters, max 40 characters';
+      if (!val) return t('firstNameIsRequired');
+      if (!/^[A-Za-z]{1,40}$/.test(val)) return t('firstNameValid');
       return '';
     },
     lastName: (val) => {
-      if (!val) return 'Last name is required';
-      if (!/^[A-Za-z\s\-]{1,80}$/.test(val)) return 'Only letters, spaces, hyphens, max 80 characters';
+      if (!val) return t('lastNameIsRequired');
+      if (!/^[A-Za-z\s\-]{1,80}$/.test(val)) return t('lastNameValid');
       return '';
     },
     email: (val) => {
-      if (!val) return 'Email is required';
-      if (val.length > 80) return 'Max 80 characters';
-      if (!/^\S+@\S+\.\S+$/.test(val)) return 'Invalid email format';
+      if (!val) return t('emailIsRequired');
+      if (val.length > 80) return t('max80Char');
+      if (!/^\S+@\S+\.\S+$/.test(val)) return t('emailValid');
       return '';
     },
     password: (val) => {
-      if (!val) return 'Password is required';
-      if (val.length < 8 || val.length > 40) return 'Must be 8–40 characters';
+      if (!val) return t('passwordIsRequired');;
+      if (val.length < 8 || val.length > 40) return t('passwordReq1')
       if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])/.test(val)) {
-        return 'Must include uppercase, lowercase, number, special character';
+        return t('passwordReq2');
       }
       return '';
     },
     confirmPassword: (val) => {
-      if (val !== form.password) return 'Passwords do not match';
+      if (val !== form.password) return t('passwordsDoNotMatch');
       return '';
     }
   };
@@ -97,11 +100,11 @@ export default function RegisterForm() {
 
   return (
     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
-      <Typography variant="h5" gutterBottom>Sign up</Typography>
+      <Typography variant="h5" gutterBottom>{t('signUpLow')}</Typography>
       <Stack spacing={3}>
         <TextField
           fullWidth
-          label="First name"
+          label={t('firstName')}
           name="firstName"
           value={form.firstName}
           onChange={handleChange}
@@ -110,7 +113,7 @@ export default function RegisterForm() {
         />
         <TextField
           fullWidth
-          label="Last name"
+          label={t('lastName')}
           name="lastName"
           value={form.lastName}
           onChange={handleChange}
@@ -120,7 +123,7 @@ export default function RegisterForm() {
         <TextField
           fullWidth
           type="email"
-          label="Email"
+          label={t('email')}
           name="email"
           value={form.email}
           onChange={handleChange}
@@ -130,7 +133,7 @@ export default function RegisterForm() {
         <TextField
           fullWidth
           type="password"
-          label="Password"
+          label={t('password')}
           name="password"
           value={form.password}
           onChange={handleChange}
@@ -140,7 +143,7 @@ export default function RegisterForm() {
         <TextField
           fullWidth
           type="password"
-          label="Confirm Password"
+          label={t('confirmPassword')}
           name="confirmPassword"
           value={form.confirmPassword}
           onChange={handleChange}
@@ -154,7 +157,7 @@ export default function RegisterForm() {
             color="primary"
             sx={{ padding: '12px 30px', fontSize: '18px', borderRadius: '8px' }}
           >
-            Sign up
+            {t('signUpUpp')}
           </Button>
         </Box>
       </Stack>

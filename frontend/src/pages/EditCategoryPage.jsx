@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Stack, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n';
 
 export default function EditCategoryPage() {
   const { id } = useParams();
@@ -8,11 +10,12 @@ export default function EditCategoryPage() {
   const [category, setCategory] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState({});
+  const { t, i18n } = useTranslation();
 
   const validateName = (name) => {
-    if (!name) return 'Category name is required';
-    if (name.length > 80) return 'Max 80 characters allowed';
-    if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(name)) return 'Only letters, spaces, and hyphens allowed';
+    if (!name) return t('categoryNameIsRequired');
+    if (name.length > 80) return t('categoryNameReq1');
+    if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(name)) return t('categoryNameReq2');
     return '';
   };
 
@@ -51,7 +54,7 @@ export default function EditCategoryPage() {
       if (res.ok) {
         uploadedImageUrl = await res.text();
       } else {
-        alert('Error while attaching the image');
+        alert(t('couldNotAttachTheImage'));
         return;
       }
     }
@@ -68,14 +71,14 @@ export default function EditCategoryPage() {
     });
 
     if (res.ok) {
-      alert('Category has been updated!');
+      alert(t('categoryHasBeenUpdated'));
       navigate('/admin');
     } else if (res.status === 400) {
       const msg = await res.json();
       setErrors(msg);
     } else {
       const msg = await res.text();
-      alert('Error:\n' + msg);
+      alert(t('error') + ':\n' + msg);
     }
   };
 
@@ -83,11 +86,11 @@ export default function EditCategoryPage() {
 
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
-      <Typography variant="h5">Edit category</Typography>
+      <Typography variant="h5">{t('editCategory')}</Typography>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <TextField
-            label="Name"
+            label={t('name')}
             name="name"
             value={category.name}
             onChange={handleChange}
@@ -95,7 +98,7 @@ export default function EditCategoryPage() {
             helperText={errors.name}
             required
           />
-          <Button type="submit" variant="contained">Save</Button>
+          <Button type="submit" variant="contained">{t('save')}</Button>
         </Stack>
       </form>
     </Box>
