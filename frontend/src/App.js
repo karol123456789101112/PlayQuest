@@ -22,6 +22,7 @@ import ProfilePage from './pages/ProfilePage';
 import OrderDetailsPage from './pages/OrderDetailsPage';
 import AddressManagementPage from './pages/AddressManagementPage';
 import CompareGamesPage from './pages/CompareGamesPage';
+import GamesStatisticsPage from './pages/GamesStatisticsPage'
 
 function AppContent() {
   const { isAuthenticated, loading, userRole } = useAuth();
@@ -53,6 +54,9 @@ function AppContent() {
        <Route path="/platforms/edit/:id" element={ isAuthenticated && userRole === 'ADMIN'
                ? <EditPlatformPage /> : <Navigate to="/" />} />
 
+       <Route path="/statistics" element={ isAuthenticated && userRole === 'ADMIN'
+                      ? <GamesStatisticsPage /> : <Navigate to="/"/>} />
+
        <Route path="/profile" element={ isAuthenticated
                ? <ProfilePage /> : <Navigate to="/" />} />
 
@@ -72,7 +76,6 @@ function AppContent() {
       <Route path="/games/:id" element={<GameDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/comparer" element={<CompareGamesPage />} />
-
 
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>

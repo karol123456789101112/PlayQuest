@@ -49,6 +49,7 @@ com\pl\PlayQuest\dto\CategoryViewDto.class
 com\pl\PlayQuest\model\Cart.class
 com\pl\PlayQuest\model\Order.class
 com\pl\PlayQuest\repo\CartRepository.class
+com\pl\PlayQuest\controller\StatsController.class
 com\pl\PlayQuest\controller\PlatformController.class
 com\pl\PlayQuest\controller\ImageUploadController.class
 com\pl\PlayQuest\controller\OrderController.class
@@ -59,6 +60,7 @@ com\pl\PlayQuest\model\Category.class
 com\pl\PlayQuest\repo\PaymentRepository.class
 com\pl\PlayQuest\service\CustomUserDetailsService.class
 com\pl\PlayQuest\exception\InactiveUserException.class
+com\pl\PlayQuest\repo\StatsRepository.class
 com\pl\PlayQuest\model\Videogame.class
 com\pl\PlayQuest\repo\OrderItemRepository.class
 WebConfig.class
