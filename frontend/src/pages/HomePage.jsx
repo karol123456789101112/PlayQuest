@@ -7,6 +7,7 @@
  import PlatformSelector from '../components/PlatformSelector';
  import GameSlider from '../components/GameSlider';
  import Footer from '../components/Footer';
+ import Comparer from '../components/Comparer';
 
  export default function HomePage() {
 
@@ -18,6 +19,7 @@
            <ImageCarousel />
            <CategorySlider />
            <PlatformSelector />
+           <Comparer />
            <GameSlider />
            </Box>
            <Footer />

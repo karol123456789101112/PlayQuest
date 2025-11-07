@@ -7,7 +7,8 @@ import {
   ShoppingCart as ShoppingCartIcon,
   AccountCircle as AccountCircleIcon,
   ExitToApp as ExitToAppIcon,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  BarChart as BarChartIcon
 } from '@mui/icons-material';
 import { useAuth } from '../security/authContext';
 import { useNavigate } from 'react-router-dom';
@@ -77,6 +78,11 @@ export default function Header({ userName }) {
           {userRole === 'ADMIN' && (
             <IconButton sx={{ color: '#fff' }} onClick={() => navigate('/admin')}>
               <SettingsIcon />
+            </IconButton>
+          )}
+          {userRole === 'ADMIN' && (
+            <IconButton sx={{ color: '#fff' }} onClick={() => navigate('/statistics')}>
+              <BarChartIcon />
             </IconButton>
           )}
           {isAuthenticated ? (

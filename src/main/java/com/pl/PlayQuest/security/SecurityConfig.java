@@ -33,7 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/categories/add","/categories/update/{id}","categories/delete/{id}",
                                 "/upload-image","/platforms/add","platforms/update/{id}","platforms/delete/{id}",
-                                "/users","/users/{id}","/users/{id}/role","/games/add","/games/update/{id}","/games/delete/{id}").hasRole("ADMIN")
+                                "/users","/users/{id}","/users/{id}/role","/games/add","/games/update/{id}","/games/delete/{id}",
+                                "/stats/*").hasRole("ADMIN")
                         .requestMatchers("/addresses","/addresses/{id}","addresses/{id}/default","/cart","/orders",
                                 "/orders/{orderId}").authenticated()
                         .anyRequest().permitAll()
