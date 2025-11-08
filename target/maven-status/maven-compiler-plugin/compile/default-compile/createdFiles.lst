@@ -15,6 +15,7 @@ com\pl\PlayQuest\model\Platform.class
 com\pl\PlayQuest\PlayQuestApplication.class
 com\pl\PlayQuest\dto\ContactAddressDto.class
 com\pl\PlayQuest\dto\VideogameCreateDto.class
+com\pl\PlayQuest\dto\GameRecommendationDto.class
 com\pl\PlayQuest\dto\RegisterUserDto.class
 com\pl\PlayQuest\security\JwtRequestFilter.class
 com\pl\PlayQuest\dto\ContactAddressViewDto.class
@@ -46,10 +47,12 @@ com\pl\PlayQuest\ServletInitializer.class
 com\pl\PlayQuest\service\CartService.class
 com\pl\PlayQuest\model\ContactAddress.class
 com\pl\PlayQuest\dto\CategoryViewDto.class
+com\pl\PlayQuest\service\RecommendationService.class
 com\pl\PlayQuest\model\Cart.class
 com\pl\PlayQuest\model\Order.class
 com\pl\PlayQuest\repo\CartRepository.class
 com\pl\PlayQuest\controller\StatsController.class
+com\pl\PlayQuest\controller\RecommendationController.class
 com\pl\PlayQuest\controller\PlatformController.class
 com\pl\PlayQuest\controller\ImageUploadController.class
 com\pl\PlayQuest\controller\OrderController.class

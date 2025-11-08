@@ -36,7 +36,7 @@ public class SecurityConfig {
                                 "/users","/users/{id}","/users/{id}/role","/games/add","/games/update/{id}","/games/delete/{id}",
                                 "/stats/*").hasRole("ADMIN")
                         .requestMatchers("/addresses","/addresses/{id}","addresses/{id}/default","/cart","/orders",
-                                "/orders/{orderId}").authenticated()
+                                "/orders/{orderId}", "/recommendations/logged").authenticated()
                         .anyRequest().permitAll()
                 )
                 .csrf(csrf -> csrf.disable()) // Wyłącz CSRF
