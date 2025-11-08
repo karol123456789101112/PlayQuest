@@ -3,8 +3,7 @@ import {
   Box, Typography, TextField, Button, Paper, List, ListItem, ListItemButton, ListItemText,
   CircularProgress, Table, TableBody, TableRow, TableCell
 } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
 
@@ -18,7 +17,7 @@ export default function Comparer() {
   const [comparison, setComparison] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const debounce = (fn, delay) => {
     let timer;
@@ -65,13 +64,8 @@ export default function Comparer() {
     }
   }, []);
 
-  useEffect(() => {
-    debouncedSearch1(query1);
-  }, [query1]);
-
-  useEffect(() => {
-    debouncedSearch2(query2);
-  }, [query2]);
+  useEffect(() => { debouncedSearch1(query1); }, [query1]);
+  useEffect(() => { debouncedSearch2(query2); }, [query2]);
 
   const handleCompare = async () => {
     if (!firstGame || !secondGame) {
@@ -100,28 +94,46 @@ export default function Comparer() {
   };
 
   return (
-    <Box sx={{ maxWidth: 900, mx: 'auto', mt: 4, p: 3 }}>
-      <Typography variant="h5" gutterBottom>{t('compareGames')}</Typography>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        p: 4,
+        backgroundImage: 'url(/images/video_games_header.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        position: 'relative',
+        color: '#fff',
+      }}
+    >
+      <Typography variant="h5" gutterBottom sx={{ color: '#fff' }}>{t('compareGames')}</Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mb: 3 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mb: 3, maxWidth: 400, mx: 'auto' }}>
+        {/* Pole pierwszej gry */}
         <Box sx={{ position: 'relative' }}>
           <TextField
             fullWidth
             label={t('firstGame')}
             value={firstGame ? firstGame.title : query1}
-            onChange={(e) => {
-              setQuery1(e.target.value);
-              setFirstGame(null);
-            }}
+            onChange={(e) => { setQuery1(e.target.value); setFirstGame(null); }}
             onFocus={() => results1.length === 0 && query1 && debouncedSearch1(query1)}
+            InputProps={{
+              sx: { backgroundColor: '#000', color: '#fff' }
+            }}
+            InputLabelProps={{
+              sx: { color: '#fff' }
+            }}
           />
           {results1.length > 0 && !firstGame && (
-            <Paper sx={{ position: 'absolute', width: '100%', zIndex: 2, maxHeight: 200, overflowY: 'auto' }}>
+            <Paper sx={{ position: 'absolute', width: '100%', zIndex: 2, maxHeight: 200, overflowY: 'auto', backgroundColor: '#000' }}>
               <List dense>
                 {results1.map((g) => (
                   <ListItem key={g.id} disablePadding>
                     <ListItemButton onClick={() => { setFirstGame(g); setQuery1(g.title); setResults1([]); }}>
-                      <ListItemText primary={g.title} secondary={`${g.price} zł`} />
+                      <ListItemText
+                        primary={<span style={{ color: '#fff' }}>{g.title}</span>}
+                        secondary={<span style={{ color: '#ccc' }}>{`${g.price} zł`}</span>}
+                      />
                     </ListItemButton>
                   </ListItem>
                 ))}
@@ -130,24 +142,31 @@ export default function Comparer() {
           )}
         </Box>
 
+        {/* Pole drugiej gry */}
         <Box sx={{ position: 'relative' }}>
           <TextField
             fullWidth
             label={t('secondGame')}
             value={secondGame ? secondGame.title : query2}
-            onChange={(e) => {
-              setQuery2(e.target.value);
-              setSecondGame(null);
-            }}
+            onChange={(e) => { setQuery2(e.target.value); setSecondGame(null); }}
             onFocus={() => results2.length === 0 && query2 && debouncedSearch2(query2)}
+            InputProps={{
+              sx: { backgroundColor: '#000', color: '#fff' }
+            }}
+            InputLabelProps={{
+              sx: { color: '#fff' }
+            }}
           />
           {results2.length > 0 && !secondGame && (
-            <Paper sx={{ position: 'absolute', width: '100%', zIndex: 2, maxHeight: 200, overflowY: 'auto' }}>
+            <Paper sx={{ position: 'absolute', width: '100%', zIndex: 2, maxHeight: 200, overflowY: 'auto', backgroundColor: '#000' }}>
               <List dense>
                 {results2.map((g) => (
                   <ListItem key={g.id} disablePadding>
                     <ListItemButton onClick={() => { setSecondGame(g); setQuery2(g.title); setResults2([]); }}>
-                      <ListItemText primary={g.title} secondary={`${g.price} zł`} />
+                      <ListItemText
+                        primary={<span style={{ color: '#fff' }}>{g.title}</span>}
+                        secondary={<span style={{ color: '#ccc' }}>{`${g.price} zł`}</span>}
+                      />
                     </ListItemButton>
                   </ListItem>
                 ))}
@@ -156,7 +175,9 @@ export default function Comparer() {
           )}
         </Box>
 
-        <Button variant="contained" onClick={handleCompare}>{t('compare')}</Button>
+        <Button variant="contained" onClick={handleCompare} sx={{ alignSelf: 'center', backgroundColor: '#000', color: '#fff', '&:hover': { backgroundColor: '#222' } }}>
+          {t('compare')}
+        </Button>
       </Box>
 
       {loading && <CircularProgress />}
@@ -169,32 +190,12 @@ export default function Comparer() {
               <TableRow>
                 <TableCell>{t('title')}</TableCell>
                 <TableCell>
-                  <Link
-                    to={`/games/${comparison[0].id}`}
-                    style={{
-                      textDecoration: 'none',
-                      color: '#1976d2',
-                      fontWeight: 500,
-                      transition: 'color 0.2s',
-                    }}
-                    onMouseOver={(e) => (e.target.style.color = '#0049a8')}
-                    onMouseOut={(e) => (e.target.style.color = '#1976d2')}
-                  >
+                  <Link to={`/games/${comparison[0].id}`} style={{ textDecoration: 'none', color: '#1976d2', fontWeight: 500 }}>
                     {comparison[0].title}
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <Link
-                    to={`/games/${comparison[1].id}`}
-                    style={{
-                      textDecoration: 'none',
-                      color: '#1976d2',
-                      fontWeight: 500,
-                      transition: 'color 0.2s',
-                    }}
-                    onMouseOver={(e) => (e.target.style.color = '#0049a8')}
-                    onMouseOut={(e) => (e.target.style.color = '#1976d2')}
-                  >
+                  <Link to={`/games/${comparison[1].id}`} style={{ textDecoration: 'none', color: '#1976d2', fontWeight: 500 }}>
                     {comparison[1].title}
                   </Link>
                 </TableCell>

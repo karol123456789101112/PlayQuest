@@ -28,6 +28,11 @@ public class JwtUtil {
                 .compact();
     }
 
+    public Long getUserIdFromToken(String token) {
+        Claims claims = getClaims(token);
+        return claims.get("userId", Long.class);
+    }
+
     public String extractUsername(String token) {
         return getClaims(token).getSubject();
     }

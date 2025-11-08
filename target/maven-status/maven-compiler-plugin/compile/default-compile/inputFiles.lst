@@ -7,6 +7,7 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\ImageUploadController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\OrderController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\PlatformController.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\RecommendationController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\StatsController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\UserController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\VideogameController.java
@@ -15,6 +16,7 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\CategoryViewDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\ContactAddressDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\ContactAddressViewDto.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\GameRecommendationDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\OrderRequestDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\PageResponse.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\PlatformDto.java
@@ -63,5 +65,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\CartService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\CustomUserDetailsService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\OrderService.java
+C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\RecommendationService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\UserService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\ServletInitializer.java
