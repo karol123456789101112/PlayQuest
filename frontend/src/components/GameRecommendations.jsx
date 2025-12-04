@@ -14,6 +14,9 @@ export default function GameRecommendations() {
   const [hoveredPersonalizedId, setHoveredPersonalizedId] = useState(null);
   const [hoveredTopSellingId, setHoveredTopSellingId] = useState(null);
 
+  const [rpgGames, setRpgGames] = useState([]);
+  const [hoveredRpgId, setHoveredRpgId] = useState(null);
+
   useEffect(() => {
     if (isAuthenticated) {
       fetch('http://localhost:8080/recommendations/logged', {
@@ -28,6 +31,12 @@ export default function GameRecommendations() {
       .then(res => res.json())
       .then(data => setTopSelling(data))
       .catch(err => console.error(t('recommendations.loadError'), err));
+
+    fetch('http://localhost:8080/recommendations/category/RPG')
+        .then(res => res.json())
+        .then(data => setRpgGames(data))
+        .catch(err => console.error(t('recommendations.loadError'), err));
+
   }, [isAuthenticated, t]);
 
   const renderGames = (games, hoveredId, setHoveredId) => (
@@ -76,9 +85,22 @@ export default function GameRecommendations() {
       <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
         {isAuthenticated ? t('recommendations.topSelling') : t('recommendations.popular')}
       </Typography>
+
       {topSelling.length === 0 ? (
         <Typography variant="body1">{t('recommendations.noRecommendations')}</Typography>
       ) : renderGames(topSelling, hoveredTopSellingId, setHoveredTopSellingId)}
+
+      <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
+        {t('recommendations.rpg')}
+      </Typography>
+
+      {rpgGames.length === 0 ? (
+        <Typography variant="body1">
+          {t('recommendations.noRecommendations')}
+        </Typography>
+      ) : (
+        renderGames(rpgGames, hoveredRpgId, setHoveredRpgId)
+      )}
     </Box>
   );
 }

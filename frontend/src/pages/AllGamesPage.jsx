@@ -20,32 +20,72 @@ export default function AllGamesPage() {
   const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const [categories, setCategories] = useState([]);
   const [platforms, setPlatforms] = useState([]);
+
   const [selectedCategories, setSelectedCategories] = useState(urlCategory ? [urlCategory] : []);
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+
   const pageSize = 10;
-
   const navigate = useNavigate();
-
-  const useQuery = () => {
-    const { search } = useLocation();
-    return new URLSearchParams(search);
-  };
-
-  const { t, i18n } = useTranslation();
-
+  const { t } = useTranslation();
 
   useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        setLoading(true);
+
+        const [gamesRes, categoriesRes, platformsRes] = await Promise.all([
+          fetch('http://localhost:8080/games/all'),
+          fetch('http://localhost:8080/categories/all'),
+          fetch('http://localhost:8080/platforms/all')
+        ]);
+
+        const [gamesData, categoriesData, platformsData] = await Promise.all([
+          gamesRes.json(),
+          categoriesRes.json(),
+          platformsRes.json()
+        ]);
+
+        setGames(gamesData);                         // pełna lista gier
+        setCategories(categoriesData.map(c => c.name));
+        setPlatforms(platformsData.map(p => p.name));
+
+      } catch (err) {
+        console.error("Błąd pobierania danych:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchAllData();
-  }, [currentPage]);
+  }, []);
 
   useEffect(() => {
-    if (!games.length) return;
-    applyFilters();
-  }, [searchTerm, selectedCategories, selectedPlatforms, games]);
+    const filtered = games.filter(game => {
+
+      const matchesCategory =
+        selectedCategories.length === 0 ||
+        (game.categories || []).some(cat => selectedCategories.includes(cat));
+
+      const matchesPlatform =
+        selectedPlatforms.length === 0 ||
+        (game.platforms || []).some(plat => selectedPlatforms.includes(plat));
+
+      const matchesSearch = game.title.toLowerCase().includes(searchTerm.toLowerCase());
+
+      return matchesCategory && matchesPlatform && matchesSearch;
+    });
+
+    setFilteredGames(filtered);
+    setTotalPages(Math.ceil(filtered.length / pageSize));
+    setCurrentPage(0);
+
+  }, [games, selectedCategories, selectedPlatforms, searchTerm]);
 
   useEffect(() => {
     const q = new URLSearchParams(location.search);
@@ -58,31 +98,10 @@ export default function AllGamesPage() {
     setSearchTerm(newSearch);
   }, [location.search]);
 
-  const fetchAllData = async () => {
-    try {
-      const [gamesRes, categoriesRes, platformsRes] = await Promise.all([
-        fetch(`http://localhost:8080/games?page=${currentPage}&size=${pageSize}`),
-        fetch('http://localhost:8080/categories/all'),
-        fetch('http://localhost:8080/platforms/all')
-      ]);
-
-      const [gamePage, categoriesData, platformsData] = await Promise.all([
-        gamesRes.json(),
-        categoriesRes.json(),
-        platformsRes.json()
-      ]);
-
-      setGames(gamePage.content);
-      setFilteredGames(gamePage.content);
-      setTotalPages(gamePage.totalPages);
-      setCategories(categoriesData.map(c => c.name));
-      setPlatforms(platformsData.map(p => p.name));
-    } catch (error) {
-      console.error('Error while downloading data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const currentGames = filteredGames.slice(
+    currentPage * pageSize,
+    currentPage * pageSize + pageSize
+  );
 
   const handleCategoryChange = (category) => {
     setSelectedCategories(prev =>
@@ -95,27 +114,9 @@ export default function AllGamesPage() {
   const handlePlatformChange = (platform) => {
     setSelectedPlatforms(prev =>
       prev.includes(platform)
-        ? prev.filter(p => p !== platform)
+        ? prev.filter(c => c !== platform)
         : [...prev, platform]
     );
-  };
-
-  const applyFilters = () => {
-    const filtered = games.filter(game => {
-      const matchesCategory =
-        selectedCategories.length === 0 ||
-        (game.categories || []).some(cat => selectedCategories.includes(cat));
-
-      const matchesPlatform =
-        selectedPlatforms.length === 0 ||
-        (game.platforms || []).some(plat => selectedPlatforms.includes(plat));
-
-      const matchesSearch = game.title.toLowerCase().includes(searchTerm);
-
-      return matchesCategory && matchesPlatform && matchesSearch;
-    });
-
-    setFilteredGames(filtered);
   };
 
   if (loading) {
@@ -128,13 +129,9 @@ export default function AllGamesPage() {
 
   return (
     <div>
-      <Header
-        userName="userName"
-      />
+      <Header userName="userName" />
 
-      {/* cały layout w jednym flex-containerze */}
       <Box sx={{ display: 'flex', p: 3 }}>
-        {/* Lewa kolumna – filtry */}
         <Box sx={{ flex: '0 0 25%', pr: 2, position: 'sticky', top: 100 }}>
           <Typography variant="h5" gutterBottom>{t('filters')}</Typography>
 
@@ -171,10 +168,9 @@ export default function AllGamesPage() {
           </Box>
         </Box>
 
-        {/* Prawa kolumna – gry */}
         <Box sx={{ flex: '1 1 75%', backgroundColor: '#111', minHeight: '100vh', p: 4 }}>
           <Grid container spacing={3}>
-            {filteredGames.map(game => (
+            {currentGames.map(game => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={game.id}>
                 <Card
                   onClick={() => navigate(`/games/${game.id}`)}
@@ -202,18 +198,21 @@ export default function AllGamesPage() {
               </Grid>
             ))}
           </Grid>
+
           <Box display="flex" justifyContent="center" mt={4}>
             <Button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 0))}
               disabled={currentPage === 0}
             >
               {t('previousPage')}
             </Button>
+
             <Typography sx={{ mx: 2, color: 'white' }}>
-              {t('page', { currentPage: currentPage + 1, totalPages: totalPages })}
+              {currentPage + 1} / {totalPages}
             </Typography>
+
             <Button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages - 1))}
               disabled={currentPage >= totalPages - 1}
             >
               {t('nextPage')}
@@ -225,5 +224,4 @@ export default function AllGamesPage() {
       <Footer />
     </div>
   );
-
 }

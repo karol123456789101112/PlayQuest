@@ -1,6 +1,7 @@
 package com.pl.PlayQuest.controller;
 
 import com.pl.PlayQuest.dto.GameRecommendationDto;
+import com.pl.PlayQuest.dto.VideogameDto;
 import com.pl.PlayQuest.model.Videogame;
 import com.pl.PlayQuest.repo.VideogameRepository;
 import com.pl.PlayQuest.service.RecommendationService;
@@ -49,6 +50,15 @@ public class RecommendationController {
                 .toList();
 
         return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<VideogameDto>> getByCategory(
+            @PathVariable String category
+    ) {
+        return ResponseEntity.ok(
+                recommendationService.getByCategory(category)
+        );
     }
 
 }

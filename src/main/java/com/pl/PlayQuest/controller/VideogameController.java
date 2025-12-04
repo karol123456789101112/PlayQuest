@@ -71,6 +71,19 @@ public class VideogameController {
         return ResponseEntity.ok(all);
     }
 
+    @GetMapping("/limited")
+    public ResponseEntity<List<VideogameDto>> getLimited(@RequestParam(defaultValue = "20") int limit) {
+        List<VideogameDto> limited = videogameRepository
+                .findByStockQuantityGreaterThanOrderByRatingDesc(0)
+                .stream()
+                .limit(limit)
+                .map(VideogameMapper::toDto)
+                .toList();
+
+        return ResponseEntity.ok(limited);
+    }
+
+
     @PostMapping("add")
     public ResponseEntity<Videogame> addVideogame(@Valid @RequestBody VideogameCreateDto dto) {
         Videogame videogame = new Videogame();
