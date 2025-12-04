@@ -3,7 +3,7 @@ package com.pl.PlayQuest.mapper;
 
 import com.pl.PlayQuest.model.Videogame;
 import com.pl.PlayQuest.dto.VideogameDto;
-
+import com.pl.PlayQuest.dto.GameRecommendationDto;
 import java.util.stream.Collectors;
 
 public class VideogameMapper {
@@ -33,6 +33,15 @@ public class VideogameMapper {
         );
 
         return dto;
+    }
+
+    public static GameRecommendationDto toRecommendationDto(Videogame game) {
+        return new GameRecommendationDto(
+                game.getId(),
+                game.getTitle(),
+                game.getImageUrl(),
+                game.getRating()
+        );
     }
 }
 

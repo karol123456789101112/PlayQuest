@@ -1,8 +1,10 @@
 package com.pl.PlayQuest.service;
 
 import com.pl.PlayQuest.dto.GameRecommendationDto;
+import com.pl.PlayQuest.dto.VideogameDto;
 import com.pl.PlayQuest.model.Videogame;
 import com.pl.PlayQuest.repo.VideogameRepository;
+import com.pl.PlayQuest.mapper.VideogameMapper;
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -30,5 +32,12 @@ public class RecommendationService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public List<VideogameDto> getByCategory(String category) {
+        return videogameRepository.findByCategory(category)
+                .stream()
+                .map(VideogameMapper::toDto)
+                .toList();
     }
 }

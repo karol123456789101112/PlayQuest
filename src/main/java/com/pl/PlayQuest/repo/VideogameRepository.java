@@ -18,6 +18,15 @@ public interface VideogameRepository extends JpaRepository<Videogame, Long> {
     Page<Videogame> findByTitleContainingIgnoreCaseAndStockQuantityGreaterThan(String title, long stockQuantity, Pageable pageable);
 
     @Query("""
+        SELECT DISTINCT v
+        FROM Videogame v
+        WHERE EXISTS (
+            SELECT 1 FROM v.categories c
+            WHERE LOWER(c.name) = LOWER(:category)
+        )
+    """)
+    List<Videogame> findByCategory(@Param("category") String category);
+    @Query("""
         SELECT DISTINCT v FROM Videogame v
         JOIN v.categories c2
         WHERE v.id NOT IN (
@@ -41,5 +50,7 @@ public interface VideogameRepository extends JpaRepository<Videogame, Long> {
         ORDER BY SUM(oi.quantity) DESC
     """)
     List<Videogame> findTopSellingGames(Pageable pageable);
+
+
 
 }
