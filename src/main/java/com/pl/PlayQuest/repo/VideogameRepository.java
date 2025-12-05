@@ -51,6 +51,23 @@ public interface VideogameRepository extends JpaRepository<Videogame, Long> {
     """)
     List<Videogame> findTopSellingGames(Pageable pageable);
 
-
+    @Query("""
+        SELECT g FROM Videogame g
+        WHERE g.stockQuantity > 0
+          AND (:search IS NULL OR LOWER(g.title) LIKE %:search%)
+          AND (:categories IS NULL OR EXISTS (
+                SELECT c FROM g.categories c WHERE c.name IN :categories
+          ))
+          AND (:platforms IS NULL OR EXISTS (
+                SELECT p FROM g.platforms p WHERE p.name IN :platforms
+          ))
+        ORDER BY g.rating DESC
+    """)
+    Page<Videogame> filterGames(
+            @Param("search") String search,
+            @Param("categories") List<String> categories,
+            @Param("platforms") List<String> platforms,
+            Pageable pageable
+    );
 
 }
