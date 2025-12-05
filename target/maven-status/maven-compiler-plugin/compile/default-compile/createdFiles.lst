@@ -49,6 +49,7 @@ com\pl\PlayQuest\model\Payment.class
 com\pl\PlayQuest\repo\ContactAddressRepository.class
 com\pl\PlayQuest\repo\VideogameRepository.class
 com\pl\PlayQuest\controller\CategoryController.class
+com\pl\PlayQuest\dto\OrderDto.class
 com\pl\PlayQuest\dto\VideogameDto.class
 com\pl\PlayQuest\ServletInitializer.class
 com\pl\PlayQuest\service\CartService.class
@@ -79,3 +80,4 @@ com\pl\PlayQuest\dto\ExpenseRequestDto.class
 com\pl\PlayQuest\model\Videogame.class
 com\pl\PlayQuest\repo\OrderItemRepository.class
 WebConfig.class
+com\pl\PlayQuest\dto\OrderDetailsDto.class

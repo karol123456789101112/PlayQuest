@@ -1,5 +1,7 @@
 package com.pl.PlayQuest.controller;
 
+import com.pl.PlayQuest.dto.OrderDetailsDto;
+import com.pl.PlayQuest.dto.OrderDto;
 import com.pl.PlayQuest.dto.OrderRequestDto;
 import com.pl.PlayQuest.exception.NotFoundException;
 import com.pl.PlayQuest.model.Order;
@@ -35,7 +37,7 @@ public class OrderController {
     UserRepository userRepository;
     UserPaymentRepository userPaymentRepository;
     @GetMapping
-    public List<Order> getUserOrders(@RequestParam Long userId) {
+    public List<OrderDto> getUserOrders(@RequestParam Long userId) {
         return orderService.getOrdersWithUpdatedStatuses(userId);
     }
 
@@ -51,9 +53,28 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
+    public ResponseEntity<OrderDetailsDto> getOrderById(@PathVariable Long orderId) {
         return orderRepository.findById(orderId)
-                .map(ResponseEntity::ok)
+                .map(order -> {
+
+                    OrderDetailsDto dto = new OrderDetailsDto();
+                    dto.setId(order.getId());
+                    dto.setOrderDate(order.getOrderDate());
+                    dto.setTotalAmount(order.getTotalAmount());
+                    dto.setContactAddress(order.getContactAddress());
+                    dto.setItems(order.getItems());
+                    dto.setStatus(order.getStatus());
+
+                    UserPayment payment = userPaymentRepository
+                            .findTopByOrderIdOrderByIdDesc(order.getId())
+                            .orElse(null);
+
+                    dto.setPaymentStatus(
+                            payment != null ? payment.getStatus() : PaymentStatus.FAILED
+                    );
+
+                    return ResponseEntity.ok(dto);
+                })
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -62,6 +83,8 @@ public class OrderController {
             @PathVariable Long orderId,
             @RequestParam BigDecimal amount,
             @AuthenticationPrincipal UserDetails userDetails) {
+
+        System.out.println("STRIPE PAYMENT ENDPOINT HIT FOR ORDER=" + orderId);
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException("Order not found"));
