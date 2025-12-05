@@ -32,7 +32,7 @@ public class OrderService {
     @Autowired
     private VideogameRepository videogameRepository;
 
-    public void createOrder(Long userId, Long addressId) {
+    public Order createOrder(Long userId, Long addressId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User has not been found"));
 
@@ -81,9 +81,10 @@ public class OrderService {
             orderItemRepository.save(item);
         }
 
-
         // Wyczyść koszyk
         cartRepository.deleteAll(cartItems);
+
+        return order;
     }
     public List<Order> getOrdersWithUpdatedStatuses(Long userId) {
         List<Order> orders = orderRepository.findByUserIdOrderByOrderDateDesc(userId);

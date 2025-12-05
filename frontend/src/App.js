@@ -24,6 +24,7 @@ import AddressManagementPage from './pages/AddressManagementPage';
 import CompareGamesPage from './pages/CompareGamesPage';
 import GamesStatisticsPage from './pages/GamesStatisticsPage';
 import RecommendedGames from './components/RecommendedGames';
+import PaymentPage from './pages/PaymentPage';
 
 function AppContent() {
   const { isAuthenticated, loading, userRole } = useAuth();
@@ -67,8 +68,11 @@ function AppContent() {
        <Route path="/orders/:id" element={ isAuthenticated
                ? <OrderDetailsPage /> : <Navigate to="/" />} />
 
-        <Route path="/addresses" element={ isAuthenticated
+       <Route path="/addresses" element={ isAuthenticated
                ? <AddressManagementPage /> : <Navigate to="/" />} />
+
+       <Route path="/payment/:orderId" element={ isAuthenticated
+               ? <PaymentPage /> : <Navigate to="/" />} />
 
       <Route path="/" element={<HomePage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -77,7 +81,6 @@ function AppContent() {
       <Route path="/games/:id" element={<GameDetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/comparer" element={<CompareGamesPage />} />
-      <Route path="/ggg" element={<RecommendedGames />} />
 
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
