@@ -120,6 +120,7 @@
   "orderId": "Order ID",
   "date": "Date",
   "status": "Status",
+  "deliveryStatus": "Delivery status",
   "details": "Details",
   "statusOptions": {
     "DELIVERED": "Delivered",
@@ -276,6 +277,13 @@
     "rating": "Rating",
     "bestRated": "Best rated games",
     "rpg": "RPG Games"
+  },
+
+  "paymentStatus": {
+    "SUCCEEDED": "Paid",
+    "CREATED": "Unpaid",
+    "paymentStatus": "Payment status",
+    "payNow": "Pay now"
   },
 
   "POPDescription": "Description: Prince of Persia: The Sands of Time is an action game with platforming and puzzle-solving elements. It updates many of the gameplay concepts from the previous games, and brings them into a fully three-dimensional world. The Prince will engage in sword fighting, wall climbing, spike dodging, puzzle solving, and more in his quest. The Prince also carries the Dagger of Time, which allows him to unleash several magical powers. The most important of these powers is the ability to reverse time. This ability allows the player to reverse their actions when they lead the Prince to his death."

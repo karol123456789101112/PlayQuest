@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import { useAuth } from '../security/authContext';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../i18n';
 
 const OrderListPage = () => {
@@ -13,17 +13,20 @@ const OrderListPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem('token');
         const res = await fetch(`http://localhost:8080/orders?userId=${userId}`, {
-        headers: { 'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`,},
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
         });
         const data = await res.json();
+        console.log(data)
         setOrders(data);
       } catch (error) {
         console.error("Error while downloading orders:", error);
@@ -49,7 +52,8 @@ const OrderListPage = () => {
               <TableRow>
                 <TableCell><strong>{t('orderId')}</strong></TableCell>
                 <TableCell><strong>{t('date')}</strong></TableCell>
-                <TableCell><strong>{t('status')}</strong></TableCell>
+                <TableCell><strong>{t('deliveryStatus')}</strong></TableCell>
+                <TableCell><strong>{t(`paymentStatus.paymentStatus`)}</strong></TableCell>
                 <TableCell><strong>{t('details')}</strong></TableCell>
               </TableRow>
             </TableHead>
@@ -59,6 +63,7 @@ const OrderListPage = () => {
                   <TableCell>{order.id}</TableCell>
                   <TableCell>{new Date(order.orderDate).toLocaleString()}</TableCell>
                   <TableCell>{t(`statusOptions.${order.status}`)}</TableCell>
+                  <TableCell>{t(`paymentStatus.${order.paymentStatus}`)}</TableCell>
                   <TableCell>
                     <Button size="small" onClick={() => navigate(`/orders/${order.id}`)}>
                       {t('details')}

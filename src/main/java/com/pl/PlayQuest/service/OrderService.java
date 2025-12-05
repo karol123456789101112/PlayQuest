@@ -1,5 +1,6 @@
 package com.pl.PlayQuest.service;
 
+import com.pl.PlayQuest.dto.OrderDto;
 import com.pl.PlayQuest.exception.EmptyCartException;
 import com.pl.PlayQuest.model.*;
 import com.pl.PlayQuest.repo.*;
@@ -31,6 +32,9 @@ public class OrderService {
     private OrderItemRepository orderItemRepository;
     @Autowired
     private VideogameRepository videogameRepository;
+
+    @Autowired
+    private UserPaymentRepository userPaymentRepository;
 
     public Order createOrder(Long userId, Long addressId) {
         User user = userRepository.findById(userId)
@@ -86,23 +90,39 @@ public class OrderService {
 
         return order;
     }
-    public List<Order> getOrdersWithUpdatedStatuses(Long userId) {
+    public List<OrderDto> getOrdersWithUpdatedStatuses(Long userId) {
         List<Order> orders = orderRepository.findByUserIdOrderByOrderDateDesc(userId);
         LocalDateTime now = LocalDateTime.now();
+        List<OrderDto> dtos = new ArrayList<>();
 
         for (Order order : orders) {
-            Duration duration = Duration.between(order.getOrderDate(), now);
+            UserPayment payment = userPaymentRepository
+                    .findTopByOrderIdOrderByIdDesc(order.getId())
+                    .orElse(null);
 
-            if (duration.toMinutes() >= 2 && order.getStatus() != OrderStatus.DELIVERED) {
-                order.setStatus(OrderStatus.DELIVERED);
-                orderRepository.save(order);
-            } else if (duration.toMinutes() >= 1 && order.getStatus() == OrderStatus.PENDING) {
-                order.setStatus(OrderStatus.SENT);
-                orderRepository.save(order);
+            if (payment != null && payment.getStatus() == PaymentStatus.SUCCEEDED) {
+                LocalDateTime paidAt = payment.getPaidAt();
+                Duration duration = Duration.between(paidAt, now);
+
+                if (duration.toMinutes() >= 2 && order.getStatus() != OrderStatus.DELIVERED) {
+                    order.setStatus(OrderStatus.DELIVERED);
+                    orderRepository.save(order);
+                } else if (duration.toMinutes() >= 1 && order.getStatus() == OrderStatus.PENDING) {
+                    order.setStatus(OrderStatus.SENT);
+                    orderRepository.save(order);
+                }
             }
+
+            OrderDto dto = new OrderDto();
+            dto.setId(order.getId());
+            dto.setOrderDate(order.getOrderDate());
+            dto.setStatus(order.getStatus());
+            dto.setPaymentStatus(payment != null ? payment.getStatus() : null);
+
+            dtos.add(dto);
         }
 
-        return orders;
+        return dtos;
     }
 
 }
