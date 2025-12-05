@@ -192,5 +192,37 @@ public class VideogameController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<PageResponse<VideogameDto>> filterGames(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) List<String> categories,
+            @RequestParam(required = false) List<String> platforms,
+            @RequestParam(required = false, defaultValue = "") String search
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Videogame> gamePage = videogameRepository.filterGames(
+                search.toLowerCase(),
+                categories,
+                platforms,
+                pageable
+        );
+
+        List<VideogameDto> content = gamePage.getContent().stream()
+                .map(VideogameMapper::toDto)
+                .toList();
+
+        PageResponse<VideogameDto> response = new PageResponse<>(
+                content,
+                gamePage.getTotalPages(),
+                gamePage.getTotalElements(),
+                gamePage.getNumber(),
+                gamePage.getSize()
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
 }
 
