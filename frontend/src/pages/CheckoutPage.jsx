@@ -28,7 +28,6 @@ const CheckoutPage = () => {
             headers: {'Authorization': `Bearer ${token}`,},
         });
         const data = await response.json();
-        console.log("📦 Addresses from backend:", data);
         setAddresses(data);
         if (data.length > 0) {
           setSelectedAddressId(data.find(addr => addr.isDefault)?.id || data[0].id);
@@ -70,8 +69,11 @@ const CheckoutPage = () => {
         return;
       }
 
-      alert(t('orderPlaced'));
-      navigate('/');
+      const order = await response.json();
+      const orderId = order.orderId;
+      const amount = order.totalAmount;
+
+      navigate(`/payment/${orderId}`, { state: { amount } });
     } catch (error) {
       console.error("Error:", error);
       alert("Network error");

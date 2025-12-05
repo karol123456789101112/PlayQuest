@@ -8,6 +8,8 @@
     "@fontsource/montserrat": "^5.2.5",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.0.2",
+    "@stripe/react-stripe-js": "^5.4.1",
+    "@stripe/stripe-js": "^8.5.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
