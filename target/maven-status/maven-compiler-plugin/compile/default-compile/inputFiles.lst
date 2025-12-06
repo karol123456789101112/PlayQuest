@@ -1,4 +1,3 @@
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\config\MessageSource.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\config\StripeConfig.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\config\WebConfig.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\AuthController.java
@@ -11,7 +10,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\PlatformController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\RecommendationController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\StatsController.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\StripeWebhookController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\UserController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\VideogameController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\CartRequestDto.java
@@ -52,7 +50,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Order.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\OrderItem.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\OrderStatus.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Payment.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\PaymentStatus.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Platform.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Role.java
@@ -67,7 +64,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\ExpenseRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\OrderItemRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\OrderRepository.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\PaymentRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\PlatformRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\StatsRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\UserPaymentRepository.java

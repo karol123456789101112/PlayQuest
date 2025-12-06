@@ -44,8 +44,6 @@ com\pl\PlayQuest\mapper\AddressMapper.class
 com\pl\PlayQuest\repo\ExpenseRepository.class
 com\pl\PlayQuest\repo\UserRepository.class
 com\pl\PlayQuest\model\OrderStatus.class
-com\pl\PlayQuest\controller\StripeWebhookController.class
-com\pl\PlayQuest\model\Payment.class
 com\pl\PlayQuest\repo\ContactAddressRepository.class
 com\pl\PlayQuest\repo\VideogameRepository.class
 com\pl\PlayQuest\controller\CategoryController.class
@@ -72,7 +70,6 @@ com\pl\PlayQuest\dto\PlatformViewDto.class
 com\pl\PlayQuest\exception\EmptyCartException.class
 com\pl\PlayQuest\model\Category.class
 com\pl\PlayQuest\mapper\ExpenseMapper.class
-com\pl\PlayQuest\repo\PaymentRepository.class
 com\pl\PlayQuest\service\CustomUserDetailsService.class
 com\pl\PlayQuest\exception\InactiveUserException.class
 com\pl\PlayQuest\repo\StatsRepository.class
