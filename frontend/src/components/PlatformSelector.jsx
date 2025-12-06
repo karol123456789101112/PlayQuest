@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, Paper, Stack, CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import '../i18n';
 
 export default function PlatformSelector() {
   const [platforms, setPlatforms] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchPlatforms = async () => {
@@ -51,10 +51,10 @@ export default function PlatformSelector() {
               spacing={2}
               sx={{
                 width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                padding: '0 20px',
+                justifyContent: 'center',
                 flexWrap: 'wrap',
+                gap: 2,
+                mt: 3,
               }}
             >
               {platforms.map((platform) => (
@@ -64,9 +64,14 @@ export default function PlatformSelector() {
                   color="primary"
                   component={Link}
                   to={`/games?platform=${encodeURIComponent(platform.name)}`}
-                  sx={{ flexGrow: 1, padding: '16px', minWidth: 120 }}
+                  sx={{
+                    minWidth: 140,
+                    padding: '14px 20px',
+                    fontWeight: 'bold',
+                    flexShrink: 0,
+                  }}
                 >
-                  {platform.name}
+                  {t(`platforms.${platform.name}`, { defaultValue: platform.name })}
                 </Button>
               ))}
             </Stack>
