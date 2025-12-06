@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
 
-export default function Header({ userName }) {
+export default function Header() {
   const { isAuthenticated, userRole, firstName, logout } = useAuth();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,28 +30,53 @@ export default function Header({ userName }) {
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#111' }}>
-      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* Lewa strona - logo i rola */}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h6" sx={{ color: '#fff', cursor: 'pointer' }} onClick={() => navigate('/')}>
+      <Toolbar
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'stretch', sm: 'center' },
+          justifyContent: 'space-between',
+          gap: { xs: 1.5, sm: 0 },
+          py: { xs: 2, sm: 1 },
+        }}
+      >
+
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'center', sm: 'flex-start' },
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ color: '#fff', cursor: 'pointer' }}
+            onClick={() => navigate('/')}
+          >
             {t('appName')}
           </Typography>
+
           {isAuthenticated && (
-            <>
-              <Typography variant="body1" sx={{ color: '#fff', ml: 2 }}>
-                {t('welcome', { name: firstName || '' })}
-              </Typography>
-            </>
+            <Typography variant="body1" sx={{ color: '#fff', ml: 2 }}>
+              {t('welcome', { name: firstName || '' })}
+            </Typography>
           )}
         </Box>
 
-        {/* Środek - pasek wyszukiwania */}
-        <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            width: { xs: '100%', sm: '50%' },
+            order: { xs: 3, sm: 2 },
+          }}
+        >
           <TextField
             placeholder={t('searchPlaceholder')}
             variant="outlined"
             size="small"
-            sx={{ width: '50%' }}
+            fullWidth
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyDown={handleSearchSubmit}
@@ -65,31 +90,42 @@ export default function Header({ userName }) {
           />
         </Box>
 
-        {/* Prawa strona - ikony i wylogowanie */}
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'center', sm: 'flex-end' },
+          }}
+        >
           <IconButton sx={{ color: '#fff' }} onClick={() => navigate('/cart')}>
             <ShoppingCartIcon />
           </IconButton>
+
           {isAuthenticated && (
-          <IconButton sx={{ color: '#fff' }} onClick={() => navigate('/profile')}>
-            <AccountCircleIcon />
-          </IconButton>
+            <IconButton sx={{ color: '#fff' }} onClick={() => navigate('/profile')}>
+              <AccountCircleIcon />
+            </IconButton>
           )}
+
           {userRole === 'ADMIN' && (
             <IconButton sx={{ color: '#fff' }} onClick={() => navigate('/admin')}>
               <SettingsIcon />
             </IconButton>
           )}
+
           {userRole === 'ADMIN' && (
             <IconButton sx={{ color: '#fff' }} onClick={() => navigate('/statistics')}>
               <BarChartIcon />
             </IconButton>
           )}
+
           {isAuthenticated ? (
             <Button
               variant="contained"
               color="error"
-              sx={{ ml: 2, color: '#fff' }}
+              sx={{ color: '#fff' }}
               startIcon={<ExitToAppIcon />}
               onClick={() => {
                 logout();
@@ -102,7 +138,7 @@ export default function Header({ userName }) {
             <Button
               variant="contained"
               color="primary"
-              sx={{ ml: 2, color: '#fff' }}
+              sx={{ color: '#fff' }}
               startIcon={<ExitToAppIcon />}
               onClick={() => navigate('/login')}
             >
@@ -110,20 +146,12 @@ export default function Header({ userName }) {
             </Button>
           )}
 
-          <Button
-            color="inherit"
-            sx={{ ml: 2 }}
-            onClick={() => i18n.changeLanguage('en')}
-          >
+          <Button color="inherit" onClick={() => i18n.changeLanguage('en')}>
             EN
           </Button>
-          <Button
-            color="inherit"
-            onClick={() => i18n.changeLanguage('pl')}
-          >
+          <Button color="inherit" onClick={() => i18n.changeLanguage('pl')}>
             PL
           </Button>
-
         </Box>
       </Toolbar>
     </AppBar>

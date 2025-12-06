@@ -21,7 +21,13 @@ export default function ImageCarousel() {
   return (
     <Box
       sx={{
-        height: '700px',
+        height: {
+          xs: '200px',
+          sm: '300px',
+          md: '450px',
+          lg: '600px',
+          xl: '700px',
+        },
         width: '100%',
         overflow: 'hidden',
         position: 'relative',

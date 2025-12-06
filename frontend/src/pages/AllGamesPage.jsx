@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useMediaQuery, useTheme } from '@mui/material';
 import '../i18n';
 
 export default function AllGamesPage() {
@@ -15,6 +16,9 @@ export default function AllGamesPage() {
   const urlCategory = query.get('category');
   const urlPlatform = query.get('platform');
   const urlSearch = query.get('search') || '';
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [searchTerm, setSearchTerm] = useState(urlSearch);
 
@@ -38,9 +42,6 @@ export default function AllGamesPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  //-------------------------------------------------------
-  // Load categories & platforms once
-  //-------------------------------------------------------
   useEffect(() => {
     const fetchMeta = async () => {
       try {
@@ -63,9 +64,6 @@ export default function AllGamesPage() {
     fetchMeta();
   }, []);
 
-  //-------------------------------------------------------
-  // Fetch games from backend whenever filters change
-  //-------------------------------------------------------
   useEffect(() => {
     const fetchGames = async () => {
       try {
@@ -95,9 +93,6 @@ export default function AllGamesPage() {
     fetchGames();
   }, [selectedCategories, selectedPlatforms, searchTerm, currentPage]);
 
-  //-------------------------------------------------------
-  // Sync filters from URL
-  //-------------------------------------------------------
   useEffect(() => {
     const q = new URLSearchParams(location.search);
     setSelectedCategories(q.get("category") ? [q.get("category")] : []);
@@ -106,9 +101,6 @@ export default function AllGamesPage() {
     setCurrentPage(0);
   }, [location.search]);
 
-  //-------------------------------------------------------
-  // Handlers
-  //-------------------------------------------------------
   const handleCategoryChange = (category) => {
     setSelectedCategories(prev =>
       prev.includes(category)
@@ -127,9 +119,6 @@ export default function AllGamesPage() {
     setCurrentPage(0);
   };
 
-  //-------------------------------------------------------
-  // Component
-  //-------------------------------------------------------
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
@@ -142,12 +131,18 @@ export default function AllGamesPage() {
     <div>
       <Header userName="userName" />
 
-      <Box sx={{ display: 'flex', p: 3 }}>
-        {/* LEFT SIDEBAR */}
-        <Box sx={{ flex: '0 0 25%', pr: 2, position: 'sticky', top: 100 }}>
+      <Box sx={{ display: 'flex', p: 3, flexDirection: { xs: 'column', sm: 'row' } }}>
+        <Box
+          sx={{
+            flex: { xs: '1 1 100%', sm: '0 0 25%' },
+            pr: { xs: 0, sm: 2 },
+            mb: { xs: 2, sm: 0 },
+            position: { sm: 'sticky' },
+            top: { sm: 100 },
+          }}
+        >
           <Typography variant="h5" gutterBottom>{t('filters')}</Typography>
 
-          {/* Categories */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="h6">{t('categories.categories')}</Typography>
             {categories.map(cat => (
@@ -164,7 +159,6 @@ export default function AllGamesPage() {
             ))}
           </Box>
 
-          {/* Platforms */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="h6">Platforms</Typography>
             {platforms.map(plat => (
@@ -182,39 +176,69 @@ export default function AllGamesPage() {
           </Box>
         </Box>
 
-        {/* GAMES LIST */}
-        <Box sx={{ flex: '1 1 75%', backgroundColor: '#111', minHeight: '100vh', p: 4 }}>
-          <Grid container spacing={3}>
-            {games.map(game => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={game.id}>
+        <Box sx={{ flex: { xs: '1 1 100%', sm: '1 1 75%' }, backgroundColor: '#111', minHeight: '100vh', p: 4 }}>
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+              <CircularProgress />
+            </Box>
+          ) : isMobile ? (
+            <Box sx={{ display: 'flex', overflowX: 'auto', gap: 2, py: 2 }}>
+              {games.map(game => (
                 <Card
+                  key={game.id}
                   onClick={() => navigate(`/games/${game.id}`)}
                   sx={{
+                    flex: '0 0 200px',
+                    height: 300,
                     borderRadius: 2,
                     overflow: 'hidden',
-                    height: 300,
-                    width: 200,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#000',
                     cursor: 'pointer',
-                    transition: 'transform 0.2s ease-in-out',
-                    '&:hover': { transform: 'scale(1.03)' },
+                    transition: 'transform 0.2s',
+                    '&:hover': { transform: 'scale(1.05)' },
+                    backgroundColor: '#000',
                   }}
                 >
                   <CardMedia
                     component="img"
                     image={game.imageUrl}
                     alt={game.title}
-                    sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
+                    sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 </Card>
-              </Grid>
-            ))}
-          </Grid>
+              ))}
+            </Box>
+          ) : (
+            <Grid container spacing={3}>
+              {games.map(game => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={game.id}>
+                  <Card
+                    onClick={() => navigate(`/games/${game.id}`)}
+                    sx={{
+                      borderRadius: 2,
+                      overflow: 'hidden',
+                      height: 300,
+                      width: 200,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#000',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s ease-in-out',
+                      '&:hover': { transform: 'scale(1.03)' },
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      image={game.imageUrl}
+                      alt={game.title}
+                      sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
+                    />
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
 
-          {/* PAGINATION */}
           <Box display="flex" justifyContent="center" mt={4}>
             <Button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 0))}

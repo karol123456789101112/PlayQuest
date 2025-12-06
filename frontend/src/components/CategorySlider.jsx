@@ -8,31 +8,56 @@ export default function CategorySlider() {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch('http://localhost:8080/categories/all');
-        setCategories(await res.json());
-      } catch (e) { console.error(e); }
-      finally     { setLoading(false); }
+        const data = await res.json();
+        setCategories(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 
-  if (loading) return <Box sx={{ p:4, textAlign:'center' }}><CircularProgress/></Box>;
+  if (loading) {
+    return (
+      <Box sx={{ p: 4, textAlign: 'center' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{ display:'flex', overflowX:'auto', gap:2, p:2, bgcolor:'#1a1a1a' }}>
-      {categories.map(cat => (
+    <Box
+      sx={{
+        display: 'flex',
+        overflowX: 'auto',
+        gap: 2,
+        p: 2,
+        bgcolor: '#1a1a1a',
+      }}
+    >
+      {categories.map((cat) => (
         <Chip
           key={cat.id}
-          label={t(`categories.${cat.name}`, cat.name)}
+          label={t(`categories.${cat.name}`, { defaultValue: cat.name })}
           clickable
-          onClick={() => navigate(`/games?category=${encodeURIComponent(cat.name)}`)} // ⬅️
+          onClick={() =>
+            navigate(`/games?category=${encodeURIComponent(cat.name)}`)
+          }
           color="primary"
           variant="outlined"
-          sx={{ minWidth:100, minHeight:44, fontWeight:'bold', flexShrink:0 }}
+          sx={{
+            minWidth: 100,
+            minHeight: 44,
+            fontWeight: 'bold',
+            flexShrink: 0,
+          }}
         />
       ))}
     </Box>
