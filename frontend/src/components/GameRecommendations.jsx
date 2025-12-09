@@ -42,7 +42,7 @@ export default function GameRecommendations() {
           key={game.id}
           onClick={() => navigate(`/games/${game.id}`)}
           sx={{
-            width: 200, // 🔹 sztywna szerokość
+            width: 200,
             height: 300,
             flexShrink: 0,
             borderRadius: 2,
