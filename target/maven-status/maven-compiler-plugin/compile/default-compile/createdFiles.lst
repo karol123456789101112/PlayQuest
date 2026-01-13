@@ -21,15 +21,18 @@ com\pl\PlayQuest\exception\NotFoundException.class
 com\pl\PlayQuest\dto\GameRecommendationDto.class
 com\pl\PlayQuest\dto\RegisterUserDto.class
 com\pl\PlayQuest\security\JwtRequestFilter.class
+com\pl\PlayQuest\service\VideogameService.class
 com\pl\PlayQuest\dto\ContactAddressViewDto.class
 com\pl\PlayQuest\controller\UserController.class
 com\pl\PlayQuest\repo\ContactRepository.class
 com\pl\PlayQuest\controller\VideogameController.class
 com\pl\PlayQuest\mapper\PlatformMapper.class
+com\pl\PlayQuest\service\ImageUploadService.class
 com\pl\PlayQuest\repo\PlatformRepository.class
 com\pl\PlayQuest\mapper\UserMapper.class
 com\pl\PlayQuest\security\JwtUtil.class
 com\pl\PlayQuest\dto\UserViewDto.class
+com\pl\PlayQuest\service\ContactAddressService.class
 com\pl\PlayQuest\config\StripeConfig.class
 com\pl\PlayQuest\dto\CartRequestDto.class
 com\pl\PlayQuest\model\Expense.class
@@ -53,6 +56,9 @@ com\pl\PlayQuest\ServletInitializer.class
 com\pl\PlayQuest\service\CartService.class
 com\pl\PlayQuest\model\ContactAddress.class
 com\pl\PlayQuest\model\UserPayment.class
+com\pl\PlayQuest\config\WebConfig.class
+com\pl\PlayQuest\service\PlatformService.class
+com\pl\PlayQuest\service\CategoryService.class
 com\pl\PlayQuest\dto\CategoryViewDto.class
 com\pl\PlayQuest\service\RecommendationService.class
 com\pl\PlayQuest\model\Cart.class
@@ -64,6 +70,7 @@ com\pl\PlayQuest\controller\RecommendationController.class
 com\pl\PlayQuest\controller\PlatformController.class
 com\pl\PlayQuest\controller\ImageUploadController.class
 com\pl\PlayQuest\controller\OrderController.class
+com\pl\PlayQuest\service\StatsService.class
 com\pl\PlayQuest\controller\CartController.class
 com\pl\PlayQuest\repo\UserPaymentRepository.class
 com\pl\PlayQuest\dto\PlatformViewDto.class
@@ -76,5 +83,5 @@ com\pl\PlayQuest\repo\StatsRepository.class
 com\pl\PlayQuest\dto\ExpenseRequestDto.class
 com\pl\PlayQuest\model\Videogame.class
 com\pl\PlayQuest\repo\OrderItemRepository.class
-WebConfig.class
 com\pl\PlayQuest\dto\OrderDetailsDto.class
+com\pl\PlayQuest\service\ExpenseService.class

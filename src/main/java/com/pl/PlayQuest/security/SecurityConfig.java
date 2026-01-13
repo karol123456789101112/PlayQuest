@@ -31,19 +31,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/categories/add","/categories/update/{id}","categories/delete/{id}",
-                                "/upload-image","/platforms/add","platforms/update/{id}","platforms/delete/{id}",
+                        .requestMatchers("/categories/add","/categories/update/{id}","/categories/delete/{id}",
+                                "/upload-image","/platforms/add","/platforms/update/{id}","/platforms/delete/{id}",
                                 "/users","/users/{id}","/users/{id}/role","/games/add","/games/update/{id}","/games/delete/{id}",
                                 "/stats/*").hasRole("ADMIN")
-                        .requestMatchers("/addresses","/addresses/{id}","addresses/{id}/default","/cart","/orders",
-                                "/orders/{orderId}", "/recommendations/logged", "orders/{orderId}/stripe-payment", "/expenses").authenticated()
+                        .requestMatchers("/addresses","/addresses/{id}","/addresses/{id}/default","/cart","/orders",
+                                "/orders/{orderId}", "/recommendations/logged", "/orders/{orderId}/stripe-payment", "/expenses").authenticated()
                         .anyRequest().permitAll()
                 )
-                .csrf(csrf -> csrf.disable()) // Wyłącz CSRF
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS)) // Stateless, ponieważ JWT jest używane
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class) //filtr JWT;
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
-
 
 
         return http.build();
@@ -65,13 +64,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000"); // Dodajemy frontendowy adres
-        configuration.addAllowedMethod("*"); // Pozwól na wszystkie metody HTTP
-        configuration.addAllowedHeader("*"); // Pozwól na wszystkie nagłówki
-        configuration.setAllowCredentials(true); // Pozwól na przesyłanie cookies
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // CORS do wszystkich endpointów
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }

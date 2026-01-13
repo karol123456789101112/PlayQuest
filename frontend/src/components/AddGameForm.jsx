@@ -5,7 +5,6 @@ import {
   FormHelperText
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import '../i18n';
 
 export default function AddGameForm() {
   const [form, setForm] = useState({
@@ -183,6 +182,7 @@ export default function AddGameForm() {
           value={form.description} onChange={handleChange}
           error={!!errors.description} helperText={errors.description} required />
         <TextField label={t('price')} name="price" type="number"
+          inputProps={{ min: 0, max: 10000, step: 10 }}
           value={form.price} onChange={handleChange}
           error={!!errors.price} helperText={errors.price} required />
         <TextField label={t('releaseDate')} name="releaseDate" type="date"

@@ -1,20 +1,18 @@
 package com.pl.PlayQuest.service;
 
 import com.pl.PlayQuest.dto.UserViewDto;
+import com.pl.PlayQuest.exception.InactiveUserException;
 import com.pl.PlayQuest.exception.UserNotFoundException;
 import com.pl.PlayQuest.mapper.UserMapper;
 import com.pl.PlayQuest.model.User;
-import com.pl.PlayQuest.model.Role;
 import com.pl.PlayQuest.repo.UserRepository;
+import com.pl.PlayQuest.security.JwtUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
-import java.util.List;
-import java.time.LocalDateTime;
-
 import static com.pl.PlayQuest.model.Role.ADMIN;
 import static com.pl.PlayQuest.model.Role.USER;
 
@@ -22,10 +20,12 @@ import static com.pl.PlayQuest.model.Role.USER;
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
+        this.jwtUtil = jwtUtil;
     }
 
     public User registerUser(String email, String password, String firstName, String lastName) {
@@ -42,13 +42,21 @@ public class UserService {
 
         return userRepository.save(user);
     }
-    public boolean authenticateUser(String username, String password) {
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return passwordEncoder.matches(password, user.getPassword());
+    public String login(String email, String password) {
+
+        User user = userRepository.findByUsername(email)
+                .orElseThrow(() ->
+                        new BadCredentialsException("Błędny email lub hasło."));
+
+        if (!user.isActive()) {
+            throw new InactiveUserException("User is not active");
         }
-        return false;
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Błędny email lub hasło.");
+        }
+
+        return jwtUtil.generateToken(user);
     }
 
     public void deleteUserById(Long id) {

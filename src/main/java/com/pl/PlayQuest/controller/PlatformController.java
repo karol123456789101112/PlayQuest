@@ -1,95 +1,68 @@
 package com.pl.PlayQuest.controller;
 
 import com.pl.PlayQuest.dto.*;
-import com.pl.PlayQuest.mapper.PlatformMapper;
 import com.pl.PlayQuest.model.Platform;
-import com.pl.PlayQuest.repo.PlatformRepository;
+import com.pl.PlayQuest.service.PlatformService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/platforms")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class PlatformController {
 
-
-    @Autowired
-    private final PlatformRepository platformRepository;
-
-    public PlatformController(PlatformRepository platformRepository) {
-        this.platformRepository = platformRepository;
-    }
+    private final PlatformService platformService;
 
     @GetMapping
-    public ResponseEntity<?> getAllPlatforms(
+    public ResponseEntity<PageResponse<PlatformViewDto>> getAllPlatforms(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Platform> platformPage = platformRepository.findByActiveTrue(pageable);
+            @RequestParam(defaultValue = "10") int size) {
 
-        List<PlatformViewDto> dtoList = platformPage.getContent()
-                .stream()
-                .map(PlatformMapper::toViewDto)
-                .toList();
-
-        PageResponse<PlatformViewDto> response = new PageResponse<>(
-                dtoList,
-                platformPage.getTotalPages(),
-                platformPage.getTotalElements(),
-                platformPage.getNumber(),
-                platformPage.getSize()
+        return ResponseEntity.ok(
+                platformService.getAllActive(page, size)
         );
-
-        return ResponseEntity.ok(response);
     }
+
     @GetMapping("/all")
     public List<PlatformViewDto> getAllWithoutPagination() {
-        return platformRepository.findByActiveTrue()
-                .stream()
-                .map(PlatformMapper::toViewDto)
-                .toList();
+        return platformService.getAllActive();
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addPlatform(@Valid @RequestBody PlatformDto platformDto) {
-        Platform saved = platformRepository.save(PlatformMapper.toEntity(platformDto));
-        return ResponseEntity.ok(saved);
+    public ResponseEntity<Platform> addPlatform(
+            @Valid @RequestBody PlatformDto platformDto) {
+
+        return ResponseEntity.ok(platformService.add(platformDto));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<PlatformViewDto> getPlatformById(@PathVariable Long id) {
-        return platformRepository.findById(id)
-                .map(PlatformMapper::toViewDto)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<PlatformViewDto> getPlatformById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(platformService.getById(id));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updatePlatform(@PathVariable Long id, @Valid @RequestBody PlatformDto updatedDto) {
-        return platformRepository.findById(id)
-                .map(existing -> {
-                    existing.setName(updatedDto.getName());
-                    return ResponseEntity.ok(platformRepository.save(existing));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Platform> updatePlatform(
+            @PathVariable Long id,
+            @Valid @RequestBody PlatformDto updatedDto) {
+
+        return ResponseEntity.ok(
+                platformService.update(id, updatedDto)
+        );
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        Platform platform = platformRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+    public ResponseEntity<Void> deletePlatform(
+            @PathVariable Long id) {
 
-        platform.setActive(false);
-        platformRepository.save(platform);
-
+        platformService.softDelete(id);
         return ResponseEntity.ok().build();
     }
-
 }
+

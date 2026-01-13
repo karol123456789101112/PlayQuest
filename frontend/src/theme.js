@@ -7,10 +7,10 @@ const theme = createTheme({
             default: '#000',
         },
         primary: {
-            main: '#6495ED', // login button
+            main: '#6495ED',
         },
         secondary: {
-            main: '#6a5acd', // register button
+            main: '#6a5acd',
         },
         text: {
             primary: '#ffffff',
