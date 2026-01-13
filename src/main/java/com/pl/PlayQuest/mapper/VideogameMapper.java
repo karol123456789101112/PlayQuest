@@ -1,6 +1,7 @@
 package com.pl.PlayQuest.mapper;
 
 
+import com.pl.PlayQuest.dto.VideogameCreateDto;
 import com.pl.PlayQuest.model.Videogame;
 import com.pl.PlayQuest.dto.VideogameDto;
 import com.pl.PlayQuest.dto.GameRecommendationDto;
@@ -42,6 +43,29 @@ public class VideogameMapper {
                 game.getImageUrl(),
                 game.getRating()
         );
+    }
+    public static Videogame fromCreateDto(VideogameCreateDto dto) {
+        Videogame v = new Videogame();
+        v.setTitle(dto.getTitle());
+        v.setDescription(dto.getDescription());
+        v.setPrice(dto.getPrice());
+        v.setReleaseDate(dto.getReleaseDate());
+        v.setPublisher(dto.getPublisher());
+        v.setRating(dto.getRating());
+        v.setStockQuantity(dto.getStockQuantity());
+        v.setImageUrl(dto.getImageUrl());
+        return v;
+    }
+
+    public static void update(Videogame v, VideogameCreateDto dto) {
+        v.setTitle(dto.getTitle());
+        v.setDescription(dto.getDescription());
+        v.setPrice(dto.getPrice());
+        v.setReleaseDate(dto.getReleaseDate());
+        v.setPublisher(dto.getPublisher());
+        v.setRating(dto.getRating());
+        v.setStockQuantity(dto.getStockQuantity());
+        v.setImageUrl(dto.getImageUrl());
     }
 }
 

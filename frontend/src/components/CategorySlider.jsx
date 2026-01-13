@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Chip, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import '../i18n';
 
 export default function CategorySlider() {
   const [categories, setCategories] = useState([]);

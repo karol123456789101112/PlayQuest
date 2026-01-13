@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Stack } from '@mui/material';
 import { useTranslation} from 'react-i18next';
-import '../i18n';
 
 export default function AddCategoryForm() {
   const [form, setForm] = useState({ name: '' });
