@@ -36,17 +36,12 @@ export default function PaymentComponent({ clientSecret, orderId, amount, descri
         try {
           const token = localStorage.getItem('token');
 
-          const response = await fetch('http://localhost:8080/expenses', {
+          const response = await fetch(`http://localhost:8080/orders/payment/success/${orderId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              orderId: Number(orderId),
-              amount: parseFloat(amount),
-              description,
-            }),
+            }
           });
 
           if (!response.ok) {
