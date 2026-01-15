@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 
@@ -53,6 +52,6 @@ public class JwtUtil {
     }
     public String getRoleFromToken(String token) {
         Claims claims = getClaims(token);
-        return claims.get("role", String.class); // Pobieranie roli
+        return claims.get("role", String.class);
     }
 }

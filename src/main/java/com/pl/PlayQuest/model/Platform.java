@@ -18,8 +18,6 @@ public class Platform {
     @Column(nullable = false)
     private String name;
 
-    private String imageUrl;
-
     @Column(nullable = false)
     private boolean active = true;
 }

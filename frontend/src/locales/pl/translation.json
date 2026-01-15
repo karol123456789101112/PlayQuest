@@ -278,5 +278,12 @@
     "payNow": "Opłać Zamówienie"
   },
 
+  "yourRating": "Twoja ocena",
+  "rate": "Oceń",
+  "ratingSubmitted": "Ocena ustawiona!",
+  "ratingRange": "Ocena musi być pomiędzy 1 a 10",
+  "loginToRate": "Musisz być zalogowany aby oceniać gry",
+  "averageRating": "Średnia ocena",
+
   "POPDescription": "Opis: Prince of Persia: The Sands of Time to gra akcji z elementami platformówki i rozwiązywania zagadek. Aktualizuje wiele koncepcji rozgrywki z poprzednich części, przenosząc je do w pełni trójwymiarowego świata. Książę będzie walczył na miecze, wspinał się po ścianach, unikał kolców, rozwiązywał zagadki i wiele innych zadań. Książę posiada również Sztylet Czasu, który pozwala mu uwolnić kilka magicznych mocy. Najważniejszą z nich jest zdolność cofania czasu. Pozwala ona graczowi odwrócić swoje działania, gdy doprowadzi Księcia do śmierci."
 }

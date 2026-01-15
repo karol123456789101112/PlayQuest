@@ -10,7 +10,6 @@ com\pl\PlayQuest\model\User.class
 com\pl\PlayQuest\exception\UserNotFoundException.class
 com\pl\PlayQuest\repo\OrderRepository.class
 com\pl\PlayQuest\mapper\VideogameMapper.class
-com\pl\PlayQuest\model\Contact.class
 com\pl\PlayQuest\model\Role.class
 com\pl\PlayQuest\model\Platform.class
 com\pl\PlayQuest\PlayQuestApplication.class
@@ -20,11 +19,13 @@ com\pl\PlayQuest\dto\VideogameCreateDto.class
 com\pl\PlayQuest\exception\NotFoundException.class
 com\pl\PlayQuest\dto\GameRecommendationDto.class
 com\pl\PlayQuest\dto\RegisterUserDto.class
+com\pl\PlayQuest\model\GameRating.class
 com\pl\PlayQuest\security\JwtRequestFilter.class
+com\pl\PlayQuest\controller\GameRatingController.class
 com\pl\PlayQuest\service\VideogameService.class
 com\pl\PlayQuest\dto\ContactAddressViewDto.class
+com\pl\PlayQuest\repo\GameRatingRepository.class
 com\pl\PlayQuest\controller\UserController.class
-com\pl\PlayQuest\repo\ContactRepository.class
 com\pl\PlayQuest\controller\VideogameController.class
 com\pl\PlayQuest\mapper\PlatformMapper.class
 com\pl\PlayQuest\service\ImageUploadService.class
@@ -41,7 +42,6 @@ com\pl\PlayQuest\model\OrderItem.class
 com\pl\PlayQuest\service\UserService.class
 com\pl\PlayQuest\mapper\CategoryMapper.class
 com\pl\PlayQuest\exception\GlobalExceptionHandler.class
-com\pl\PlayQuest\model\Address.class
 com\pl\PlayQuest\dto\CategoryDto.class
 com\pl\PlayQuest\mapper\AddressMapper.class
 com\pl\PlayQuest\repo\ExpenseRepository.class
@@ -59,10 +59,12 @@ com\pl\PlayQuest\model\UserPayment.class
 com\pl\PlayQuest\config\WebConfig.class
 com\pl\PlayQuest\service\PlatformService.class
 com\pl\PlayQuest\service\CategoryService.class
+com\pl\PlayQuest\dto\GameRatingDto.class
 com\pl\PlayQuest\dto\CategoryViewDto.class
 com\pl\PlayQuest\service\RecommendationService.class
 com\pl\PlayQuest\model\Cart.class
 com\pl\PlayQuest\model\Order.class
+com\pl\PlayQuest\service\GameRatingService.class
 com\pl\PlayQuest\controller\ExpenseController.class
 com\pl\PlayQuest\repo\CartRepository.class
 com\pl\PlayQuest\controller\StatsController.class

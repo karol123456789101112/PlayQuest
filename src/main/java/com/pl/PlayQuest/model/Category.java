@@ -1,10 +1,7 @@
 package com.pl.PlayQuest.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import com.pl.PlayQuest.model.Videogame;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -23,8 +20,6 @@ public class Category {
 
     @Column(nullable = false)
     private String name;
-
-    private String imageUrl;
 
     @Column(nullable = false)
     private boolean active = true;

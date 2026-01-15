@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  Box, Typography, Card, CardMedia, Button, Chip, CircularProgress
+  Box, Typography, Card, CardMedia, Button, Chip, CircularProgress, Rating, TextFiled
 } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -13,6 +13,9 @@ const GameDetails = () => {
   const { id } = useParams();
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userRating, setUserRating] = useState(null);
+  const [averageRating, setAverageRating] = useState(null);
+  const [ratingError, setRatingError] = useState('');
   const { userId } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -29,8 +32,34 @@ const GameDetails = () => {
         setLoading(false);
       }
     };
+
+    const fetchAverageRating = async () => {
+      try {
+        const res = await fetch(`http://localhost:8080/gameRating/${id}/averageRating`);
+        const data = await res.json();
+        setAverageRating(data.averageRating);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    const fetchUserRating = async () => {
+      if (!userId) return;
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`http://localhost:8080/gameRating/${id}/getRating`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        setUserRating(data.rating);
+      } catch (err) {
+        console.error(err);
+      }
+    };
     fetchGame();
-  }, [id]);
+    fetchAverageRating();
+    fetchUserRating();
+  }, [id, userId]);
 
   const handleCart = async (redirect = false) => {
     if (!game) return;
@@ -72,6 +101,30 @@ const GameDetails = () => {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleRateGame = async () => {
+    if (!userId) {
+      alert(t('loginToRate'));
+      return;
+    }
+    if (!userRating || userRating < 1 || userRating > 10) {
+      setRatingError(t('ratingRange'));
+      return;
+    }
+    const token = localStorage.getItem('token');
+    const response = await fetch(`http://localhost:8080/gameRating/${id}/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({ rating: userRating })
+    })
+    if (!response.ok) {
+      const errorText = await response.text();
+      alert(`Error: ${errorText}`);
+      return;
+    }
+    setRatingError('');
+    alert(t('ratingSubmitted'));
   };
 
   if (loading) return <Box display="flex" justifyContent="center" mt={5}><CircularProgress /></Box>;
@@ -121,6 +174,29 @@ const GameDetails = () => {
                 {t('buyNow')}
               </Button>
             </Box>
+            {averageRating !== null && (
+              <Box mt={2} display="flex" alignItems="center" gap={1}>
+                <Typography variant="subtitle2">{t('averageRating')}:</Typography>
+                <Rating
+                  max={10}
+                  precision={0.1}
+                  value={averageRating}
+                  readOnly
+                />
+                <Typography variant="body2">{averageRating.toFixed(1)}</Typography>
+              </Box>
+            )}
+            {userId && (
+              <Box mt={2} display="flex" alignItems="center" gap={2}>
+                <Typography variant="subtitle2">{t('yourRating')}:</Typography>
+                <Rating
+                  max={10}
+                  value={userRating}
+                  onChange={(e, newValue) => setUserRating(newValue)}
+                />
+                <Button variant="outlined" onClick={handleRateGame}>{t('rate')}</Button>
+              </Box>
+            )}
           </Box>
         </Card>
       </Box>
