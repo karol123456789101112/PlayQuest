@@ -20,6 +20,7 @@ public class VideogameDto {
     private BigDecimal rating;
     private Long stockQuantity;
     private String imageUrl;
+    private Double userRating;
 
     private List<String> categories;
     private List<String> platforms;

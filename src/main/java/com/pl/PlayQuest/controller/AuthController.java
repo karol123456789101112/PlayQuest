@@ -1,7 +1,6 @@
 package com.pl.PlayQuest.controller;
 
 import com.pl.PlayQuest.dto.RegisterUserDto;
-import com.pl.PlayQuest.exception.InactiveUserException;
 import com.pl.PlayQuest.security.JwtUtil;
 import com.pl.PlayQuest.service.UserService;
 import com.pl.PlayQuest.model.User;
@@ -9,14 +8,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
-
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private final UserService userService;

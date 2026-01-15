@@ -12,7 +12,9 @@ export default function GameSlider() {
     const fetchGames = async () => {
       try {
         const res = await fetch('http://localhost:8080/games/limited');
-        const data = await res.json();
+        const text = await res.text();
+        console.log(text); // zobacz co wraca backend
+        const data = JSON.parse(text);
         setGames(data);
       } catch (err) {
         console.error('Error while downloading games:', err);

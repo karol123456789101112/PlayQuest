@@ -20,6 +20,7 @@ public class VideogameMapper {
         dto.setRating(videogame.getRating());
         dto.setStockQuantity(videogame.getStockQuantity());
         dto.setImageUrl(videogame.getImageUrl());
+        dto.setUserRating(videogame.getUserRating());
 
         dto.setCategories(
                 videogame.getCategories().stream()

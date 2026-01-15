@@ -59,4 +59,7 @@ public class Videogame {
 
     @Column(nullable = false)
     private String imageUrl;
+
+    @Column(nullable = true)
+    private Double userRating;
 }

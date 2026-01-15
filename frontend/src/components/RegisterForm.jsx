@@ -6,7 +6,6 @@ import {
   Typography,
   Stack,
 } from '@mui/material';
-import { register } from '../services/authService';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
 
@@ -77,12 +76,23 @@ export default function RegisterForm() {
     if (hasErrors) return;
 
     try {
-      await register({
-        firstName: form.firstName,
-        lastName: form.lastName,
-        email: form.email,
-        password: form.password,
+      const response = await fetch('http://localhost:8080/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+         firstName: form.firstName,
+         lastName: form.lastName,
+         email: form.email,
+         password: form.password}),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Backend error:", errorText);
+        throw new Error('Register error');
+      }
       alert('You have been registered!');
       setForm({
         firstName: '',
