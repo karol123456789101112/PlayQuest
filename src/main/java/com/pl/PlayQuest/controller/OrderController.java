@@ -1,8 +1,6 @@
 package com.pl.PlayQuest.controller;
 
-import com.pl.PlayQuest.dto.OrderDetailsDto;
-import com.pl.PlayQuest.dto.OrderDto;
-import com.pl.PlayQuest.dto.OrderRequestDto;
+import com.pl.PlayQuest.dto.*;
 import com.pl.PlayQuest.model.Order;
 import com.pl.PlayQuest.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -67,6 +65,15 @@ public class OrderController {
                         userDetails.getUsername()
                 )
         );
+    }
+
+    @PostMapping("/payment/success/{orderId}")
+    public ResponseEntity<Map<String, String>> markPaymentSucceeded(
+            @PathVariable Long orderId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        orderService.markPaymentSucceeded(orderId, userDetails.getUsername());
+        return ResponseEntity.ok(Map.of("status", "payment succeeded"));
     }
 }
 

@@ -8,7 +8,6 @@ import com.pl.PlayQuest.model.*;
 import com.pl.PlayQuest.repo.*;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -192,6 +191,22 @@ public class OrderService {
         }
     }
 
+    @Transactional
+    public void markPaymentSucceeded(Long orderId, String username) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        UserPayment payment = userPaymentRepository
+                .findTopByOrderIdOrderByIdDesc(order.getId())
+                .orElseThrow(() -> new RuntimeException("Payment not found for order"));
+
+        payment.setStatus(PaymentStatus.SUCCEEDED);
+        payment.setPaidAt(LocalDateTime.now());
+        userPaymentRepository.save(payment);
+    }
 }
 
 
