@@ -4,7 +4,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\CartController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\CategoryController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\ContactAddressController.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\ExpenseController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\GameRatingController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\ImageUploadController.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\controller\OrderController.java
@@ -18,8 +17,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\CategoryViewDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\ContactAddressDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\ContactAddressViewDto.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\ExpenseRequestDto.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\ExpenseResponseDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\GameRatingDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\GameRecommendationDto.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\dto\OrderDetailsDto.java
@@ -39,14 +36,12 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\exception\UserNotFoundException.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\mapper\AddressMapper.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\mapper\CategoryMapper.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\mapper\ExpenseMapper.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\mapper\PlatformMapper.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\mapper\UserMapper.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\mapper\VideogameMapper.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Cart.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Category.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\ContactAddress.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Expense.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\GameRating.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\Order.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\model\OrderItem.java
@@ -61,7 +56,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\CartRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\CategoryRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\ContactAddressRepository.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\ExpenseRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\GameRatingRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\OrderItemRepository.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\repo\OrderRepository.java
@@ -77,7 +71,6 @@ C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\Pl
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\CategoryService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\ContactAddressService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\CustomUserDetailsService.java
-C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\ExpenseService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\GameRatingService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\ImageUploadService.java
 C:\Users\karol\OneDrive\Pulpit\PlayQuest Sem 7\PlayQuest\src\main\java\com\pl\PlayQuest\service\OrderService.java

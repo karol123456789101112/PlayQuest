@@ -13,7 +13,7 @@ export default function GameSlider() {
       try {
         const res = await fetch('http://localhost:8080/games/limited');
         const text = await res.text();
-        console.log(text); // zobacz co wraca backend
+        console.log(text);
         const data = JSON.parse(text);
         setGames(data);
       } catch (err) {

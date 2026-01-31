@@ -46,14 +46,14 @@ public class UserService {
 
         User user = userRepository.findByUsername(email)
                 .orElseThrow(() ->
-                        new BadCredentialsException("Błędny email lub hasło."));
+                        new BadCredentialsException("badCredentials"));
 
         if (!user.isActive()) {
             throw new InactiveUserException("User is not active");
         }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadCredentialsException("Błędny email lub hasło.");
+            throw new BadCredentialsException("badCredentials");
         }
 
         return jwtUtil.generateToken(user);
