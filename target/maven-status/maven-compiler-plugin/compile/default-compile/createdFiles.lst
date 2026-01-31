@@ -2,7 +2,6 @@ com\pl\PlayQuest\security\SecurityConfig.class
 com\pl\PlayQuest\repo\CategoryRepository.class
 com\pl\PlayQuest\dto\OrderRequestDto.class
 com\pl\PlayQuest\controller\AuthController.class
-com\pl\PlayQuest\dto\ExpenseResponseDto.class
 com\pl\PlayQuest\dto\PageResponse.class
 com\pl\PlayQuest\service\OrderService.class
 com\pl\PlayQuest\controller\ContactAddressController.class
@@ -36,7 +35,6 @@ com\pl\PlayQuest\dto\UserViewDto.class
 com\pl\PlayQuest\service\ContactAddressService.class
 com\pl\PlayQuest\config\StripeConfig.class
 com\pl\PlayQuest\dto\CartRequestDto.class
-com\pl\PlayQuest\model\Expense.class
 com\pl\PlayQuest\dto\PlatformDto.class
 com\pl\PlayQuest\model\OrderItem.class
 com\pl\PlayQuest\service\UserService.class
@@ -44,7 +42,6 @@ com\pl\PlayQuest\mapper\CategoryMapper.class
 com\pl\PlayQuest\exception\GlobalExceptionHandler.class
 com\pl\PlayQuest\dto\CategoryDto.class
 com\pl\PlayQuest\mapper\AddressMapper.class
-com\pl\PlayQuest\repo\ExpenseRepository.class
 com\pl\PlayQuest\repo\UserRepository.class
 com\pl\PlayQuest\model\OrderStatus.class
 com\pl\PlayQuest\repo\ContactAddressRepository.class
@@ -65,7 +62,6 @@ com\pl\PlayQuest\service\RecommendationService.class
 com\pl\PlayQuest\model\Cart.class
 com\pl\PlayQuest\model\Order.class
 com\pl\PlayQuest\service\GameRatingService.class
-com\pl\PlayQuest\controller\ExpenseController.class
 com\pl\PlayQuest\repo\CartRepository.class
 com\pl\PlayQuest\controller\StatsController.class
 com\pl\PlayQuest\controller\RecommendationController.class
@@ -78,12 +74,9 @@ com\pl\PlayQuest\repo\UserPaymentRepository.class
 com\pl\PlayQuest\dto\PlatformViewDto.class
 com\pl\PlayQuest\exception\EmptyCartException.class
 com\pl\PlayQuest\model\Category.class
-com\pl\PlayQuest\mapper\ExpenseMapper.class
 com\pl\PlayQuest\service\CustomUserDetailsService.class
 com\pl\PlayQuest\exception\InactiveUserException.class
 com\pl\PlayQuest\repo\StatsRepository.class
-com\pl\PlayQuest\dto\ExpenseRequestDto.class
 com\pl\PlayQuest\model\Videogame.class
 com\pl\PlayQuest\repo\OrderItemRepository.class
 com\pl\PlayQuest\dto\OrderDetailsDto.class
-com\pl\PlayQuest\service\ExpenseService.class

@@ -123,9 +123,8 @@ export default function Header() {
           {isAuthenticated ? (
             <Button
               variant="contained"
-              color="error"
+              color="primary"
               sx={{ color: '#fff' }}
-              startIcon={<ExitToAppIcon />}
               onClick={() => {
                 logout();
                 navigate('/login');
@@ -138,7 +137,6 @@ export default function Header() {
               variant="contained"
               color="primary"
               sx={{ color: '#fff' }}
-              startIcon={<ExitToAppIcon />}
               onClick={() => navigate('/login')}
             >
               {t('login')}

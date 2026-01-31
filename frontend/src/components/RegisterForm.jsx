@@ -5,6 +5,8 @@ import {
   Box,
   Typography,
   Stack,
+  Snackbar,
+  Alert as MuiAlert
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
@@ -19,7 +21,17 @@ export default function RegisterForm() {
   });
 
   const [errors, setErrors] = useState({});
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
   const { t, i18n } = useTranslation();
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   const validators = {
     firstName: (val) => {
@@ -93,7 +105,11 @@ export default function RegisterForm() {
         console.error("Backend error:", errorText);
         throw new Error('Register error');
       }
-      alert('You have been registered!');
+      setSnackbar({
+        open: true,
+        message: t('registrationMessage'),
+        severity: 'success',
+      });
       setForm({
         firstName: '',
         lastName: '',
@@ -104,7 +120,11 @@ export default function RegisterForm() {
       setErrors({});
     } catch (err) {
       console.error(err);
-      alert('Error while signing up');
+      setSnackbar({
+        open: true,
+        message: 'Error while signing up',
+        severity: 'error',
+      });
     }
   };
 
@@ -169,6 +189,16 @@ export default function RegisterForm() {
           >
             {t('signUpUpp')}
           </Button>
+          <Snackbar
+            open={snackbar.open}
+            autoHideDuration={4000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+              {snackbar.message}
+            </MuiAlert>
+          </Snackbar>
         </Box>
       </Stack>
     </Box>

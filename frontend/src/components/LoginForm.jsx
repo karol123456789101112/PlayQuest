@@ -6,6 +6,8 @@ import {
     Button,
     Stack,
     TextField,
+    Snackbar,
+    Alert as MuiAlert
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
@@ -16,6 +18,16 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const { login } = useAuth();
     const { t, i18n } = useTranslation();
+    const [snackbar, setSnackbar] = useState({
+      open: false,
+      message: '',
+      severity: 'success',
+    });
+
+    const handleCloseSnackbar = (event, reason) => {
+      if (reason === 'clickaway') return;
+      setSnackbar((prev) => ({ ...prev, open: false }));
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,7 +51,11 @@ export default function LoginForm() {
 
             if (!response.ok) {
                 const errorText = await response.text();
-                alert(errorText);
+                setSnackbar({
+                  open: true,
+                  message: t(errorText),
+                  severity: 'error',
+                });
                 return;
             }
 
@@ -98,6 +114,16 @@ export default function LoginForm() {
                   >
                     {t('signUpUpp')}
                   </Button>
+                  <Snackbar
+                    open={snackbar.open}
+                    autoHideDuration={4000}
+                    onClose={handleCloseSnackbar}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                  >
+                    <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+                      {snackbar.message}
+                    </MuiAlert>
+                  </Snackbar>
                 </Box>
 
             </Stack>
