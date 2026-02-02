@@ -2,11 +2,13 @@ import React from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 export default function PaymentComponent({ clientSecret, orderId, amount, description }) {
     const stripe = useStripe();
     const elements = useElements();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -78,7 +80,7 @@ export default function PaymentComponent({ clientSecret, orderId, amount, descri
                 />
             </Box>
             <Button type="submit" variant="contained" disabled={!stripe || !clientSecret}>
-                Zapłać
+                {t('pay')}
             </Button>
         </Box>
     );

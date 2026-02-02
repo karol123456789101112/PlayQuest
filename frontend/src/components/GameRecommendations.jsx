@@ -13,6 +13,7 @@ export default function GameRecommendations() {
   const [personalized, setPersonalized] = useState([]);
   const [topSelling, setTopSelling] = useState([]);
   const [rpgGames, setRpgGames] = useState([]);
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -68,41 +69,50 @@ export default function GameRecommendations() {
     </Box>
   );
 
-  const renderGrid = (games) => (
+  const renderGrid = (games, sectionKey) => (
     <Box
       sx={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, 200px)',
-        justifyContent: 'start',
         gap: 2,
       }}
     >
-      {games.map(game => (
-        <Card
-          key={game.id}
-          onClick={() => navigate(`/games/${game.id}`)}
-          sx={{
-            height: 300,
-            cursor: 'pointer',
-            borderRadius: 2,
-            overflow: 'hidden',
-            transition: 'transform 0.2s',
-            '&:hover': { transform: 'scale(1.05)' },
-            backgroundColor: '#000',
-          }}
-        >
-          <CardMedia
-            component="img"
-            image={game.imageUrl}
-            alt={game.title}
-            sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
-          />
-        </Card>
-      ))}
+      {games.map(game => {
+        const cardKey = `${sectionKey}-${game.id}`;
+        const isHovered = hoveredCard === cardKey;
+        const isDimmed = hoveredCard && !isHovered;
+
+        return (
+          <Card
+            key={cardKey}
+            onClick={() => navigate(`/games/${game.id}`)}
+            onMouseEnter={() => setHoveredCard(cardKey)}
+            onMouseLeave={() => setHoveredCard(null)}
+            sx={{
+              height: 300,
+              cursor: 'pointer',
+              borderRadius: 2,
+              overflow: 'hidden',
+              transition: 'transform 0.2s, filter 0.2s',
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+              filter: isDimmed ? 'brightness(0.5)' : 'brightness(1)',
+              backgroundColor: '#000',
+            }}
+          >
+            <CardMedia
+              component="img"
+              image={game.imageUrl}
+              alt={game.title}
+              sx={{ height: '100%', width: '100%', objectFit: 'cover' }}
+            />
+          </Card>
+        );
+      })}
     </Box>
   );
 
-  const renderGames = (games) => (isMobile ? renderSlider(games) : renderGrid(games));
+  const renderGames = (games, sectionKey) =>
+    isMobile ? renderSlider(games) : renderGrid(games, sectionKey);
 
   return (
     <Box sx={{ p: 4, mt: 4 }}>
@@ -111,7 +121,7 @@ export default function GameRecommendations() {
           <Typography variant="h5" gutterBottom>{t('recommendations.forYou')}</Typography>
           {personalized.length === 0
             ? <Typography variant="body1">{t('recommendations.noRecommendations')}</Typography>
-            : renderGames(personalized)}
+            : renderGames(personalized, 'personalized')}
         </>
       )}
 
@@ -121,7 +131,7 @@ export default function GameRecommendations() {
 
       {topSelling.length === 0
         ? <Typography variant="body1">{t('recommendations.noRecommendations')}</Typography>
-        : renderGames(topSelling)}
+        : renderGames(topSelling, 'topSelling')}
 
       <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
         {t('recommendations.rpg')}
@@ -129,7 +139,7 @@ export default function GameRecommendations() {
 
       {rpgGames.length === 0
         ? <Typography variant="body1">{t('recommendations.noRecommendations')}</Typography>
-        : renderGames(rpgGames)}
+        : renderGames(rpgGames, 'rpg')}
     </Box>
   );
 }
