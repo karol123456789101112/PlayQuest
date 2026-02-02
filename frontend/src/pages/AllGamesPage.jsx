@@ -160,7 +160,7 @@ export default function AllGamesPage() {
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h6">Platforms</Typography>
+            <Typography variant="h6">{t('platforms')}</Typography>
             {platforms.map(plat => (
               <FormControlLabel
                 key={plat}

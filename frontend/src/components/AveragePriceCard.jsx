@@ -6,11 +6,11 @@ import '../i18n';
 export default function AveragePriceCard() {
   const [averagePrice, setAveragePrice] = useState(null);
   const [error, setError] = useState(null);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetch('http://localhost:8080/stats/average-price', {
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+      headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
     })
       .then(res => {
         if (!res.ok) throw new Error(t('errorLoadingData'));
@@ -30,36 +30,61 @@ export default function AveragePriceCard() {
 
   return (
     <Paper
-      elevation={4}
+      elevation={6}
       sx={{
         p: 4,
         mt: 4,
         borderRadius: 3,
-        background: 'linear-gradient(135deg, #AB3E3E 0%, #3E7FAB 100%)',
+        backgroundColor: '#0f172a',
+        color: '#e5e7eb',
         textAlign: 'center',
       }}
     >
-      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: '#000000' }}>
+      <Typography
+        variant="h5"
+        gutterBottom
+        sx={{ fontWeight: 'bold', color: '#f1f5f9' }}
+      >
         {t('averagePriceTitle')}
       </Typography>
 
-      <Typography variant="body2" sx={{ mb: 3, color: '#000000' }}>
+      <Typography
+        variant="body2"
+        sx={{ mb: 3, color: '#cbd5e1' }}
+      >
         {t('averagePriceDescription')}
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
+        <Alert
+          severity="error"
+          sx={{
+            mb: 3,
+            backgroundColor: '#7f1d1d',
+            color: '#fecaca',
+          }}
+        >
           {t('errorPrefix')} {error}
         </Alert>
       )}
 
       <Box sx={{ mt: 2 }}>
         {averagePrice !== null ? (
-          <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#000000' }}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: 'bold',
+              color: '#e5e7eb',
+              letterSpacing: 1,
+            }}
+          >
             {averagePrice.toFixed(2)} {t('currency')}
           </Typography>
         ) : (
-          <Typography variant="body1" sx={{ color: '#000000' }}>
+          <Typography
+            variant="body1"
+            sx={{ color: '#94a3b8' }}
+          >
             {t('loading')}
           </Typography>
         )}

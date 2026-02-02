@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   TextField, Button, Stack, MenuItem, Select,
   InputLabel, FormControl, OutlinedInput, Box,
-  FormHelperText
+  FormHelperText, Snackbar, Alert as MuiAlert
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
@@ -25,7 +25,17 @@ export default function AddGameForm() {
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [imageError, setImageError] = useState('');
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
   const { t, i18n } = useTranslation();
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   const validators = {
     title: (val) => {
@@ -163,7 +173,11 @@ export default function AddGameForm() {
       });
 
       if (res.ok) {
-        alert(t('gameAdded'));
+        setSnackbar({
+          open: true,
+          message: t('gameAdded'),
+          severity: 'success',
+        });
       } else {
         const msg = await res.text();
         alert(t('error') + msg);
@@ -257,6 +271,16 @@ export default function AddGameForm() {
           <Button variant="contained" color="primary" type="submit">
             {t('addGame')}
           </Button>
+          <Snackbar
+            open={snackbar.open}
+            autoHideDuration={4000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+              {snackbar.message}
+            </MuiAlert>
+          </Snackbar>
         </Box>
       </Stack>
     </form>
