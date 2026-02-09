@@ -7,7 +7,6 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import { AuthProvider, useAuth } from './security/authContext';
-import PrivateRoute from './components/PrivateRoute';
 import AllGamesPage from './pages/AllGamesPage';
 import AdminPanel from './pages/AdminPanel';
 import { Navigate } from 'react-router-dom';
@@ -15,7 +14,6 @@ import EditGamePage from './pages/EditGamePage';
 import EditCategoryPage from './pages/EditCategoryPage';
 import EditPlatformPage from './pages/EditPlatformPage';
 import GameDetailsPage from './pages/GameDetailsPage';
-import { CartProvider } from './components/CartContext';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ProfilePage from './pages/ProfilePage';
@@ -23,7 +21,6 @@ import OrderDetailsPage from './pages/OrderDetailsPage';
 import AddressManagementPage from './pages/AddressManagementPage';
 import CompareGamesPage from './pages/CompareGamesPage';
 import GamesStatisticsPage from './pages/GamesStatisticsPage';
-import RecommendedGames from './components/RecommendedGames';
 import PaymentPage from './pages/PaymentPage';
 
 function AppContent() {
@@ -89,7 +86,6 @@ function AppContent() {
 
 export default function App() {
   return (
-    <CartProvider>
      <AuthProvider>
        <ThemeProvider theme={theme}>
          <CssBaseline />
@@ -98,6 +94,5 @@ export default function App() {
          </Router>
        </ThemeProvider>
      </AuthProvider>
-    </CartProvider>
   );
 }

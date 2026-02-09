@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Stack } from '@mui/material';
+import { TextField, Button, Stack, Snackbar, Alert as MuiAlert } from '@mui/material';
 import { useTranslation} from 'react-i18next';
 import '../i18n';
 
@@ -8,6 +8,12 @@ export default function AddPlatformForm() {
   const [error, setError] = useState('');
   const { t, i18n } = useTranslation();
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
   const validate = (value) => {
     if (!value) return t('platformNameIsRequired')
     if (value.length > 80) return t('platformNameReq1')
@@ -15,6 +21,11 @@ export default function AddPlatformForm() {
       return t('platformNameReq2');
     }
     return '';
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
   const handleChange = (e) => {
@@ -46,7 +57,11 @@ export default function AddPlatformForm() {
       });
 
       if (res.ok) {
-        alert(t('platformAdded'));
+        setSnackbar({
+           open: true,
+           message: t('platformAdded'),
+           severity: 'success',
+        });
         setForm({ name: ''});
         setError('');
       } else {
@@ -74,6 +89,16 @@ export default function AddPlatformForm() {
         <Button type="submit" variant="contained" color="primary">
           {t('addPlatform')}
         </Button>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={4000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+            {snackbar.message}
+          </MuiAlert>
+        </Snackbar>
       </Stack>
     </form>
   );

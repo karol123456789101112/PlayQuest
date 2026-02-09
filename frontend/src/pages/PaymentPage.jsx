@@ -4,6 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import PaymentComponent from '../components/PaymentComponent';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const stripePromise = loadStripe('pk_test_51RYuty2eycwVrWGGhHsrLBiPObcS3SIhC6NtMcUMwFz7ImDlk3a6MzP7K2ju6MXDdpJvan2USXIozP80YmiybR4Q00FgdL0sqD');
 
@@ -12,6 +13,7 @@ export default function PaymentPage() {
     const [clientSecret, setClientSecret] = useState(null);
     const location = useLocation();
     const amount = location.state?.amount;
+    const { t } = useTranslation();
 
     const token = localStorage.getItem('token');
     useEffect(() => {
@@ -33,7 +35,7 @@ export default function PaymentPage() {
         .catch(err => console.error(err));
     }, [orderId, amount]);
 
-    if (!clientSecret) return <p>Ładowanie płatności...</p>;
+    if (!clientSecret) return <p>{t('loadingPayment')}</p>;
 
     return (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
