@@ -16,7 +16,6 @@ export default function Footer() {
       }}
     >
       <Grid container spacing={4} justifyContent="center">
-        {/* About Us */}
         <Grid item xs={12} sm={6} md={3}>
           <Typography variant="h6" gutterBottom>
             {t('aboutUs')}
@@ -26,7 +25,6 @@ export default function Footer() {
           </Typography>
         </Grid>
 
-        {/* Useful Links */}
         <Grid item xs={12} sm={6} md={3}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <Link href="#" underline="hover" color="inherit">{t('links.privacyPolicy')}</Link>
@@ -35,7 +33,6 @@ export default function Footer() {
           </Box>
         </Grid>
 
-        {/* Contact */}
         <Grid item xs={12} sm={6} md={3}>
           <Typography variant="h6" gutterBottom>
             {t('contact.contact')}
@@ -45,7 +42,6 @@ export default function Footer() {
         </Grid>
       </Grid>
 
-      {/* Copyright */}
       <Box mt={4} textAlign="center">
         <Typography variant="body2" color="gray">
           {t('copyright')}

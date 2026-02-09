@@ -53,7 +53,6 @@ com\pl\PlayQuest\ServletInitializer.class
 com\pl\PlayQuest\service\CartService.class
 com\pl\PlayQuest\model\ContactAddress.class
 com\pl\PlayQuest\model\UserPayment.class
-com\pl\PlayQuest\config\WebConfig.class
 com\pl\PlayQuest\service\PlatformService.class
 com\pl\PlayQuest\service\CategoryService.class
 com\pl\PlayQuest\dto\GameRatingDto.class

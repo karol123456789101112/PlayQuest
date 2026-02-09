@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, TextField, Stack, Typography } from '@mui/material';
+import { Box, Button, TextField, Stack, Typography, Snackbar, Alert as MuiAlert } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
@@ -11,6 +11,12 @@ export default function EditCategoryPage() {
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState({});
   const { t, i18n } = useTranslation();
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
 
   const validateName = (name) => {
     if (!name) return t('categoryNameIsRequired');
@@ -24,6 +30,11 @@ export default function EditCategoryPage() {
       .then(res => res.json())
       .then(data => setCategory(data));
   }, [id]);
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,18 +82,29 @@ export default function EditCategoryPage() {
     });
 
     if (res.ok) {
-      alert(t('categoryHasBeenUpdated'));
-      navigate('/admin');
+      setSnackbar({
+         open: true,
+         message: t('categoryHasBeenUpdated'),
+         severity: 'success',
+      });
+
+      setTimeout(() => {
+        navigate('/admin');
+      }, 3000)
     } else if (res.status === 400) {
       const msg = await res.json();
       setErrors(msg);
     } else {
       const msg = await res.text();
-      alert(t('error') + ':\n' + msg);
+      setSnackbar({
+         open: true,
+         message: t('error')  + ':\n' + msg,
+         severity: 'error',
+      });
     }
   };
 
-  if (!category) return <Typography>Loading...</Typography>;
+  if (!category) return <Typography>{t('loading')}</Typography>;
 
   return (
     <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
@@ -99,6 +121,16 @@ export default function EditCategoryPage() {
             required
           />
           <Button type="submit" variant="contained">{t('save')}</Button>
+          <Snackbar
+            open={snackbar.open}
+            autoHideDuration={4000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+              {snackbar.message}
+            </MuiAlert>
+          </Snackbar>
         </Stack>
       </form>
     </Box>

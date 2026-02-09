@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Snackbar, Alert as MuiAlert } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 export default function PaymentComponent({ clientSecret, orderId, amount, description }) {
@@ -10,14 +10,25 @@ export default function PaymentComponent({ clientSecret, orderId, amount, descri
     const navigate = useNavigate();
     const { t } = useTranslation();
 
+    const [snackbar, setSnackbar] = useState({
+      open: false,
+      message: '',
+      severity: 'success',
+    });
+
+    const handleCloseSnackbar = (event, reason) => {
+      if(reason === 'clickaway') return;
+      setSnackbar((prev) => ({ ...prev, open: false }));
+    }
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       if (!stripe || !elements || !clientSecret){
       if(!stripe)
-              console.log("stripe nie dziala")
-            if(!clientSecret)
-              console.log("clientSecret nie dziala")
-      return;
+        console.log("stripe nie dziala")
+        if(!clientSecret)
+          console.log("clientSecret nie dziala")
+        return;
       }
 
       if(!stripe)
@@ -33,7 +44,11 @@ export default function PaymentComponent({ clientSecret, orderId, amount, descri
       });
 
       if (result.error) {
-        alert('Błąd płatności: ' + result.error.message);
+        setSnackbar({
+          open: true,
+          message: t('paymentFailed'),
+          severity: 'error',
+        });
       } else {
         try {
           const token = localStorage.getItem('token');
@@ -50,8 +65,15 @@ export default function PaymentComponent({ clientSecret, orderId, amount, descri
             throw new Error('Błąd zapisu wydatku');
           }
 
-          alert('Płatność zakończona!');
-          navigate(`/`);
+          setSnackbar({
+            open: true,
+            message: t('paymentCompleted'),
+            severity: 'success',
+          });
+
+          setTimeout(() => {
+            navigate('/');
+          }, 3000);
 
         } catch (err) {
           console.error(err);
@@ -82,6 +104,16 @@ export default function PaymentComponent({ clientSecret, orderId, amount, descri
             <Button type="submit" variant="contained" disabled={!stripe || !clientSecret}>
                 {t('pay')}
             </Button>
+            <Snackbar
+              open={snackbar.open}
+              autoHideDuration={4000}
+              onClose={handleCloseSnackbar}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+                {snackbar.message}
+              </MuiAlert>
+            </Snackbar>
         </Box>
     );
 }

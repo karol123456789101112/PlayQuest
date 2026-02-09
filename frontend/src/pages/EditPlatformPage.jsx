@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, TextField, Stack, Typography } from '@mui/material';
+import { Box, Button, TextField, Stack, Typography, Snackbar, Alert as MuiAlert } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../i18n';
@@ -12,11 +12,22 @@ export default function EditPlatformPage() {
   const [errors, setErrors] = useState({});
   const { t, i18n } = useTranslation();
 
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
   const validateName = (name) => {
     if (!name) return t('platformNameIsRequired');
     if (name.length > 80) return t('platformNameReq1');
     if (!/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ\s\-]+$/.test(name)) return t('platformNameReq2');
     return '';
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
   useEffect(() => {
@@ -71,14 +82,24 @@ export default function EditPlatformPage() {
     });
 
     if (res.ok) {
-      alert(t('platformHasBeenUpdated'));
-      navigate('/admin');
+      setSnackbar({
+         open: true,
+         message: t('platformHasBeenUpdated'),
+         severity: 'success',
+      });
+      setTimeout(() => {
+        navigate('/admin');
+      }, 3000)
     } else if (res.status === 400) {
       const msg = await res.json();
       setErrors(msg);
     } else {
       const msg = await res.text();
-      alert('Error:\n' + msg);
+      setSnackbar({
+         open: true,
+         message: t('Error:\n' + msg),
+         severity: 'error',
+      });
     }
   };
 
@@ -99,6 +120,16 @@ export default function EditPlatformPage() {
             required
           />
           <Button type="submit" variant="contained">{t('save')}</Button>
+          <Snackbar
+            open={snackbar.open}
+            autoHideDuration={4000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+              {snackbar.message}
+            </MuiAlert>
+          </Snackbar>
         </Stack>
       </form>
     </Box>

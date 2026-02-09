@@ -8,7 +8,6 @@
  import GameSlider from '../components/GameSlider';
  import Footer from '../components/Footer';
  import Comparer from '../components/Comparer';
- import RecommendedGames from '../components/RecommendedGames';
  import GameRecommendations from '../components/GameRecommendations';
 
  export default function HomePage() {

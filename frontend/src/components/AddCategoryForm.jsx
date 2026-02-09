@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { TextField, Button, Stack } from '@mui/material';
+import { TextField, Button, Stack, Snackbar, Alert as MuiAlert } from '@mui/material';
 import { useTranslation} from 'react-i18next';
 
 export default function AddCategoryForm() {
   const [form, setForm] = useState({ name: '' });
   const [error, setError] = useState('');
   const { t, i18n } = useTranslation();
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
 
   const validate = (value) => {
     if (!value) return t('categoryNameIsRequired')
@@ -14,6 +20,11 @@ export default function AddCategoryForm() {
       return t('categoryNameReq2');
     }
     return '';
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
   const handleChange = (e) => {
@@ -47,11 +58,19 @@ export default function AddCategoryForm() {
       });
 
       if (res.ok) {
-        alert(t('categoryAdded'));
+        setSnackbar({
+           open: true,
+           message: t('categoryAdded'),
+           severity: 'success',
+        });
         setForm({ name: '' });
         setError('');
       } else {
-        alert(t('errorWhileAddingCategory'));
+        setSnackbar({
+           open: true,
+           message: t('errorWhileAddingCategory'),
+           severity: 'error',
+        });
       }
     } catch (err) {
       console.error(err);
@@ -75,6 +94,16 @@ export default function AddCategoryForm() {
         <Button type="submit" variant="contained" color="primary">
           {t('addCategory')}
         </Button>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={4000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+            {snackbar.message}
+          </MuiAlert>
+        </Snackbar>
       </Stack>
     </form>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  Box, Typography, Card, CardMedia, Button, Chip, CircularProgress, Rating, TextFiled
+  Box, Typography, Card, CardMedia, Button, Chip, CircularProgress, Rating, TextFiled, Snackbar, Alert as MuiAlert
 } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -19,6 +19,17 @@ const GameDetails = () => {
   const { userId } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'success',
+  });
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setSnackbar((prev) => ({ ...prev, open: false }));
+  };
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -80,7 +91,13 @@ const GameDetails = () => {
 
       localStorage.setItem('guestCart', JSON.stringify(guestCart));
       if (redirect) navigate('/cart');
-      else alert(t('addedToCart'));
+      else {
+        setSnackbar({
+           open: true,
+           message: t('addedToCart'),
+           severity: 'success',
+        });
+      }
       return;
     }
 
@@ -97,7 +114,13 @@ const GameDetails = () => {
         return;
       }
       if (redirect) navigate('/cart');
-      else alert(t('addedToCart'));
+      else {
+        setSnackbar({
+           open: true,
+           message: t('addedToCart'),
+           severity: 'success',
+        });
+      }
     } catch (err) {
       console.error(err);
     }
@@ -173,6 +196,16 @@ const GameDetails = () => {
               <Button variant="contained" color="success" onClick={() => handleCart(true)}>
                 {t('buyNow')}
               </Button>
+              <Snackbar
+                open={snackbar.open}
+                autoHideDuration={4000}
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+              >
+                <MuiAlert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+                  {snackbar.message}
+                </MuiAlert>
+              </Snackbar>
             </Box>
             {averageRating !== null && (
               <Box mt={2} display="flex" alignItems="center" gap={1}>

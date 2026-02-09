@@ -47,7 +47,6 @@ const OrderDetailsPage = () => {
         <Box p={4} sx={{minHeight: '100vh'}}>
           <Typography variant="h4" gutterBottom>{t('orderDetails')} #{order.id}</Typography>
 
-          {/* Order Info */}
           <Typography><strong>{t('orderDate')}:</strong> {new Date(order.orderDate).toLocaleString()}</Typography>
           <Typography><strong>{t('deliveryStatus')}:</strong> {t(`statusOptions.${order.status}`)}</Typography>
           <Typography><strong>{t('paymentStatus.paymentStatus')}:</strong> {t(`paymentStatus.${order.paymentStatus}`)}</Typography>
@@ -70,7 +69,6 @@ const OrderDetailsPage = () => {
 
           <Divider sx={{ my: 3 }} />
 
-          {/* Address */}
           <Typography variant="h6">{t('deliveryAddress')}</Typography>
           <Typography>{order.contactAddress.firstName} {order.contactAddress.lastName}</Typography>
           <Typography>{order.contactAddress.email}, {order.contactAddress.phoneNumber}</Typography>
@@ -82,7 +80,6 @@ const OrderDetailsPage = () => {
 
           <Divider sx={{ my: 3 }} />
 
-          {/* Items */}
           <Typography variant="h6" gutterBottom>{t('products')}</Typography>
           <TableContainer component={Paper} sx={{ mb: 2 }}>
             <Table>
@@ -105,7 +102,6 @@ const OrderDetailsPage = () => {
             </Table>
           </TableContainer>
 
-          {/* Total */}
           <Typography variant="h6">
             <strong>{t('totalAmount')}:</strong> {order.totalAmount} zł
           </Typography>
