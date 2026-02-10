@@ -18,7 +18,7 @@ const GameDetails = () => {
   const [ratingError, setRatingError] = useState('');
   const { userId } = useAuth();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -150,6 +150,18 @@ const GameDetails = () => {
     alert(t('ratingSubmitted'));
   };
 
+  let localizedDescription = '';
+
+  if (game?.description) {
+    try {
+      const parsedDescription = JSON.parse(game.description);
+      localizedDescription =
+        parsedDescription[i18n.language] ?? parsedDescription.en ?? '';
+    } catch (e) {
+      localizedDescription = game.description;
+    }
+  }
+
   if (loading) return <Box display="flex" justifyContent="center" mt={5}><CircularProgress /></Box>;
   if (!game) return <Typography variant="h6" align="center" mt={5}>{t('gameNotFound')}</Typography>;
 
@@ -169,7 +181,7 @@ const GameDetails = () => {
           <Box sx={{ flex: 1, p: 2 }}>
             <Typography variant="h4">{game.title}</Typography>
             <Typography variant="subtitle1">{t('publisher')}: {game.publisher}</Typography>
-            <Typography variant="body1">{t('description')}: {game.description}</Typography>
+            <Typography variant="body1">{t('description')}: {localizedDescription}</Typography>
             <Typography variant="h6">{t('price')}: {game.price} zł</Typography>
             <Typography variant="body2">{t('releaseDate')}: {game.releaseDate}</Typography>
             <Typography variant="body2">{t('rating')}: {game.rating}/10</Typography>
