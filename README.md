@@ -87,6 +87,38 @@ Before running the application, make sure the following are installed:
 * **PostgreSQL**
 * **Git**
 
+### Database
+
+The application uses **PostgreSQL** as its database.
+
+Create a PostgreSQL database named `PlayQuest4` and configure the database connection in `src/main/resources/application.properties`:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/playquest4
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+```
+
+
+## Stripe
+
+Stripe is optional. The application can be run without configuring Stripe.
+
+If you want to test the Stripe integration, create a Stripe account and use **test mode** to obtain your test API key.
+
+Add the following to `application.properties`:
+
+```properties
+stripe.api.key=sk_test_your_key_here
+````
+
+Alternatively, you can provide the key through an environment variable:
+
+```bash
+STRIPE_API_KEY=sk_test_your_key_here
+```
+
+
 ### Backend
 
 1. Clone the repository:
@@ -124,21 +156,7 @@ Then start the development server:
 npm start
 ```
 
-The application should now be available locally in your browser.
-
-### Database
-
-The application uses **PostgreSQL** as its database.
-
-Create a PostgreSQL database named `PlayQuest4` and configure the database connection in `src/main/resources/application.properties`:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/playquest
-spring.datasource.username=YOUR_USERNAME
-spring.datasource.password=YOUR_PASSWORD
-```
-
-> The exact database configuration may need to be adjusted depending on the local environment.
+The application should now be available locally in your browser running on port 3000.
 
 
 ## Author
