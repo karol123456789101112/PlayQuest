@@ -76,6 +76,71 @@ The application includes several features designed to improve the shopping exper
 * **Internationalization** – supports multiple language versions of the application
 * **Responsive design** – adapts the interface to different screen sizes
 
+## Running the Application
+
+### Prerequisites
+
+Before running the application, make sure the following are installed:
+
+* **Java 17**
+* **Node.js and npm**
+* **PostgreSQL**
+* **Git**
+
+### Backend
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/karol-kwapinski/PlayQuest.git
+cd PlayQuest
+```
+
+2. Configure the PostgreSQL database in the application configuration.
+
+3. Build and run the Spring Boot application:
+
+```bash
+./mvnw spring-boot:run
+```
+
+On Windows, use:
+
+```bash
+mvnw.cmd spring-boot:run
+```
+
+### Frontend
+
+Navigate to the frontend directory and install the dependencies:
+
+```bash
+npm install
+```
+
+Then start the development server:
+
+```bash
+npm start
+```
+
+The application should now be available locally in your browser.
+
+### Database
+
+The application uses **PostgreSQL** as its database.
+
+Create a PostgreSQL database named `PlayQuest4` and configure the database connection in `src/main/resources/application.properties`:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/playquest
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+```
+
+> The exact database configuration may need to be adjusted depending on the local environment.
+
+
 ## Author
 
 **Karol Kwapiński**
